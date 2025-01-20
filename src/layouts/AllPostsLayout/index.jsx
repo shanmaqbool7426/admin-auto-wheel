@@ -2,9 +2,9 @@
 import React from "react";
 // import { useParams, useRouter } from 'next/navigation'
 import { Tabs, Box } from '@mantine/core';
-import { PATH_NAME } from "@/constants/pathname";
-import styles from './AllPostsLayout.module.css'
-import { useGetStatusCountsQuery } from "@/services/blog/posts";
+// import { PATH_NAME } from "@/constants/pathname";
+// import styles from './AllPostsLayout.module.css'
+// import { useGetStatusCountsQuery } from "@/services/blog/posts";
 
 export default function AllPostsLayout({ children }) {
   // const params = useParams();

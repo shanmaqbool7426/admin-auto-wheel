@@ -1,6 +1,6 @@
 import React from 'react';
 
-import AllPosts from '@/modules/Blog/AllPosts';
+// import AllPosts from '@/modules/Blog/AllPosts';
 export default function AllPostsPage() {
-  return <AllPosts />;
+  return <h1>AllPostsPage</h1>;
 }
