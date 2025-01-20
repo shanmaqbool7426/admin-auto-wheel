@@ -1,3 +1,4 @@
+"use client"
 import { configureStore } from '@reduxjs/toolkit';
 import counterSlice from './features/counter/slice';
 import { BASE_API } from '@/services/base-api';

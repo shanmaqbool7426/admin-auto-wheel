@@ -3,7 +3,7 @@ import { BASE_URL } from '@/constants/config';
 import { PROVIDES_TAGS } from '../providesTags';
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: BASE_URL,
+  baseUrl: "https://auto-wheel-be.vercel.app/api",
   // prepareHeaders: (headers) => {
   //   // By default, if we have a token in the store, let's use that for authenticated requests
   //   const token = store.getState().auth.token
