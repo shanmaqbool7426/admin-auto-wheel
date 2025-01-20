@@ -1,4 +1,4 @@
-"use client"
+
 import ClientWrapper from '@/components/ClientWrapper';
 import AllPosts from '@/modules/Blog/AllPosts';
 // import { Suspense } from 'react';
