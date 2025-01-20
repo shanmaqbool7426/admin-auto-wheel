@@ -37,7 +37,8 @@ export default function RootLayout({ children }) {
     >
       <AppShell.Header>
         <Suspense fallback={<div>Loading...</div>}>
-          <Header />
+          {/* <Header /> */}
+          <></>
         </Suspense>
       </AppShell.Header>
 
