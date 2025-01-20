@@ -1,5 +1,5 @@
 import React from 'react';
-import Files from '@/modules/Blog/FileManager';
+import Files from '@/modules/FileManager/Files';
 
 
 
