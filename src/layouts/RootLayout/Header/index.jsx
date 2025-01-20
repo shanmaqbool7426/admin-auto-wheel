@@ -3,20 +3,20 @@ import { Box, Group, Progress, ActionIcon, UnstyledButton, Avatar, Text, Menu } 
 import styles from './Header.module.css';
 // import Search from '@/components/user-dashboard/Search';
 import { IconCog, IconNotification } from './icons';
-import useHeader from './useHeader';
+// import useHeader from './useHeader';
 import { Suspense } from 'react';
 
 export default function Header() {
-  const {
-    isNotification,
-    title,
-  } = useHeader();
+  // const {
+  //   isNotification,
+  //   title,
+  // } = useHeader();
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Box className={styles.header}>
         <Box className={styles.headerLeft}>
-          <Box className={styles.pageTitle}>{title}</Box>
+          {/* <Box className={styles.pageTitle}>{title}</Box> */}
       </Box>
 
       <Box className={styles.headerRight}>
@@ -40,7 +40,7 @@ export default function Header() {
           </ActionIcon>
 
           <ActionIcon variant="transparent">
-            <IconNotification alert={isNotification ? '#E90808' : 'transparent'} />
+            <IconNotification alert={true ? '#E90808' : 'transparent'} />
           </ActionIcon>
 
           <Menu shadow="md" width={160} position="bottom-end">
