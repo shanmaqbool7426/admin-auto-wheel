@@ -1,0 +1,107 @@
+.uploadContainer {
+  border: 1px solid var(--mantine-color-gray-3);
+  border-radius: var(--mantine-radius-md);
+  padding: var(--mantine-spacing-md);
+}
+
+.dropzone {
+  border: 2px dashed var(--mantine-color-blue-6);
+  background-color: var(--mantine-color-gray-0);
+  border-radius: var(--mantine-radius-md);
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dropzone:hover {
+  border-color: var(--mantine-color-blue-7);
+  background-color: var(--mantine-color-blue-0);
+}
+
+.uploadImage {
+  width: 100%;
+  height: 200px;
+  object-fit: contain;
+}
+
+.imageContainer {
+  position: relative;
+  aspect-ratio: 4/3;
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--mantine-radius-md);
+  overflow: hidden;
+  box-shadow: var(--mantine-shadow-sm);
+}
+
+.previewImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.imageOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, transparent 30%, transparent 70%, rgba(0,0,0,0.5) 100%);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 8px;
+}
+
+.imageWrapper:hover .imageOverlay {
+  opacity: 1;
+}
+
+.imageActions {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.actionButton {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.actionButton:hover {
+  transform: scale(1.1);
+}
+
+.defaultLabel {
+  color: white;
+  font-size: var(--mantine-font-size-sm);
+  font-weight: 500;
+  text-align: center;
+}
+
+/* Dark theme support */
+[data-mantine-color-scheme="dark"] .uploadContainer {
+  border-color: var(--mantine-color-dark-4);
+}
+
+[data-mantine-color-scheme="dark"] .dropzone {
+  background-color: var(--mantine-color-dark-6);
+}
+
+[data-mantine-color-scheme="dark"] .actionButton {
+  background-color: var(--mantine-color-dark-4);
+  color: var(--mantine-color-white);
+} 

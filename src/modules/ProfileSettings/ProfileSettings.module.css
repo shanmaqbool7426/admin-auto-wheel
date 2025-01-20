@@ -1,0 +1,12 @@
+.wrapper {
+  display: flex;
+}
+
+.sidebar {
+  width: 354px;
+  margin-right: 32px;
+}
+
+.content {
+  flex: 1;
+}

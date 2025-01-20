@@ -1,0 +1,45 @@
+/* FormField.module.css */
+
+.input {
+  border-color: #CCCCCC;
+  background-color: #ffffff;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  color: #6A727A;
+  min-height: 40px;
+}
+
+.selectSection {
+  font-size: 12px;
+}
+
+.selectDropdown {
+  border: 1px solid #E2E8F0;
+  padding: 5px 0 5px 5px;
+}
+
+.selectOption {
+  font-size: 12px;
+  color: #6A727A;
+}
+
+
+.label {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1;
+  margin-bottom: 12px;
+  color: #000000;
+}
+
+.labelCheckbox {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1;
+  color: #333333;
+}
+
+.iconCheckbox {
+  width: 50%;
+}

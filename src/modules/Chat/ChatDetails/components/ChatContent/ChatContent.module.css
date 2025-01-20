@@ -1,0 +1,80 @@
+.chatHeader {
+  background-color: rgba(27, 132, 255, 0.2);
+  height: 64px;
+  padding: 8px 20px;
+}
+
+.userName {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+  color: #000000;
+}
+
+.userMsg {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1;
+  color: #878787;
+  margin-top: 8px;
+}
+
+.messageSecction {
+  flex: 1;
+  min-height: 0;
+}
+
+.messagesList {
+  list-style: none;
+  padding: 12px 0;
+  margin: 0;
+}
+
+.messageItem {
+  display: flex;
+  padding: 0 12px;
+
+  &+& {
+    margin-top: 12px;
+  }
+}
+
+.itemSend {
+  justify-content: flex-end;
+}
+
+.itemReceived {
+  justify-content: flex-start;
+}
+
+.message {
+
+  padding: 12px 16px;
+  border-radius: 4px;
+  font-size: 13px;
+  line-height: 1.7;
+  max-width: 412px;
+}
+
+.msgSend {
+  background-color: #1B84FF;
+  color: #FFFFFF;
+}
+
+.msgReceived {
+  background-color: #F3F3F3;
+  color: #919191;
+}
+
+.chatFooter {
+  padding: 20px 12px;
+}
+
+
+.input {
+  height: 50px;
+}
+
+.section {
+  margin-right: 12px;
+}

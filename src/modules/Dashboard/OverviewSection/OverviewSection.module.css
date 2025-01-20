@@ -1,0 +1,76 @@
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.sectionTitle {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+  color: #312F3D;
+  flex: 1;
+}
+
+.sectionAction {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.sectionActionIcon {
+  height: 24px;
+  width: 24px;
+}
+
+.actionField {
+  max-width: 122px;
+  width: 100%;
+}
+
+.cardInner {
+  padding: 12px 24px 8px;
+}
+
+.cardTitle {
+  font-size: 16px;
+  line-height: 1;
+  color: #333;
+}
+
+.cardValue {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+  color: #000000;
+  margin-top: 8px;
+}
+
+.cardFooter {
+  display: flex;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.footerDay {
+  font-size: 14px;
+  line-height: 1;
+  color: #919191;
+  flex: 1;
+}
+
+.footerAction {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footerIcon {
+  display: flex;
+}
+
+.footerActionText {
+  font-size: 12px;
+  line-height: 1;
+  color: #919191;
+}

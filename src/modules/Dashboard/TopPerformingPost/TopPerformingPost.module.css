@@ -1,0 +1,77 @@
+.section {
+  padding-top: 24px;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 0 12px;
+}
+
+.cardTitle {
+  font-size: 20px;
+  color: #000000;
+  line-height: 1;
+  font-weight: 500;
+}
+
+.tableTitle {
+  display: flex;
+  align-items: center;
+}
+
+.tableTitleImage {
+  width: 44px;
+  height: 36px;
+  background-color: #D9D9D9;
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 12px;
+}
+
+.tableTitleText {
+  flex: 1;
+}
+
+.tableTitleTitle {
+  color: #1B84FF;
+  line-height: 1;
+}
+
+.tableTitleModal {
+  font-size: 12px;
+  font-weight: 400;
+  color: #333333;
+  line-height: 1;
+  margin-top: 7px;
+}
+
+.createdDate {
+  line-height: 1;
+}
+
+.createdTime {
+  color: #919191;
+  font-weight: 400;
+  line-height: 1;
+  margin-top: 4px;
+}
+
+.statusBadge {
+  background-color: #F9C643;
+  color: #ffffff;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1;
+  min-width: 94px;
+  height: 24px;
+  text-align: center;
+  padding: 2px 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

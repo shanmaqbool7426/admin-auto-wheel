@@ -1,0 +1,17 @@
+.buttonHolder {
+  max-width: 223px;
+  margin-top: 40px;
+}
+
+.labelCheckbox {
+  font-size: 12px;
+  color: #878787;
+}
+
+.iconCheckbox {
+  width: 50%;
+}
+
+.checkboxWrap {
+  margin-top: 16px;
+}

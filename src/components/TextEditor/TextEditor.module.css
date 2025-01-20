@@ -1,0 +1,12 @@
+.root {
+  border-color: #CCCCCC;
+  border-radius: 24px;
+}
+
+.toolbar {
+  background-color: transparent;
+}
+
+.content {
+  background-color: transparent;
+}

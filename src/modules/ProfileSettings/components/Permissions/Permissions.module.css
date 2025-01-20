@@ -1,0 +1,31 @@
+.module {
+  display: block;
+  padding: 6px 24px;
+
+  &+& {
+    border-top: 1px solid #CCCCCC;
+  }
+}
+
+.moduleHead {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 700;
+  font-size: 16px;
+  color: #333333;
+  line-height: 1;
+  padding: 10px 0;
+}
+
+.moduleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.moduleCell {
+  font-size: 14px;
+  line-height: 1;
+  color: #333333;
+}

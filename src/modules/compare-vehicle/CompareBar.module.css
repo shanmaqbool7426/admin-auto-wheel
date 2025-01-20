@@ -1,0 +1,66 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  position: relative;
+  min-height: calc(100vh - 100px);
+}
+
+.filterBar {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.searchSection {
+  flex: 1;
+  max-width: 400px;
+}
+
+.filterSection {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.tableContainer {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  padding: 1rem;
+  flex: 1;
+}
+
+.preview-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.image-preview {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.remove-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: white;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.remove-button:hover {
+  transform: scale(1.1);
+}

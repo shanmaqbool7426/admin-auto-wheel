@@ -1,0 +1,84 @@
+.sidebar {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-right: 1px solid #eee;
+}
+
+.searchbar {
+  padding: 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.sidebarContent {
+  flex: 1;
+  overflow: hidden;
+}
+
+.sidebarList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebarListItem {
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-bottom: 1px solid #f5f5f5;
+  position: relative;
+}
+
+.sidebarListItem:hover {
+  background-color: #f8f9fa;
+}
+
+/* Selected state styling */
+.selected {
+  background-color: #e7f5ff !important; /* Light blue background */
+  border-left: 4px solid #228be6; /* Blue accent border */
+}
+
+.selected:hover {
+  background-color: #e1f3ff !important;
+}
+
+.userName {
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: #1a1b1e;
+  margin-bottom: 4px;
+}
+
+.userMsg {
+  font-size: 0.85rem;
+  color: #666;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+.userTime {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-size: 0.75rem;
+  color: #999;
+}
+
+/* Additional hover effects for better UX */
+.sidebarListItem:active {
+  background-color: #e3f2fd;
+}
+
+/* Style for the selected conversation's text */
+.selected .userName {
+  color: #1a73e8;
+}
+
+/* Optional: Add a subtle shadow to the selected item */
+.selected {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}

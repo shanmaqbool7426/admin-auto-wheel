@@ -1,0 +1,62 @@
+.container {
+    padding: 20px;
+}
+
+.comparisonCard {
+    position: relative;
+    overflow: visible !important;
+}
+
+.actionButtons {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 6px;
+    border-radius: 4px;
+}
+
+.editIcon, .deleteIcon {
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.editIcon {
+    color: #228be6;
+}
+
+.deleteIcon {
+    color: #E90808;
+}
+
+.editIcon:hover, .deleteIcon:hover {
+    transform: scale(1.1);
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.compareProducts {
+    margin-top: 10px;
+}
+
+/* Existing styles */
+.productImages {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.vsText {
+    color: #E90808;
+    font-weight: bold;
+}
+
+.vehicleTitle {
+    font-size: 14px;
+    text-align: center;
+} 

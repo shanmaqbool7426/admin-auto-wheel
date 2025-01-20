@@ -1,0 +1,102 @@
+.root {
+  background-color: #ffffff;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.08);
+  border-radius: 5px 5px 0 0;
+}
+
+.table th,
+.table td,
+.table tr {
+  border-color: #F3F3F3;
+}
+
+.table th {
+  padding: 8px 16px;
+}
+
+.table td {
+  padding: 10px 16px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #333333;
+}
+
+.table td.mantine-datatable-row-expansion-cell {
+  padding: 0;
+}
+
+.header tr {
+  border: none;
+}
+
+.header th {
+  border: none;
+  font-size: 16px;
+  color: #333333;
+  font-weight: 400;
+  background-color: #F3F3F3;
+  line-height: 1.5;
+}
+
+.header th:first-child {
+  border-radius: 5px 0px 0px 0px;
+}
+
+.header th:last-child {
+  border-radius: 0px 5px 0px 0px;
+}
+
+.table .mantine-datatable-row-expansion-cell-content {
+  border: none;
+}
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  background: transparent;
+  color: #333333;
+  font-size: 14px;
+  padding: 20px 16px !important;
+
+  /* button {
+    background: transparent;
+    color: var(--mantine-color-red-6);
+    border-color: var(--mantine-color-red-6);
+
+    &[data-active='true'] {
+      color: white;
+      border: transparent;
+      background: var(--mantine-color-red-6);
+    }
+  } */
+}
+
+.pagination button {
+  background-color: #ffffff;
+  border-color: #cccccc;
+  font-size: 14px;
+  color: #333333;
+  height: 32px;
+  min-width: 32px;
+}
+
+.pagination button:hover,
+.pagination button[data-active='true'] {
+  border-color: #518ECB;
+  background-color: #ffffff;
+  color: #518ECB;
+}
+
+.pagination button[aria-label="Previous page"],
+.pagination button[aria-label="Next page"] {
+  color: #518ECB;
+}
+
+.pagination button:disabled {
+  color: #C4CDD5;
+  cursor: default;
+}
+
+.pagination button:disabled:hover {
+  border-color: #cccccc;
+}

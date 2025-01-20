@@ -1,0 +1,36 @@
+.list {
+  margin-bottom: 32px;
+
+  &::before {
+    border-bottom: 1px solid #B6BFCD;
+  }
+
+}
+
+.tab {
+  padding: 5px 0;
+
+  &:hover {
+    background-color: transparent;
+  }
+
+  &+& {
+    margin-left: 56px;
+  }
+}
+
+
+.tabLabel {
+  font-size: 16px;
+  color: #919191;
+  line-height: 1.25;
+}
+
+.tab:hover .tabLabel {
+  color: #EB2321;
+}
+
+[data-active="true"] .tabLabel {
+  color: #EB2321;
+  font-weight: 600;
+}

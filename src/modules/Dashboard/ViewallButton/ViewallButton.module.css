@@ -1,0 +1,9 @@
+.viewallButton {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  cursor: pointer;
+  color: #E90808;
+  line-height: 1.714285;
+  font-size: 14px;
+}

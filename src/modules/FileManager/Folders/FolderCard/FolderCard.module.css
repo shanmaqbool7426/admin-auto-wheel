@@ -1,0 +1,45 @@
+.card {
+  border: 1px solid #CCCCCC;
+  border-radius: 4px;
+  padding: 16px;
+}
+
+.cardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cardIcon {
+  height: 24px;
+  width: 24px;
+}
+
+.cardAction {
+  height: 24px;
+  width: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cardTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: #495057;
+  margin-top: 24px;
+  line-height: 1.2;
+}
+
+.cardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 4px;
+}
+
+.cardFooterText {
+  color: #74788D;
+  font-size: 13px;
+  line-height: 1.5;
+}

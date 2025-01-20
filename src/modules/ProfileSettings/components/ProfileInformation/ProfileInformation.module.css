@@ -1,0 +1,83 @@
+.profileBanner {
+  position: relative;
+  padding-bottom: 60px;
+  height: 200px;
+}
+
+.profilePicture {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 144px;
+  height: 144px;
+  border-radius: 50%;
+  border: 3px solid #E90808;
+  background-color: #D9D9D9;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.profileInfoContent {
+  padding: 0 24px;
+}
+
+.userPersonalDetails {
+  padding: 32px 0 24px;
+}
+
+.profileInfoTitle {
+  font-size: 20px;
+  font-weight: 700;
+  color: #373248;
+  line-height: 1;
+}
+
+.userEmail {
+  font-size: 14px;
+  color: #6E6B7B;
+  line-height: 1;
+  text-align: center;
+  margin-top: 8px;
+}
+
+.userStatus {
+  font-size: 12px;
+  max-width: 164px;
+  margin: 0 auto;
+  background-color: #1BC744;
+  color: #fff;
+  text-align: center;
+  padding: 4px 16px;
+  border-radius: 15px;
+  margin-top: 16px;
+}
+
+.userContactDetials {
+  border-top: 1px solid #CCCCCC;
+  padding: 24px 0;
+}
+
+.contactGroup {
+  &+& {
+    margin-top: 16px;
+  }
+}
+
+.contactLabel {
+  font-size: 14px;
+  line-height: 1.42857;
+  color: #6E6B7B;
+}
+
+.contactTitle {
+  font-size: 15px;
+  font-weight: 500;
+  color: #334155;
+  line-height: 1.333333;
+}
+
+.delButton {
+  max-width: 223px;
+  margin: 24px auto 0;
+}

@@ -1,0 +1,9 @@
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.modalField {
+  width: 100%;
+} 

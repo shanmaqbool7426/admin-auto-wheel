@@ -1,0 +1,8 @@
+.addNewCatgBtn {
+  font-size: 14px;
+  color: #1B84FF;
+  line-height: 1;
+  cursor: pointer;
+  display: inline-flex;
+  text-decoration: underline;
+}

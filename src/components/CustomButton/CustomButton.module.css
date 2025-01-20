@@ -1,0 +1,19 @@
+.root {
+  padding-left: 12px;
+  padding-right: 12px;
+  font-size: 14px;
+  height: 40px;
+}
+
+.section[data-position="left"] {
+  margin-right: 8px;
+}
+
+.section[data-position="right"] {
+  margin-left: 8px;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 600;
+}

@@ -1,0 +1,27 @@
+.modalHeader {
+  padding: 21px 32px;
+  border-bottom: 1px solid #ccc;
+}
+
+.modalHeaderTitle {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+  color: #333333;
+}
+
+.modalBody {
+  padding: 32px;
+}
+
+.messageText {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #333333;
+}
+
+.modalFooter {
+  padding: 16px 20px;
+  border-top: 1px solid #ccc;
+}

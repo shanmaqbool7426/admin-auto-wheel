@@ -1,0 +1,92 @@
+.form {
+  width: 100%;
+}
+
+.logoUploadSection {
+  margin-bottom: 20px;
+}
+
+.logoPreviewContainer {
+  margin-top: 12px;
+  text-align: center;
+}
+
+.logoPreview {
+  max-width: 200px;
+  max-height: 100px;
+  object-fit: contain;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 8px;
+}
+
+.dropzone {
+  border: 2px dashed #e0e0e0;
+  padding: 20px;
+  text-align: center;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dropzone:hover {
+  border-color: #1B84FF;
+  background-color: rgba(27, 132, 255, 0.05);
+}
+
+.dropzoneActive {
+  border-color: #1B84FF;
+  background-color: rgba(27, 132, 255, 0.1);
+}
+
+.buttonContainer {
+  margin-top: 24px;
+}
+
+.helperText {
+  font-size: 12px;
+  color: #666;
+  margin-top: 4px;
+}
+
+.required {
+  color: #ff4d4f;
+  margin-left: 4px;
+}
+
+/* Form field spacing */
+.formField {
+  margin-bottom: 20px;
+}
+
+.formField:last-child {
+  margin-bottom: 0;
+}
+
+/* Error states */
+.error {
+  border-color: #ff4d4f;
+}
+
+.errorMessage {
+  color: #ff4d4f;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* Loading states */
+.loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .logoPreview {
+    max-width: 150px;
+  }
+
+  .dropzone {
+    padding: 15px;
+  }
+} 

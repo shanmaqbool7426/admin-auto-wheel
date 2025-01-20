@@ -1,0 +1,63 @@
+.filterbar {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.filterbarLeft {
+  display: flex;
+  gap: 1rem;
+}
+
+.filterbarRight {
+  display: flex;
+  gap: 1rem;
+}
+
+.searchbar {
+  width: 300px;
+}
+
+.dropdown {
+  width: 200px;
+}
+
+.rightDropdown {
+  width: 200px;
+}
+
+.vehicle {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.vehicleInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.vehicleName {
+  font-weight: 500;
+}
+
+.vehicleVariant {
+  color: var(--mantine-color-gray-6);
+  font-size: 0.875rem;
+}
+
+.createdDate {
+  font-weight: 500;
+}
+
+.createdTime {
+  color: var(--mantine-color-gray-6);
+  font-size: 0.875rem;
+}
+
+.actionButton {
+  color: var(--mantine-color-gray-6);
+  &:hover {
+    color: var(--mantine-color-blue-6);
+  }
+} 

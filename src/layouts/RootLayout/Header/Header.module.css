@@ -1,0 +1,73 @@
+.header {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 16px 20px 16px 32px;
+}
+
+.headerLeft {
+  margin-right: 16px;
+}
+
+.headerRight {
+  flex: 1;
+}
+
+.pageTitle {
+  color: #312F3D;
+  font-size: 24px;
+  font-weight: 700;
+  position: relative;
+  line-height: 1;
+  padding-bottom: 8px;
+}
+
+.pageTitle::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 51px;
+  height: 3px;
+  background-color: #EB2321;
+}
+
+.searchbar {
+  max-width: 314px;
+  width: 100%;
+}
+
+.progressbar {
+  max-width: 200px;
+  width: 100%;
+}
+
+.progressField {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.progressLabel,
+.progressValue {
+  color: #333333;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.userName {
+  font-size: 16px;
+  font-weight: 500;
+  color: #878787;
+  line-height: 1.25;
+}
+
+.userEmail {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1;
+  color: #919191;
+  margin-top: 4px;
+}

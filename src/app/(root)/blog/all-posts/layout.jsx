@@ -1,11 +1,10 @@
+import React from 'react';
+import AllPostsLayout from '@/layouts/AllPostsLayout';
 
-
-export default function AllPostsLayout({ children }) {
-    return (
-        <html lang="en">
-            <body >
-                {children}
-            </body>
-        </html>
-    );
+export default function PostsLayout({ children }) {
+  return (
+    <AllPostsLayout>
+      {children}
+    </AllPostsLayout>
+  )
 }

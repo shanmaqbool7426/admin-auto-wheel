@@ -1,0 +1,10 @@
+.input {
+  min-height: 40px;
+  border-radius: 20px;
+  border-color: #ccc;
+  background-color: #fff;
+}
+
+.section {
+  width: 40px;
+}

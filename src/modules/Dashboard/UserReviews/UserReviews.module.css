@@ -1,0 +1,92 @@
+.card {
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 24px 0;
+}
+
+.cardTitle {
+  font-size: 20px;
+  color: #000000;
+  line-height: 1;
+  font-weight: 500;
+}
+
+.cardContent {
+  padding: 0 24px;
+}
+
+.reviewsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.reviewListItem {
+  padding: 12px 0;
+
+  &+& {
+    border-top: 1px solid #CCCCCC;
+  }
+}
+
+.review {}
+
+.reviewHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.reviewTitle {
+  font-size: 12px;
+  color: #333333;
+  line-height: 1;
+  font-weight: 700;
+}
+
+.reviewRating {
+  font-size: 12px;
+  color: #333333;
+  line-height: 1;
+  font-weight: 400;
+}
+
+.reviewMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.reviewModal {
+  font-size: 12px;
+  color: #333333;
+  line-height: 1;
+  font-weight: 400;
+}
+
+.reviewAuthor {
+  font-size: 12px;
+  color: #878787;
+  line-height: 1;
+  font-weight: 400;
+}
+
+.reviewContent {
+  margin-top: 16px;
+  font-size: 12px;
+  color: #333333;
+  line-height: 1;
+  font-weight: 400;
+}
+
+.redText {
+  color: #E90808;
+}
