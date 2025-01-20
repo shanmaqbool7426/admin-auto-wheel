@@ -4,6 +4,7 @@ import styles from './Header.module.css';
 // import Search from '@/components/user-dashboard/Search';
 import { IconCog, IconNotification } from './icons';
 import useHeader from './useHeader';
+import { Suspense } from 'react';
 
 export default function Header() {
   const {
@@ -12,9 +13,10 @@ export default function Header() {
   } = useHeader();
 
   return (
-    <Box className={styles.header}>
-      <Box className={styles.headerLeft}>
-        <Box className={styles.pageTitle}>{title}</Box>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Box className={styles.header}>
+        <Box className={styles.headerLeft}>
+          <Box className={styles.pageTitle}>{title}</Box>
       </Box>
 
       <Box className={styles.headerRight}>
@@ -78,5 +80,6 @@ export default function Header() {
         </Group>
       </Box>
     </Box>
+    </Suspense>
   )
 }
