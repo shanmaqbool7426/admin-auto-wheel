@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { usePathname, useParams, useSearchParams } from 'next/navigation';
+import { usePathname, useParams } from 'next/navigation';
 import { PATH_NAME } from '@/constants/pathname';
+import { Suspense } from 'react';
 
 export default function useHeader() {
   const { activeTab } = useParams();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const postId = searchParams.get('id');
   const [title, setTitle] = useState('');
   const [isNotification, setIsNotification] = React.useState(true);
+  const [postId, setPostId] = useState(null);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    setPostId(params.get('id'));
+  }, []);
 
   useEffect(() => {
     const titleMap = {

@@ -11,7 +11,7 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import Navbar from './Navbar';
 import logo from '@/assets/images/brand/logo.svg';
-// import Header from './Header';
+import Header from './Header';
 import styles from './Rootlayout.module.css'
 
 export default function RootLayout({ children }) {
@@ -35,9 +35,11 @@ export default function RootLayout({ children }) {
         main: styles.main,
       }}
     >
-      {/* <AppShell.Header>
-        <Header />
-      </AppShell.Header> */}
+      <AppShell.Header>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Header />
+        </Suspense>
+      </AppShell.Header>
 
       <AppShell.Navbar p={0}>
         <AppShell.Section>
