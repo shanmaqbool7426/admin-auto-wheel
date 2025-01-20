@@ -13,6 +13,7 @@ import Navbar from './Navbar';
 import logo from '@/assets/images/brand/logo.svg';
 import Header from './Header';
 import styles from './Rootlayout.module.css'
+import { Suspense } from 'react';
 
 export default function RootLayout({ children }) {
   const [opened, { toggle }] = useDisclosure();
