@@ -4,7 +4,7 @@ import useLocationBaseUsers from './useLocationBaseUsers';
 import dynamic from 'next/dynamic';
 import styles from './LocationBaseUser.module.css';
 import Card from '@/components/Card';
-const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
+import Chart from 'react-apexcharts';
 
 export default function LocationBaseUser() {
   const {
