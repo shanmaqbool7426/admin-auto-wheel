@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Box } from '@mantine/core';
 import useLocationBaseUsers from './useLocationBaseUsers';
+import dynamic from 'next/dynamic';
 import styles from './LocationBaseUser.module.css';
 import Card from '@/components/Card';
-import Chart from 'react-apexcharts';
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 export default function LocationBaseUser() {
   const {

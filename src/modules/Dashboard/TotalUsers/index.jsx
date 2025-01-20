@@ -4,9 +4,10 @@ import { Box, Grid } from '@mantine/core'
 import styles from './TotalUsers.module.css'
 import FormField from '@/components/FormField'
 import useTotalUsers from './useTotalUsers'
-import Chart from 'react-apexcharts';
+import dynamic from 'next/dynamic';
 import { IconCalendarBlue, IconIncrement, IconDecrement } from '@/assets/icons';
-  
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
+
 export default function TotalUsers() {
   const {
     daysValue,
