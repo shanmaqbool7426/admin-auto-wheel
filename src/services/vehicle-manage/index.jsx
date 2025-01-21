@@ -1,3 +1,4 @@
+"use client"
 import { BASE_API } from '@/services/base-api';
 import { END_POINTS } from '@/constants/endpoints';
 

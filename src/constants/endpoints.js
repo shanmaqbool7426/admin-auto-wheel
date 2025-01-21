@@ -51,4 +51,5 @@ export const END_POINTS = {
   COMPARISON: '/comparison',
   BANNER: '/banners',
 
+  VIDEO: '/video',
 }

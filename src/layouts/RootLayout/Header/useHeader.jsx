@@ -12,6 +12,8 @@ export default function useHeader() {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
+
+    // console.log("params", params.getAll());
     setPostId(params.get('id'));
   }, []);
 

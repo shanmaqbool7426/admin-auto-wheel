@@ -1,0 +1,22 @@
+.filterbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.filterbarLeft {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.searchbar {
+  width: 300px;
+}
+
+.actionButton {
+  &:hover {
+    background-color: var(--mantine-color-gray-1);
+  }
+} 

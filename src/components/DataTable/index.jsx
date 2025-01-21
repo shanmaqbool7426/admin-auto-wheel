@@ -1,3 +1,4 @@
+"use client"
 import React from 'react';
 import { DataTable as MantineDataTable } from 'mantine-datatable';
 import classes from './DataTable.module.css'

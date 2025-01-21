@@ -1,3 +1,4 @@
+'use client'
 import React from 'react';
 import { Modal, Box, Group } from '@mantine/core';
 import styles from './CustomModal.module.css';

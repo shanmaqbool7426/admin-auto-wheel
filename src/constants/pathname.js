@@ -6,6 +6,7 @@ export const PATH_NAME = {
   BLOG_CATEGORY: '/blog/category',
   BLOG_TAG: '/blog/tags',
   COMPARE_VEHICLES: '/compare-vehicle',
+  VIDEO: '/video',
   ADD_VEHICLE: '/vehicle-add',
   COMMENTS: '/comments',
   MAKES: '/make',

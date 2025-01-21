@@ -28,6 +28,7 @@ export const navMenu = [
   { label: 'Compare Vehicles', href: PATH_NAME.COMPARE_VEHICLES, icon: IconMenuComments },
   { label: 'Location', href: PATH_NAME.LOCATION, icon: IconMenuLocation },
   { label: 'Makes', href: PATH_NAME.MAKES, icon: IconMenuLocation },
+  { label: 'Video', href: PATH_NAME.VIDEO, icon: IconMenuLocation },
   {
     label: 'User Management', href: PATH_NAME.USER_MANAGEMENT_USERS_LIST, icon: IconMenuUserManagement,
     links: [
