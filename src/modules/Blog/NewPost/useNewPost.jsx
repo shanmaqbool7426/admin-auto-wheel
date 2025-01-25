@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useForm } from '@mantine/form';
 import { showNotification } from '@mantine/notifications';
-import { useSearchParams } from 'next/navigation'
+import { useSearchParams, useRouter } from 'next/navigation'
 import {
   useAddPostMutation,
   useGetCategoriesQuery,
@@ -11,7 +11,8 @@ import {
 } from '@/services/blog/posts';
 
 export default function useNewPost() {
-
+  // navigate
+  const router = useRouter();
   const searchParams = useSearchParams();
   const postId = searchParams.get('id');
   const [addPost, { isLoading }] = useAddPostMutation();
@@ -22,6 +23,7 @@ export default function useNewPost() {
   const tagsData = getTagsData?.data?.data?.map(tag => ({ value: tag?._id, label: tag?.name })) || [];
 
   const { data: postDetails, isLoading: loadingPostDetails } = useGetPostByIdQuery(postId, { skip: !postId });
+
 
   const initialValues = {
     title: '',
@@ -62,8 +64,8 @@ export default function useNewPost() {
         title: postDetails?.data?.title || '',
         content: postDetails?.data?.content || '',
         author: postDetails?.data?.author || '',
-        categories: postDetails?.data?.categories?.map(cat => cat.name) || [],
-        tags: postDetails?.data?.tags?.map(tag => tag?.name) || [],
+        categories: postDetails?.data?.categories?.map(cat => cat._id) || [],
+        tags: postDetails?.data?.tags?.map(tag => tag._id) || [],
         isSticky: postDetails?.data?.isSticky || false,
         visibility: postDetails?.data?.visibility || 'Draft',
         publishDate: postDetails?.data?.publishDate ? new Date(postDetails?.data?.publishDate) : null,
@@ -80,38 +82,54 @@ export default function useNewPost() {
 
   const handleSubmit = async (values) => {
     try {
-      const formData = new FormData();
-
-      Object.keys(values).forEach(key => {
-        if (key === 'existingImageUrl') {
-          // Skip this field as it's only for internal use
-          return;
-        }
-        if (key === 'categories' || key === 'tags') {
-          formData.append(key, JSON.stringify(values[key]));
-        } else if (key === 'imageUrl') {
-          if (values[key] instanceof File) {
-            // New image upload
-            formData.append('imageUrl', values[key]);
-          } else if (values.existingImageUrl) {
-            // Keep existing image
-            formData.append('imageUrl', values.existingImageUrl);
-          }
-        } else if (values[key] !== null) {
-          formData.append(key, values[key]);
-        }
-      });
-
       if (postId) {
-        formData.append('id', postId);
-        await updatePost(formData).unwrap();
+        // For update, send form values directly with postId
+        const updateData = {
+          id: postId,
+          title: values.title,
+          content: values.content,
+          author: values.author,
+          categories: values.categories,
+          tags: values.tags,
+          isSticky: values.isSticky,
+          visibility: values.visibility,
+          publishDate: values.publishDate,
+          scheduledAt: values.scheduledAt,
+          imageUrl: values.imageUrl instanceof File 
+            ? values.imageUrl 
+            : values.existingImageUrl || values.imageUrl,
+        };
+
+        await updatePost(updateData).unwrap();
+        router.push('/blog/all-posts');
         showNotification({
           title: 'Success',
           message: 'Blog post updated successfully',
           color: 'green',
         });
       } else {
+        // For new post, use FormData as before
+        const formData = new FormData();
+
+        Object.keys(values).forEach(key => {
+          if (key === 'existingImageUrl') {
+            return;
+          }
+          if (key === 'categories' || key === 'tags') {
+            formData.append(key, JSON.stringify(values[key]));
+          } else if (key === 'imageUrl') {
+            if (values[key] instanceof File) {
+              formData.append('imageUrl', values[key]);
+            } else if (values.existingImageUrl) {
+              formData.append('imageUrl', values.existingImageUrl);
+            }
+          } else if (values[key] !== null) {
+            formData.append(key, values[key]);
+          }
+        });
+
         await addPost(formData).unwrap();
+        router.push('/blog/all-posts');
         showNotification({
           title: 'Success',
           message: 'Blog post created successfully',
@@ -121,7 +139,7 @@ export default function useNewPost() {
     } catch (error) {
       showNotification({
         title: 'Error',
-        message: error.data?.message || `Failed to ${initialPost ? 'update' : 'create'} blog post`,
+        message: error.data?.message || `Failed to ${postId ? 'update' : 'create'} blog post`,
         color: 'red',
       });
     }

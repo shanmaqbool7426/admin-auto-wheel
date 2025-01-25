@@ -5,7 +5,7 @@ export const videoAPIs = BASE_API.injectEndpoints({
   endpoints: (builder) => ({
     getVideos: builder.query({
       query: (params) => ({
-        url: `${END_POINTS?.VIDEO}/video-listing`,
+        url: `${END_POINTS?.VIDEO}/listing`,
         method: 'GET',
         params,
       }),

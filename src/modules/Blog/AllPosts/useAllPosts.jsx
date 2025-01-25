@@ -14,11 +14,14 @@ import {
 import { PAGE_SIZE } from '@/constants/pagination';
 import { useRouter } from 'next/navigation';
 import { PATH_NAME } from '@/constants/pathname';
+import { useGetCategoriesQuery } from '@/services/blog/categories';
 
 
 export default function useAllPosts() {
   const router = useRouter();
   const [page, setPage] = useState(1);
+  const { data: getCategoriesData } = useGetCategoriesQuery();
+  const catgData = getCategoriesData?.data?.data?.map(catg => ({ value: catg?.name, label: catg?.name })) || [];
   const [selectedRecords, setSelectedRecords] = useState([]);
   const [searchBy, setSearchBy] = useState('');
   const [filterParams, setFilterParams] = useState({
@@ -103,6 +106,7 @@ export default function useAllPosts() {
   return {
     page,
     setPage,
+    catgData,
     selectedRecords,
     setSelectedRecords,
     setSearchBy,

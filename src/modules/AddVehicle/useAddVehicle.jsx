@@ -1,24 +1,29 @@
 import { useForm } from '@mantine/form';
-import { useCreateVehicleMutation , useUpdateVehicleMutation} from '@/services/vehicle-manage';
+import { useCreateVehicleMutation, useUpdateVehicleMutation } from '@/services/vehicle-manage';
+import { useGetBodiesQuery } from '@/services/bodies';
+import { notifications } from '@mantine/notifications';
 
-export const useAddVehicle = (editData) => {
+export const useAddVehicle = (editData, type) => {
   console.log("editData>>>>>>>>> make", editData?.make)
   const [createVehicle] = useCreateVehicleMutation()
   const [updateVehicle] = useUpdateVehicleMutation()
+
+  // get bodies
   const form = useForm({
     initialValues: {
       // Basic Information
       type: editData?.type || '',
-      make: editData?.make || 'Honda',
+      make: editData?.make || '',
       model: editData?.model || '',
       variant: editData?.variant || '',
       year: editData?.year || new Date().getFullYear(),
       bodyType: editData?.bodyType || '',
+      brochureLink: editData?.brochureLink,
 
       // General Info
       minPrice: editData?.minPrice || '',
       maxPrice: editData?.maxPrice || '',
-      colors: editData?.colors || [],
+      colorsAvailable: editData?.colorsAvailable || [],
       releaseDate: editData?.releaseDate || new Date(),
       description: editData?.description || '',
       defaultImage: editData?.defaultImage || null,
@@ -37,7 +42,7 @@ export const useAddVehicle = (editData) => {
           torque: editData?.engine?.torque || '',
           boreStroke: editData?.engine?.boreStroke || '',
           compressionRatio: editData?.engine?.compressionRatio || '',
-          clutch: editData?.engine?.clutch || ''  
+          clutch: editData?.engine?.clutch || ''
         },
         transmission: editData?.transmission || '',
         fuelCapacity: editData?.fuelCapacity || '',
@@ -105,7 +110,7 @@ export const useAddVehicle = (editData) => {
           rearBrakes: editData?.suspensionSteeringBrakes?.rearBrakes || ''
         },
         wheelsAndTyres: {
-          wheelType: editData?.wheelsAndTyres?.wheelType ||  '',
+          wheelType: editData?.wheelsAndTyres?.wheelType || '',
           wheelSize: editData?.wheelsAndTyres?.wheelSize || '',
           tyreSize: editData?.wheelsAndTyres?.tyreSize || '',
           spareTyre: editData?.wheelsAndTyres?.spareTyre || '',
@@ -185,7 +190,7 @@ export const useAddVehicle = (editData) => {
       },
 
       // Truck Specs (Similar to Car Specs with relevant modifications)
-       
+
       truckSpecs: {
         dimensions: {
           overallLength: editData?.dimensions?.overallLength || '',      // e.g., "8.5 meters"
@@ -193,24 +198,24 @@ export const useAddVehicle = (editData) => {
           overallHeight: editData?.dimensions?.overallHeight || '',      // e.g., "3.8 meters"
           wheelBase: editData?.dimensions?.wheelBase || '',          // e.g., "4.2 meters"
           groundClearance: editData?.dimensions?.groundClearance || '',    // e.g., "30 cm"
-          kerbWeight: editData?.dimensions?.kerbWeight ||   '',         // e.g., "6500 kg"
+          kerbWeight: editData?.dimensions?.kerbWeight || '',         // e.g., "6500 kg"
           bootSpace: editData?.dimensions?.bootSpace || '',
           seatingCapacity: editData?.dimensions?.seatingCapacity || '',
           doors: editData?.dimensions?.doors || ''
         },
-        
+
         engine: {
           type: editData?.engine?.type || '',              // Diesel/Petrol/CNG
           displacement: editData?.engine?.displacement || '',       // e.g., 5000 (cc)
           horsepower: editData?.engine?.horsepower || '',        // e.g., "400 HP @ 2100 RPM"
           torque: editData?.engine?.torque || '',            // e.g., "1850 Nm @ 1200 RPM"
         },
-  
+
         transmission: {
           type: editData?.transmission?.type || 'Manual',        // Manual/Automatic/AMT
           powerTakeOff: editData?.transmission?.powerTakeOff || false,   // Yes/No
         },
-  
+
         cargo: {
 
           loadCapacity: editData?.cargo?.loadCapacity || '',      // e.g., "25,000 kg"
@@ -219,13 +224,13 @@ export const useAddVehicle = (editData) => {
           cargoHeight: editData?.cargo?.cargoHeight || '',       // e.g., "2.4 meters"
           cargoType: editData?.cargo?.cargoType || []          // e.g., ["Container", "Flatbed", "Tanker"]
         },
-  
+
         axleConfiguration: {
           numberOfAxles: editData?.axleConfiguration?.numberOfAxles || 2,      // e.g., 2, 3, or 4
           wheelConfiguration: editData?.axleConfiguration?.wheelConfiguration || '', // e.g., "6x4", "4x2"
           maxAxleLoad: editData?.axleConfiguration?.maxAxleLoad || ''        // e.g., "7,100 kg"
         },
-  
+
         chassis: {
           frameType: editData?.chassis?.frameType || '',         // e.g., "Ladder Frame"
           suspensionType: {
@@ -234,28 +239,28 @@ export const useAddVehicle = (editData) => {
           },
           airBrakeSystem: editData?.chassis?.airBrakeSystem || false  // Yes/No
         },
-  
+
         cabin: {
           type: editData?.cabin?.type || '',             // Day Cab/Sleeper Cab
           sleepingBerths: editData?.cabin?.sleepingBerths || 0     // e.g., 1 or 2
         },
-  
+
         fuel: {
           tankCapacity: editData?.fuel?.tankCapacity || '',     // e.g., 400 (liters)
           adBlueCapacity: editData?.fuel?.adBlueCapacity || 0    // e.g., 75 (liters)
         },
-  
+
         safety: {
           abs: editData?.safety?.abs || false,           // Yes/No
           hillAssist: editData?.safety?.hillAssist || false,    // Yes/No
           trailerStabilityControl: editData?.safety?.trailerStabilityControl || false  // Yes/No
         },
-  
+
         warranty: {
           vehicle: editData?.warranty?.vehicle || '',          // e.g., "2 years/200,000 km"
           engine: editData?.warranty?.engine || ''           // e.g., "3 years/300,000 km"
         },
-  
+
         certification: {
           emissionStandard: editData?.certification?.emissionStandard || ''  // e.g., "Euro 6"
         }
@@ -270,43 +275,72 @@ export const useAddVehicle = (editData) => {
       // ... add more validation rules
     }
   });
+  const { data: getBodiesData } = useGetBodiesQuery({type: form.values.type})
+  console.log("editData>>>>>>>>>", editData)
+  const bodyData = getBodiesData?.data?.map(body => ({ value: body?._id, label: body?.title })) || [];
+ 
 
-    // Function to recursively merge edit data with initial values
-    // const mergeWithInitialValues = (initial, edit) => {
-    //   if (!edit) return initial;
-  
-    //   const merged = { ...initial };
-      
-    //   Object.keys(initial).forEach(key => {
-    //     if (edit.hasOwnProperty(key)) {
-    //       if (typeof initial[key] === 'object' && !Array.isArray(initial[key]) && initial[key] !== null) {
-    //         merged[key] = mergeWithInitialValues(initial[key], edit[key]);
-    //       } else {
-    //         merged[key] = edit[key];
-    //       }
-    //     }
-    //   });
-  
-    //   return merged;
-    // };
-    
-  
-  const handleSubmit = (values) => {
-    if(editData){ 
-      updateVehicle({vehicleId: "6767194ac0e9f5410d3b7f4e", ...values}).then((res) => {
-        console.log("res", res)
-      })
-    }else{
-      createVehicle(values).then((res) => {
-        console.log("res", res)
-      })
+  // Function to recursively merge edit data with initial values
+  // const mergeWithInitialValues = (initial, edit) => {
+  //   if (!edit) return initial;
+
+  //   const merged = { ...initial };
+
+  //   Object.keys(initial).forEach(key => {
+  //     if (edit.hasOwnProperty(key)) {
+  //       if (typeof initial[key] === 'object' && !Array.isArray(initial[key]) && initial[key] !== null) {
+  //         merged[key] = mergeWithInitialValues(initial[key], edit[key]);
+  //       } else {
+  //         merged[key] = edit[key];
+  //       }
+  //     }
+  //   });
+
+  //   return merged;
+  // };
+
+  console.log("formm>>>>>>>>>", form.values)
+
+  const handleSubmit = async (values) => {
+    try {
+      if (editData) {
+        const response = await updateVehicle({
+          vehicleId: editData?._id,
+          ...values
+        }).unwrap();
+
+        notifications.show({
+          title: 'Success',
+          message: 'Vehicle updated successfully',
+          color: 'green',
+        });
+
+        return response;
+      } else {
+        const response = await createVehicle(values).unwrap();
+
+        notifications.show({
+          title: 'Success',
+          message: 'Vehicle created successfully',
+          color: 'green',
+        });
+
+        return response;
+      }
+    } catch (error) {
+      notifications.show({
+        title: 'Error',
+        message: error?.data?.message || 'Something went wrong',
+        color: 'red',
+      });
+      console.error('Submit error:', error);
     }
-    console.log("values", values) 
   };
 
   console.log("formdata", form.values)
   return {
     form,
+    bodyData,
     handleSubmit: form.onSubmit(handleSubmit)
   };
 };

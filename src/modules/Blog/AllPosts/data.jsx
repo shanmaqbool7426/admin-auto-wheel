@@ -26,6 +26,10 @@ export const getColumns = (onClickEdit, onClickDelete, onClickDuplicate) => [
     title: 'Author',
   },
   {
+    accessor: 'visibility',
+    title: 'Visibility',
+  },
+  {
     accessor: 'categories',
     title: 'Categories',
     render: ({ categories }) => {

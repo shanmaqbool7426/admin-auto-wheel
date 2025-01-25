@@ -30,6 +30,7 @@ export default function AllPosts() {
     totalPosts,
     loadingPosts,
     fetchingPosts,
+    catgData,
     error,
     statusCountsData,
     handleNavigateNewPost,
@@ -68,10 +69,7 @@ export default function AllPosts() {
             <FormField
               type="select"
               name="categories"
-              data={[
-                { value: 'News', label: 'News' },
-                { value: 'Tips', label: 'Tips' },
-              ]}
+              data={catgData}
               placeholder="Category"
               checkIconPosition="right"
               value={filterParams.news}

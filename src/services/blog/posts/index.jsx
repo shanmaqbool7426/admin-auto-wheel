@@ -48,7 +48,7 @@ export const postAPIs = BASE_API.injectEndpoints({
       query(data) {
         const { id, ...body } = data;
         return {
-          url: `${END_POINTS.BLOG_LISTING}/${id}`,
+          url: `${END_POINTS.BLOG_UPDATE}/${id}`,
           method: 'PUT',
           body,
         };

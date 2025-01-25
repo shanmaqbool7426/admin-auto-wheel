@@ -49,6 +49,8 @@ export default function VideoModule() {
 
   const { data: categoriesData } = useGetCategoriesQuery();
 
+  console.log("categoriesData>>>", categoriesData?.data?.data);
+
   const columns = getColumns({ 
     handleOpenModalDelete, 
     handleEditVideo 

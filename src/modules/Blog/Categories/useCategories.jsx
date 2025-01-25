@@ -21,6 +21,7 @@ export default function useCategories() {
     sortOrder: 'desc',
     page,
     limit: PAGE_SIZE,
+    search: ''
   }
   const [filterParams, setFilterParams] = useState(initParams);
   const { data: categoriesData, isLoading, isFetching } = useGetCategoriesQuery(filterParams);

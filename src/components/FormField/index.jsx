@@ -12,6 +12,7 @@ import {
   NumberInput,
   MultiSelect,
   TagsInput,
+  FileInput,
 } from '@mantine/core';
 import styles from './FormField.module.css';
 import { IconSelect, IconInputDate } from "@/assets/icons";
@@ -60,7 +61,10 @@ export default function FormField(props) {
     'select': () => (
       <Select
         {...rest}
-        data={data}
+        data={data.map(item => ({
+          ...item,
+          key: item.value
+        }))}
         rightSection={<IconSelect />}
         classNames={{
           label: styles.label,
@@ -84,7 +88,6 @@ export default function FormField(props) {
           option: styles.selectOption,
         }}
       />
-
     ),
     'datetime': () => (
       <DateTimePicker
@@ -117,11 +120,9 @@ export default function FormField(props) {
         }}
       />
     ),
-
     'switch': () => <Switch {...rest} />,
     'radio': () => <RadioGroup {...rest}>{options.map((option) => (<Radio key={option.value} value={option.value} label={option.label} />))}</RadioGroup>,
-
-
+    'file': () => <FileInput {...rest} />,
   };
 
   return componentMap[type]

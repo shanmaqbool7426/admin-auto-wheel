@@ -3,32 +3,29 @@ import dayjs from 'dayjs';
 import { ActionIcon, Group, Box, Badge } from '@mantine/core';
 // Import icons from @tabler/icons-react
 import { IconEdit, IconTrash, IconEye } from '@tabler/icons-react';
-import styles from './NewVehicles.module.css';
-import Link from 'next/link';
+import styles from './UsedVehicles.module.css';
 
-export const getColumns = (handleEdit, handleOpenDeleteModal, router) => {
+export const getColumns = (handleEdit, handleDelete, router) => {
     return [
         {
             accessor: 'image',
             title: 'Vehicle',
             render: (row) => (
-               
                 <Box className={styles.vehicle}>
                     <Box className={styles.vehicleImage}>
-                        <Image 
+                        {/* <Image 
                   src={row.defaultImage || '/placeholder-vehicle.png'} 
-                //   alt={`${row.make} ${row.model}`} 
+                  alt={`${row.make} ${row.model}`} 
                   width={80} 
                   height={60} 
                   style={{ objectFit: 'cover' }}
-                />
+                /> */}
                     </Box>
                     <Box className={styles.vehicleInfo}>
                         <Box className={styles.vehicleName}>{row.make} {row.model}</Box>
                         <Box className={styles.vehicleVariant}>{row.variant}</Box>
                     </Box>
                 </Box>
-
             ),
         },
         {
@@ -40,6 +37,14 @@ export const getColumns = (handleEdit, handleOpenDeleteModal, router) => {
                 >
                     {row.type.charAt(0).toUpperCase() + row.type.slice(1)}
                 </Badge>
+            )
+        },
+        // status are  'active', 'inactive', 'deleted', 'pending', 'expired'
+        {
+            accessor: 'status',
+            title: 'Status',
+            render: (row) => (
+                <Badge color={row.status === 'active' ? 'green' : row.status === 'inactive' ? 'red' : row.status === 'deleted' ? 'orange' : row.status === 'pending' ? 'blue' : 'green '}>{row.status}</Badge>
             )
         },
         {
@@ -78,32 +83,27 @@ export const getColumns = (handleEdit, handleOpenDeleteModal, router) => {
             textAlign: 'center',
             render: (row) => (
                 <Group justify="center" gap="xs">
-                    <Link href={`https://new-auto-wheel.netlify.app/new-vehicle/${row.slug}`} target='_blank'>
                     <ActionIcon
                         size="sm"
                         variant="subtle"
                         color="blue"
-                        
+                        onClick={() => router.push(`https://new-auto-wheel.netlify.app/new-vehicle/${row.slug}`)}
                     >
-                        <IconEye size={16}  />
+                        <IconEye size={16} />
                     </ActionIcon>
-                    </Link>
-                    <Link href={`/vehicle-add?id=${row._id}`}>
                     <ActionIcon
                         size="sm"
                         variant="subtle"
                         color="blue"
-                        // onClick={() => handleEdit(row._id)}
+                        onClick={() => handleEdit(row._id)}
                     >
-                         
                         <IconEdit size={16} />
                     </ActionIcon>
-                         </Link>
                     <ActionIcon
                         size="sm"
                         variant="subtle"
                         color="red"
-                        onClick={() => handleOpenDeleteModal(row._id)}
+                        onClick={() => handleDelete(row._id)}
                     >
                         <IconTrash size={16} />
                     </ActionIcon>

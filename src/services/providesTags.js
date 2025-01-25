@@ -4,4 +4,6 @@ export const PROVIDES_TAGS = [
   'COMMENTS',
   'LOCATIONS',
   'USERS',
+  'BODIES',
+  'VIDEOS'
 ]

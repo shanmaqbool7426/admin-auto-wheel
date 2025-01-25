@@ -18,6 +18,9 @@ export const END_POINTS = {
   LOCATION: '/location',
   LOCATION_DELETE: '/location/bulk-delete',
 
+  // Used Vehicles endpoints
+  USED_VEHICLES: '/vehicle',
+
   // Blog endpoints
   GET_BLOG_BY_ID: '/blog',
   BLOG_LISTING: '/blog/blog-listing/page/1',
@@ -28,6 +31,10 @@ export const END_POINTS = {
   DUPLICATE_POST: '/blog/duplicate',
   STATUS_COUNTS: '/blog/status-counts',
   BLOG_CREATE: '/blog',
+  BLOG_UPDATE: '/blog',
+
+  // Bodies endpoints
+  BODIES: '/browes-by-body',
 
   // Category endpoints
   TAGS: '/tag',

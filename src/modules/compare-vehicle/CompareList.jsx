@@ -39,13 +39,13 @@ export default function CompareList() {
     };
 
     if (isLoading) return <LoadingOverlay visible />;
-    if (!comparisons || comparisons.length === 0) {
-        return (
-            <Box className={styles.container}>
-                <Text>No comparisons found</Text>
-            </Box>
-        );
-    }
+    // if (!comparisons || comparisons.length === 0) {
+    //     return (
+    //         <Box className={styles.container}>
+    //             <Text>No comparisons found</Text>
+    //         </Box>
+    //     );
+    // }
     let DEFAULT_IMAGE = "/images/default-image.png";
 
     return (
@@ -76,6 +76,7 @@ export default function CompareList() {
                                 />
                             </div>
 
+                                    {console.log("vehicle.defaultImage", comparison.vehicles)}
                             <div className={styles.compareProducts}>
                                 <div className={styles.productImages}>
                                     {comparison.vehicles?.map((vehicle, index) => (

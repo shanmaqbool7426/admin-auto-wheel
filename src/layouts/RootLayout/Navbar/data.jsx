@@ -14,6 +14,8 @@ import { PATH_NAME } from '@/constants/pathname';
 export const navMenu = [
   { label: 'Dashboard', href: PATH_NAME.ROOT, icon: IconMenuDashboard },
   { label: 'Vehicles', href: PATH_NAME.VEHICLES, icon: IconMenuDashboard },
+  { label: 'Used Vehicle', href: PATH_NAME.USED_VEHICLE, icon: IconMenuDashboard },
+  { label: 'Bodies', href: PATH_NAME.BODIES, icon: IconMenuDashboard },
   { label: 'Add Vehicle', href: PATH_NAME.ADD_VEHICLE, icon: IconMenuDashboard },
   {
     label: 'Blog', href: PATH_NAME.BLOG_ALL_POSTS, icon: IconMenuBlog,

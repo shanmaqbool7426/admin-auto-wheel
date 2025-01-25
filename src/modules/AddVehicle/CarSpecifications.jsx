@@ -195,6 +195,7 @@ const DimensionsSpecs = ({ form }) => (
           placeholder="e.g., 4500"
           {...form.getInputProps('carSpecs.dimensions.overallLength')}
           name="dimensionsLength"
+          value={form.values.carSpecs.dimensions.overallLength}
         />
       </Grid.Col>
       <Grid.Col span={4}>
@@ -203,6 +204,7 @@ const DimensionsSpecs = ({ form }) => (
           placeholder="e.g., 1800"
           {...form.getInputProps('carSpecs.dimensions.overallWidth')}
           name="dimensionsWidth"
+          value={form.values.carSpecs.dimensions.overallWidth}
         />
       </Grid.Col>
       <Grid.Col span={4}>
@@ -211,6 +213,7 @@ const DimensionsSpecs = ({ form }) => (
           placeholder="e.g., 1500"
           {...form.getInputProps('carSpecs.dimensions.overallHeight')}
           name="dimensionsHeight"
+          value={form.values.carSpecs.dimensions.overallHeight}
         />
       </Grid.Col>
       <Grid.Col span={4}>
@@ -219,6 +222,7 @@ const DimensionsSpecs = ({ form }) => (
           placeholder="e.g., 2600"
           {...form.getInputProps('carSpecs.dimensions.wheelBase')}
           name="dimensionsWheelbase"
+          value={form.values.carSpecs.dimensions.wheelBase}
         />
       </Grid.Col>
       <Grid.Col span={4}>
@@ -227,6 +231,7 @@ const DimensionsSpecs = ({ form }) => (
           placeholder="e.g., 170"
           {...form.getInputProps('carSpecs.dimensions.groundClearance')}
           name="dimensionsGroundClearance"
+          value={form.values.carSpecs.dimensions.groundClearance}
         />
       </Grid.Col>
       <Grid.Col span={4}>
@@ -235,6 +240,7 @@ const DimensionsSpecs = ({ form }) => (
           placeholder="e.g., 1200"
           {...form.getInputProps('carSpecs.dimensions.kerbWeight')}
           name="dimensionsKerbWeight"
+          value={form.values.carSpecs.dimensions.kerbWeight}
         />
       </Grid.Col>
       <Grid.Col span={4}>
@@ -243,6 +249,7 @@ const DimensionsSpecs = ({ form }) => (
           placeholder="e.g., 400"
           {...form.getInputProps('carSpecs.dimensions.bootSpace')}
           name="dimensionsBootSpace"
+          value={form.values.carSpecs.dimensions.bootSpace}
         />
       </Grid.Col>
       <Grid.Col span={4}>
@@ -253,6 +260,7 @@ const DimensionsSpecs = ({ form }) => (
           max={9}
           {...form.getInputProps('carSpecs.dimensions.seatingCapacity')}
           name="dimensionsSeatingCapacity"
+          value={form.values.carSpecs.dimensions.seatingCapacity}
         />
       </Grid.Col>
       <Grid.Col span={4}>
@@ -263,6 +271,7 @@ const DimensionsSpecs = ({ form }) => (
           max={5}
           {...form.getInputProps('carSpecs.dimensions.doors')}
           name="dimensionsDoors"
+          value={form.values.carSpecs.dimensions.doors}
         />
       </Grid.Col>
     </Grid>
@@ -280,6 +289,7 @@ const TransmissionSpecs = ({ form }) => (
           data={['Manual', 'Automatic', 'CVT', 'DCT']}
           {...form.getInputProps('carSpecs.transmission.type')}
           name="transmissionType"
+          value={form.values.carSpecs.transmission.type}
         />
       </Grid.Col>
       <Grid.Col span={6}>

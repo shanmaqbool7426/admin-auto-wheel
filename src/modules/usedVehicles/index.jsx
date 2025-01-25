@@ -4,15 +4,12 @@ import { Box } from '@mantine/core';
 import Search from '@/components/Search';
 import FormField from '@/components/FormField';
 import DataTable from '@/components/DataTable';
-import CustomButton from '@/components/CustomButton';
-import useNewVehicles  from './useNewVehicles';
-import { getColumns } from './NewVehicles.data';
-import { IconPlus } from '@/assets/icons';
-import styles from './NewVehicles.module.css';
+import useUsedVehicles  from './useUsedVehicles';
+import { getColumns } from './UsedVehicles.data';
+import styles from './UsedVehicles.module.css';
 import { useRouter } from 'next/navigation';
-import ConfirmationModal from '@/components/ConfirmationModal';
 
-export default function NewVehicles() {
+export default function UsedVehicles() {
   const {
     page,
     setPage,
@@ -39,11 +36,11 @@ export default function NewVehicles() {
     handleClickDeleteRow,
     handleClickDuplicate,
 
-  } = useNewVehicles();
+  } = useUsedVehicles();
 
   const router = useRouter();
 
-  const columns = getColumns(handleClickEditRow, handleOpenDeleteModal, handleClickDuplicate, router);
+  const columns = getColumns(handleClickEditRow, handleClickDeleteRow, handleClickDuplicate, router);
   const [bulkActionValue, setBulkActionValue] = React.useState('');
 
   console.log(">>>>>data", data);
@@ -102,19 +99,14 @@ export default function NewVehicles() {
             />
           </Box>
           <Box>
-            <CustomButton
-              leftSection={<IconPlus />}
-              onClick={()=>router.push('/vehicle-add')}
-            >
-              Add Vehicle
-            </CustomButton>
+           
           </Box>
         </Box>
       </Box>
       <Box>
         <DataTable
           columns={columns}
-          records={data?.data?.vehicles || []}
+          records={data || []}
           fetching={isLoading || isFetching}
           selection
           selectedRecords={selectedRecords}
@@ -124,15 +116,6 @@ export default function NewVehicles() {
           onPageChange={setPage}
         />
       </Box>
-
-      <ConfirmationModal
-        title="Delete Vehicle"
-        message="Are you sure you want to delete this vehicle?"
-        open={openDeleteModal}
-        onClose={handleCloseDeleteModal}
-        onSubmit={handleDeleteVehicle}
-        // isLoading={loadingDelete}
-      />
     </>
   );
 }

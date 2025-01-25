@@ -2,12 +2,17 @@ import { Grid, NumberInput, MultiSelect, TextInput, Textarea, Box, Image, Simple
 import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { useUploadImageMutation } from '@/services/vehicle-manage';
 import { useState, useEffect } from 'react';
+import { DateInput, DatePickerInput  } from '@mantine/dates';
 import { IconX, IconStar, IconStarFilled } from '@tabler/icons-react';
 import classes from './GeneralInformation.module.css';
 
 export const GeneralInformation = ({ form }) => {
   const [uploadImage] = useUploadImageMutation();
   const [previews, setPreviews] = useState([]);
+  useEffect(() => {
+    setPreviews(form.values.images)
+  }, [])
+  
 
   const handleFileDrop = async (files) => {
     if (files?.length) {
@@ -23,11 +28,22 @@ export const GeneralInformation = ({ form }) => {
 
         const responses = await Promise.all(uploadPromises);
         const imageUrls = responses.map(response => response?.data[0]);
-        form.setFieldValue('images', [...(form.values.images || []), ...imageUrls]);
+        const updatedImages = [...(form.values.images || []), ...imageUrls];
+        form.setFieldValue('images', updatedImages);
+        
+        // Set first image as default if no default exists
+        if (!form.values.defaultImage) {
+          form.setFieldValue('defaultImage', updatedImages[0]);
+        }
       } catch (error) {
         console.error('Failed to upload images:', error);
       }
     }
+  };
+
+  const setDefaultImage = (index) => {
+    const selectedImage = form.values.images[index];
+    form.setFieldValue('defaultImage', selectedImage);
   };
 
   const removeImage = (index) => {
@@ -36,18 +52,15 @@ export const GeneralInformation = ({ form }) => {
     newPreviews.splice(index, 1);
     setPreviews(newPreviews);
 
-    const currentImages = form.values.images || [];
-    const newImages = [...currentImages];
-    newImages.splice(index, 1);
-    form.setFieldValue('images', newImages);
-  };
-
-  const setDefaultImage = (index) => {
-    const currentImages = [...(form.values.images || [])];
-    const [selectedImage] = currentImages.splice(index, 1);
-    currentImages.unshift(selectedImage);
+    const currentImages = [...form.values.images];
+    const removedImage = currentImages[index];
+    currentImages.splice(index, 1);
     form.setFieldValue('images', currentImages);
-    form.setFieldValue('defaultImage', selectedImage);
+
+    // If removing default image, set new default to first remaining image
+    if (removedImage === form.values.defaultImage) {
+      form.setFieldValue('defaultImage', currentImages[0] || null);
+    }
   };
 
   const previewImages = previews.map((url, index) => (
@@ -60,13 +73,17 @@ export const GeneralInformation = ({ form }) => {
         />
         <Box className={classes.imageOverlay}>
           <Box className={classes.imageActions}>
-            <Box 
+            <Box
               className={classes.actionButton}
               onClick={() => setDefaultImage(index)}
             >
-              {index === 0 ? <IconStarFilled size={16} /> : <IconStar size={16} />}
+              {form.values.defaultImage === form.values.images[index] ? (
+                <IconStarFilled size={16} />
+              ) : (
+                <IconStar size={16} />
+              )}
             </Box>
-            <Box 
+            <Box
               className={classes.actionButton}
               onClick={() => removeImage(index)}
             >
@@ -74,7 +91,7 @@ export const GeneralInformation = ({ form }) => {
             </Box>
           </Box>
           <Text className={classes.defaultLabel}>
-            {index === 0 ? 'Default' : ''}
+            {form.values.defaultImage === form.values.images[index] ? 'Default' : ''}
           </Text>
         </Box>
       </Box>
@@ -88,6 +105,7 @@ export const GeneralInformation = ({ form }) => {
         <NumberInput
           label="Minimum Price"
           required
+          value={form.values.minPrice}
           min={0}
           placeholder="Enter minimum price"
           {...form.getInputProps('minPrice')}
@@ -98,6 +116,7 @@ export const GeneralInformation = ({ form }) => {
         <NumberInput
           label="Maximum Price"
           required
+          value={form.values.maxPrice}
           min={0}
           placeholder="Enter maximum price"
           {...form.getInputProps('maxPrice')}
@@ -108,23 +127,25 @@ export const GeneralInformation = ({ form }) => {
       {/* Colors and Release Date */}
       <Grid.Col span={6}>
         <MultiSelect
+          value={form.values.colorsAvailable}
           label="Available Colors"
           placeholder="Select available colors"
-          data={[
-            'White', 'Black', 'Silver', 'Red', 'Blue',
-            'Grey', 'Brown', 'Green', 'Gold', 'Bronze'
-          ]}
-          {...form.getInputProps('colors')}
+          data={["white","red"]}
+          {...form.getInputProps('colorsAvailable')}
           name="colors"
         />
       </Grid.Col>
       <Grid.Col span={6}>
-        <TextInput
+        {/* <TextInput
+          value={new Date()}
           label="Release Date"
           type="date"
           {...form.getInputProps('releaseDate')}
           name="releaseDate"
-        />
+        /> */}
+
+<DateInput clearable defaultValue={new Date(form.values.releaseDate)} label="Date input" placeholder="Date input" />
+
       </Grid.Col>
 
       {/* Description */}
@@ -134,6 +155,7 @@ export const GeneralInformation = ({ form }) => {
           required
           minRows={4}
           placeholder="Detailed description of the vehicle..."
+          value={form.values.description}
           {...form.getInputProps('description')}
           name="description"
         />
@@ -148,6 +170,7 @@ export const GeneralInformation = ({ form }) => {
               accept={IMAGE_MIME_TYPE}
               onDrop={handleFileDrop}
               className={classes.dropzone}
+              value={form.values.images}
             >
               <Image
                 src="/upload.png"
@@ -171,6 +194,7 @@ export const GeneralInformation = ({ form }) => {
           label="Pros"
           placeholder="Enter pros (one per line)"
           minRows={3}
+          value={form.values.pros}
           {...form.getInputProps('pros')}
           name="pros"
           description="Enter each advantage in a new line"
@@ -181,6 +205,7 @@ export const GeneralInformation = ({ form }) => {
           label="Cons"
           placeholder="Enter cons (one per line)"
           minRows={3}
+          value={form.values.cons}
           {...form.getInputProps('cons')}
           name="cons"
           description="Enter each disadvantage in a new line"
@@ -189,14 +214,14 @@ export const GeneralInformation = ({ form }) => {
 
       {/* FAQs */}
       <Grid.Col span={12}>
-        <Textarea
+        {/* <Textarea
           label="FAQs"
           placeholder="Q: Question?\nA: Answer"
           minRows={4}
           {...form.getInputProps('faqs')}
           name="faqs"
           description="Format: Q: Question?\nA: Answer"
-        />
+        /> */}
       </Grid.Col>
 
       {/* Brochure Link */}
@@ -204,6 +229,7 @@ export const GeneralInformation = ({ form }) => {
         <TextInput
           label="Brochure Link"
           placeholder="URL to vehicle brochure"
+          value={form.values.brochureLink}
           {...form.getInputProps('brochureLink')}
           name="brochureLink"
         />

@@ -21,10 +21,11 @@ import BikeSpecifications from './BikeSpecifications';
 import { TruckSpecifications } from './TruckSpecifications';
 import { GeneralInformation } from './GeneralInformation';
 import useMakes from '../Makes/useMakes';
+import { DateInput } from '@mantine/dates';
 //   import MakeModelVariantModel from '@/components/MakeModelVariantModel';
 
-const AddVehicle = memo(({ editData }) => {
-  const { form, handleSubmit, isLoading } = useAddVehicle(editData?.data);
+const AddVehicle = memo(({ editData,type }) => {
+  const { form, handleSubmit, isLoading ,bodyData} = useAddVehicle(editData?.data,type);
   const { makesData, transformedMakesData } = useMakes()
   const [activeTab, setActiveTab] = useState('basic');
   const [isModelOpen, setIsModelOpen] = useState(false);
@@ -43,11 +44,13 @@ const AddVehicle = memo(({ editData }) => {
     label: (currentYear - i).toString()
   }));
 
+
+
   const vehicleType = form.values.type;
-  console.log("makes>>>>>>>>>", makesData)
+  console.log("bodyData>>>>>>>>>", bodyData)
   const handleNextClick = () => {
     const tabValidation = {
-      basic: ['type', 'make', 'model', 'variant', 'year', 'bodyType'],
+      basic: ['type', 'make', 'model', 'variant', 'year', 'bodyType',"releaseDate"],
       general: ['minPrice', 'maxPrice', 'description', 'defaultImage'],
       specifications: [],
     };
@@ -118,13 +121,13 @@ const AddVehicle = memo(({ editData }) => {
 
   // Effect to update form when selection changes
   useEffect(() => {
-    form.setFieldValue('make', editData?.data?.info?.make || selection.make);
-    form.setFieldValue('model', editData?.data?.info?.model || selection.model);
-    form.setFieldValue('variant', editData?.data?.info?.variant || selection.variant);
+    form.setFieldValue('make', editData?.data?.Info?.make || selection.make);
+    form.setFieldValue('model', editData?.data?.Info?.model || selection.model);
+    form.setFieldValue('variant', editData?.data?.Info?.variant || selection.variant);
   }, [selection]);
 
+  console.log("", form.values.year)
 
-  console.log(">>>>>>>>>>", form.values)
   return (
     <Box p="md">
       <Paper shadow="xs" p="md" pos="relative">
@@ -197,7 +200,7 @@ const AddVehicle = memo(({ editData }) => {
                   <TextInput
                     label="Variant"
                     required
-                    placeh  older="Select variant"
+                    placeholder="Select variant"
                     value={form.values.variant}
                     onClick={() => setIsModelOpen(true)}
                     readOnly
@@ -210,10 +213,10 @@ const AddVehicle = memo(({ editData }) => {
                   <Select
                     label="Year"
                     placeholder="Select year"
-                    value={form.values.year}
+                    {...form.getInputProps('year')}
+                    value={`${form.values.year}`}
                     required
                     data={years}
-                    {...form.getInputProps('year')}
                   />
                 </Grid.Col>
 
@@ -224,12 +227,14 @@ const AddVehicle = memo(({ editData }) => {
                     placeholder="Select body type"
                     value={form.values.bodyType}  
                     required
-                    data={getBodyTypesByVehicleType(form.values.type)}
+                    data={bodyData}
                     {...form.getInputProps('bodyType')}
-                    disabled={!form.values.type}
+                    // disabled={!form.values.type}
                   />
                 </Grid.Col>
               </Grid>
+
+                    
 
               {/* Modal for Make/Model/Variant selection */}
               {/* <Modal

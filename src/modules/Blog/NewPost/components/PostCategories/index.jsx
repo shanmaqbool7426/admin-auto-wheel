@@ -68,16 +68,16 @@ export default function PostCategories({ form, categoriesData, tagsData, isEdit 
         <Grid.Col span={12}>
           <FormField
             label="Tags"
-            type="tags"
+             type="multiselect"
             placeholder={"Enter tag and press enter"}
             data={tagsData}
             nothingFoundMessage="Nothing found..."
             searchable
             clearable
             {...form.getInputProps('tags')}
-            splitChars={[',', ' ', 'Enter']}
-            acceptValueOnBlur
-            maxTags={10}
+            // splitChars={[',', ' ', 'Enter']}
+            // acceptValueOnBlur
+            // maxTags={10}
           />
         </Grid.Col>
         {/* <Grid.Col span={12}>
