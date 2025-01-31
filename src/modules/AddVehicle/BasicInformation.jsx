@@ -23,7 +23,6 @@ export const BasicInformation = memo(({ form, isModelOpen, setIsModelOpen }) => 
   const years = Array.from({ length: 30 }, (_, i) => currentYear - i);
 
   const handleMakeChange = (value) => {
-    // console.log('handleMakeChange',value)
     setIsModelOpen(true)
     form.setFieldValue('make', value);
     setSelectedMake(value);
@@ -38,10 +37,8 @@ export const BasicInformation = memo(({ form, isModelOpen, setIsModelOpen }) => 
     form.setFieldValue('variant', '');
   };
 
-  console.log("isModelOpen",isModelOpen)
   // HANDLE MODEL OPEN
   const handleModelOpen = (event) => {
-    console.log('>>')
     // Prevent the default select dropdown behavior when clicking the add button
     event.preventDefault();
     event.stopPropagation();

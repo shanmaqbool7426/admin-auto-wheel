@@ -5,11 +5,13 @@ import { PAGE_SIZE } from '@/constants/pagination';
 
   function useCompareVehicle() {
   const [page, setPage] = useState(1);
+  const [type, setType] = useState('car');
   const [searchBy, setSearchBy] = useState('');
   const [filterParams, setFilterParams] = useState({
     page,
     limit: PAGE_SIZE,
-    search: searchBy
+    search: searchBy,
+    type: type
   });
 
   // Query for getting comparison sets
@@ -29,6 +31,11 @@ import { PAGE_SIZE } from '@/constants/pagination';
     setFilterParams(prev => ({ ...prev, page }));
   }, [page]);
 
+  useEffect(() => {
+    setFilterParams(prev => ({ ...prev, type }));
+  }, [type]);
+  
+
   const handleSearch = (value) => {
     setSearchBy(value);
     setPage(1);
@@ -38,6 +45,8 @@ import { PAGE_SIZE } from '@/constants/pagination';
     page,
     setPage,
     searchBy,
+    type,
+    setType,
     handleSearch,
     comparisons: comparisonsData?.data?.comparisons || [],
     isLoading,

@@ -67,7 +67,7 @@ export const getColumns = (onClickEdit, onClickView, onClickShield) => [
           <ActionIcon
             size={20}
             className={styles.actionButton}
-            onClick={() => onClickEdit(MODAL_TYPE.EDIT, data)}
+            onClick={(e) => onClickEdit(e,MODAL_TYPE.EDIT, data)}
           >
             <IconPencil />
           </ActionIcon>

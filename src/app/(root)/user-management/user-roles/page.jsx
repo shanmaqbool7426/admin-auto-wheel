@@ -1,20 +1,13 @@
-// import ClientWrapper from '@/components/ClientWrapper';
-// import UserRolesContent from '@/modules/UserManagement/UserRoles/UserRolesContent';
-
-// export default function UserRolesPage() {
-//   return (
-//     <ClientWrapper>
-//       <UserRoles />
-//     </ClientWrapper>
-//   )
-// }
-
-
-import React from 'react'
-
-export default function UserRolesPage() {
+"use client"
+import ClientWrapper from '@/components/ClientWrapper';
+import UserRoles from '@/modules/UserManagement/UserRoles';
+import withProtectedRoute from '@/components/AuthGuard/withAuth';
+export default withProtectedRoute(function UserRolesPage() {
   return (
-    <div>page</div>
-    
+    <ClientWrapper>
+      <UserRoles />
+    </ClientWrapper>
   )
-}
+})
+
+

@@ -6,8 +6,8 @@ import DataTable from '@/components/DataTable';
 import CustomButton from '@/components/CustomButton';
 import { IconPlus } from '@/assets/icons';
 import useUserRoles from './useUserRoles';
-import { getColumns } from './data';
-import AddUserRole from './AddUserRole';
+import { getColumns } from './UserRoles.data';
+import UpdateRole from './UpdateRole';
 import ConfirmationModal from '@/components/ConfirmationModal';
 
 export default function UserRolesContent() {
@@ -69,7 +69,7 @@ export default function UserRolesContent() {
         />
       </Box>
 
-      <AddUserRole
+      <UpdateRole
         title={modalTitle}
         open={openModalRole}
         onClose={handleCloseModal}

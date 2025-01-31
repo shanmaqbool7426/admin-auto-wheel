@@ -10,8 +10,19 @@ import styles from './CompareBar.module.css';
 import CustomButton from '@/components/CustomButton';
 import { IconPlus } from '@tabler/icons-react';
 import AddCompare from './addCompare/AddCompare';
+import { useGetRolesQuery } from '@/services/roles';
+import { getCookie } from '@/utils/cookies';
 
 export default function CompareVehiclesModule() {
+  const { data: roles } = useGetRolesQuery();
+  const user = JSON.parse(getCookie('user'));
+  const permissions = roles?.data?.roles.find(
+    (role) => role.name?.toLowerCase() === user.roles?.toLowerCase()
+  );
+
+  const hasEditPermission = permissions?.permissions?.compareVehicle?.edit;
+
+
   const {
     page,
     setPage,
@@ -32,9 +43,11 @@ export default function CompareVehiclesModule() {
     setFilterParams
   } = useCompareVehicles();
 
-  const columns = getColumns(handleAddToCompare, selectedVehicles);
+  const columns = getColumns(
+    hasEditPermission ? handleAddToCompare : null, 
+    selectedVehicles
+  );
 
-  
   return (
     <Box className={styles.container}>
       {/* Filter Bar */}
@@ -58,24 +71,27 @@ export default function CompareVehiclesModule() {
             onChange={(value) => setFilterParams(prev => ({ ...prev, type: value }))}
           />
 
-          <CustomButton
-            leftSection={<IconPlus size={16} />}
-            onClick={() => setIsCompareModalOpen(true)}
-          >
-            Compare Vehicles
-          </CustomButton>
+          {hasEditPermission && (
+            <CustomButton
+              leftSection={<IconPlus size={16} />}
+              onClick={() => setIsCompareModalOpen(true)}
+            >
+              Compare Vehicles
+            </CustomButton>
+          )}
         </Box>
       </Box>
 
-      <AddCompare
-        open={isCompareModalOpen}
-        setOnClose={setIsCompareModalOpen}
-      />
+      {hasEditPermission && (
+        <AddCompare
+          open={isCompareModalOpen}
+          setOnClose={setIsCompareModalOpen}
+        />
+      )}
 
-      {/* Data Table */}
       <Box className={styles.tableContainer}>
         <DataTable
-          columns={columns}
+          columns={hasEditPermission ? columns : columns.filter(col => !['compare'].includes(col.key))}
           records={vehiclesData?.data?.results || []}
           totalRecords={vehiclesData?.data?.count || 0}
           page={page}
@@ -85,8 +101,7 @@ export default function CompareVehiclesModule() {
         />
       </Box>
 
-      {/* Compare Bar */}
-      {selectedVehicles.length > 0 && (
+      {hasEditPermission && selectedVehicles.length > 0 && (
         <CompareBar
           selectedVehicles={selectedVehicles}
           maxVehicles={maxVehicles}

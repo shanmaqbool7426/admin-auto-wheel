@@ -4,7 +4,6 @@ import { useGetBodiesQuery } from '@/services/bodies';
 import { notifications } from '@mantine/notifications';
 
 export const useAddVehicle = (editData, type) => {
-  console.log("editData>>>>>>>>> make", editData?.make)
   const [createVehicle] = useCreateVehicleMutation()
   const [updateVehicle] = useUpdateVehicleMutation()
 
@@ -276,7 +275,6 @@ export const useAddVehicle = (editData, type) => {
     }
   });
   const { data: getBodiesData } = useGetBodiesQuery({type: form.values.type})
-  console.log("editData>>>>>>>>>", editData)
   const bodyData = getBodiesData?.data?.map(body => ({ value: body?._id, label: body?.title })) || [];
  
 
@@ -299,7 +297,6 @@ export const useAddVehicle = (editData, type) => {
   //   return merged;
   // };
 
-  console.log("formm>>>>>>>>>", form.values)
 
   const handleSubmit = async (values) => {
     try {
@@ -333,11 +330,9 @@ export const useAddVehicle = (editData, type) => {
         message: error?.data?.message || 'Something went wrong',
         color: 'red',
       });
-      console.error('Submit error:', error);
     }
   };
 
-  console.log("formdata", form.values)
   return {
     form,
     bodyData,

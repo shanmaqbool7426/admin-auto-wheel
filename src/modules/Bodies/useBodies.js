@@ -47,7 +47,6 @@ useEffect(() => {
   const [openModalDelete, setOpenModalDelete] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
   const [selectedBody, setSelectedBody] = useState(null);
-console.log(">>>>>>>>bodiesData", bodiesData?.data);
 
   const formBody = useForm({
     initialValues: {
@@ -146,7 +145,6 @@ console.log(">>>>>>>>bodiesData", bodiesData?.data);
     handleOpenModal('Edit Body Type', body);
   };
 
-  console.log(">>>>>>>>bannersData", bannersData?.data);
 
   return {
     page,

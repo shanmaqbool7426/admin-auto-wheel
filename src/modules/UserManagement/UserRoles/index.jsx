@@ -1,9 +1,9 @@
-
+"use client"
 import React, { Suspense } from 'react';
 import styles from './UserRoles.module.css';
 import { Box, Title, Grid } from '@mantine/core';
 
-import useUserRoles from './useUserRoles';
+import {useUserRoles} from './useUserRoles';
 import UpdateRole from './UpdateRole';
 import Card from '@/components/Card';
 import RoleCard from './RoleCard';
@@ -38,7 +38,8 @@ export default function UserRoles() {
       </Card>
 
       <UpdateRole
-        open={isOpenModal}
+      setIsOpen={setIsOpenModal}
+        isOpen={isOpenModal}
         setOnClose={setIsOpenModal}
       />
       </>

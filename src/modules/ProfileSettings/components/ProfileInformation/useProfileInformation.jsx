@@ -26,7 +26,6 @@ export default function useProfileInformation() {
   };
 
 
-  console.log('profile>>>',profile)
   return {
     profile,
     isLoading,

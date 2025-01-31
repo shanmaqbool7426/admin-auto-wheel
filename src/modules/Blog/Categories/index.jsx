@@ -11,8 +11,18 @@ import { IconPlus } from '@/assets/icons';
 import styles from './Categories.module.css';
 import AddCategory from './AddCategory';
 import ConfirmationModal from '@/components/ConfirmationModal';
+import { useGetRolesQuery } from '@/services/roles';
+import { getCookie } from '@/utils/cookies';
 
 export default function Categories() {
+  const { data: roles } = useGetRolesQuery();
+  const user = JSON.parse(getCookie('user'));
+  const permissions = roles?.data?.roles.find(
+    (role) => role.name?.toLowerCase() === user.roles?.toLowerCase()
+  );
+
+  const hasEditPermission = permissions?.permissions?.blog?.edit;
+
   const {
     page,
     setPage,
@@ -49,7 +59,10 @@ export default function Categories() {
     handleSubmitAddCatg,
   } = useCategories();
 
-  const columns = getColumns(handleOpenModalAddCatg, handleOpenModalDelete);
+  const columns = getColumns(
+    hasEditPermission ? handleOpenModalAddCatg : null, 
+    hasEditPermission ? handleOpenModalDelete : null
+  );
 
   return (
     <>
@@ -58,53 +71,57 @@ export default function Categories() {
           <Box className={styles.searchbar}>
             <Search setSearchBy={setSearchBy} />
           </Box>
-          <Box className={styles.dropdown}>
-            <FormField
-              type="select"
-              name="actions"
-              disabled={selectedRecords.length === 0}
-              data={[
-                { value: 'delete', label: 'Delete' },
-              ]}
-              placeholder="Bulk Action"
-              checkIconPosition="right"
-              value={filterParams.status}
-              onChange={(_value, option) => handleBulkAction(option.value)}
-            />
-          </Box>
-        </Box>
-        <Box className={styles.filterbarRight}>
-          <Box className={styles.rightDropdown}>
-            <FormField
-              type="select"
-              name="sortOrder"
-              data={[
-                { value: 'desc', label: 'Date, new to old' },
-                { value: 'asc', label: 'Date, old to new' },
-              ]}
-              placeholder="Date, new to old"
-              checkIconPosition="right"
-              value={filterParams?.sortOrder}
-              onChange={(_value, option) => handleChangeFilter('sortOrder', option.value)}
-            />
-          </Box>
-          <Box>
-            <CustomButton
-              leftSection={<IconPlus />}
-              onClick={() => handleOpenModalAddCatg('New Category', null)}
-            >
-              Add New Category
-            </CustomButton>
+          {hasEditPermission && (
+            <Box className={styles.dropdown}>
+              <FormField
+                type="select"
+                name="actions"
+                disabled={selectedRecords.length === 0}
+                data={[
+                  { value: 'delete', label: 'Delete' },
+                ]}
+                placeholder="Bulk Action"
+                checkIconPosition="right"
+                value={filterParams.status}
+                onChange={(_value, option) => handleBulkAction(option.value)}
+              />
+            </Box>
+          )}
+          <Box className={styles.filterbarRight}>
+            <Box className={styles.rightDropdown}>
+              <FormField
+                type="select"
+                name="sortOrder"
+                data={[
+                  { value: 'desc', label: 'Date, new to old' },
+                  { value: 'asc', label: 'Date, old to new' },
+                ]}
+                placeholder="Date, new to old"
+                checkIconPosition="right"
+                value={filterParams?.sortOrder}
+                onChange={(_value, option) => handleChangeFilter('sortOrder', option.value)}
+              />
+            </Box>
+            {hasEditPermission && (
+              <Box>
+                <CustomButton
+                  leftSection={<IconPlus />}
+                  onClick={() => handleOpenModalAddCatg('New Category', null)}
+                >
+                  Add New Category
+                </CustomButton>
+              </Box>
+            )}
           </Box>
         </Box>
       </Box>
 
       <Box>
         <DataTable
-          columns={columns}
+          columns={hasEditPermission ? columns : columns.filter(col => !['edit', 'delete'].includes(col.key))}
           records={categoriesData?.data?.data || []}
           fetching={isLoading || isFetching}
-          selection
+          selection={hasEditPermission}
           selectedRecords={selectedRecords}
           onSelectedRecordsChange={setSelectedRecords}
           totalRecords={categoriesData?.data?.pagination?.totalItems || 0}
@@ -113,32 +130,36 @@ export default function Categories() {
         />
       </Box>
 
-      <AddCategory
-        title={modalTitle}
-        open={openModalAddCatg}
-        onClose={handleCloseModalAddCatg}
-        form={formAddCatg}
-        handleSubmit={handleSubmitAddCatg}
-        isLoading={loadingAddModal}
-      />
+      {hasEditPermission && (
+        <>
+          <AddCategory
+            title={modalTitle}
+            open={openModalAddCatg}
+            onClose={handleCloseModalAddCatg}
+            form={formAddCatg}
+            handleSubmit={handleSubmitAddCatg}
+            isLoading={loadingAddModal}
+          />
 
-      <ConfirmationModal
-        title="Delete Categories"
-        message="Are you sure you want to delete selected categories?"
-        open={openBulkDeleteModal}
-        onClose={handleCloseBulkDeleteModal}
-        onSubmit={handleBulkDeleteCategories}
-        isLoading={loadingBulkDelete}
-      />
+          <ConfirmationModal
+            title="Delete Categories"
+            message="Are you sure you want to delete selected categories?"
+            open={openBulkDeleteModal}
+            onClose={handleCloseBulkDeleteModal}
+            onSubmit={handleBulkDeleteCategories}
+            isLoading={loadingBulkDelete}
+          />
 
-      <ConfirmationModal
-        title="Delete Category"
-        message="Are you sure you want to delete selected category?"
-        open={openModalDelete}
-        onClose={handleCloseModalDelete}
-        onSubmit={handleSubmitDelete}
-        isLoading={loadingDelete}
-      />
+          <ConfirmationModal
+            title="Delete Category"
+            message="Are you sure you want to delete selected category?"
+            open={openModalDelete}
+            onClose={handleCloseModalDelete}
+            onSubmit={handleSubmitDelete}
+            isLoading={loadingDelete}
+          />
+        </>
+      )}
     </>
   );
 }

@@ -5,9 +5,10 @@ import { PAGE_SIZE } from '@/constants/pagination';
 import {
   useGetUsedVehiclesQuery,
   useDeleteBulkUsedVehiclesMutation,
+  useUpdateVehicleStatusMutation,
 } from '@/services/used-vehicles';
 import { useParams, useRouter } from 'next/navigation';
-
+import { notifications } from '@mantine/notifications';
 
 
 export default function useUsedVehicles() {
@@ -21,6 +22,7 @@ export default function useUsedVehicles() {
     type: 'all',
     sortOrder: 'desc',
     page,
+    status: 'active',
     limit: PAGE_SIZE,
     search: '',
   }
@@ -28,12 +30,17 @@ export default function useUsedVehicles() {
   
   const { data, isLoading, isFetching, isError } = useGetUsedVehiclesQuery(filterParams);
 
-  console.log(">>>>>data......", data?.data);
+console.log("selectedRecords", selectedRecords);
+  // Search query parameters // FOR PAGE increament
 
-  // Search query parameters
   useEffect(() => {
+    
     setFilterParams(prev => ({ ...prev, search: searchBy }));
   }, [searchBy]);
+
+  useEffect(()=>{
+    setFilterParams(prev => ({ ...prev, page: page }));
+  },[page])
 
   useEffect(() => {
     setFilterParams(prev => ({ ...prev, type: activeTab }));
@@ -46,7 +53,6 @@ export default function useUsedVehicles() {
     setFilterParams(prev => ({ ...prev, [name]: value }));
   };
 
-  console.log(">>>>>data>>", filterParams);
   // handle delete
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [vehicleId, setVehicleId] = useState();
@@ -59,16 +65,50 @@ export default function useUsedVehicles() {
 
   const handleCloseDeleteModal = () => {
     setOpenDeleteModal(false);
+
   };
 
   const handleDeleteVehicle = async () => {
     try {
-      await deleteBulkVehicles([vehicleId]).unwrap();
+if(selectedRecords.length > 0){
+  await deleteBulkVehicles(selectedRecords.map(item => item?._id)).unwrap();
+}else{
+  await deleteBulkVehicles([vehicleId]).unwrap();
+      }
       handleCloseDeleteModal();
-      successSnackbar('Vehicle deleted successfully');
+      // mantine notification
+      notifications.show({
+        title: 'Vehicle deleted successfully',
+        message: 'Vehicle deleted successfully',
+        color: 'green',
+      });
+      // successSnackbar('Vehicle deleted successfully');
     } catch (error) {
       console.error('Error deleting vehicles:', error);
-      errorSnackbar(error.data.message);
+      notifications.show({
+        title: 'Error deleting vehicles',
+        message: error.data.message,
+        color: 'red',
+      });
+    }
+  };
+
+  const [updateVehicleStatus, { isLoading: loadingStatusChange }] = useUpdateVehicleStatusMutation();
+  const handleStatusChange = async (id, status) => {
+    try {
+      await updateVehicleStatus({ id, status }).unwrap();
+      notifications.show({
+        title: 'Vehicle status updated successfully',
+        message: 'Vehicle status updated successfully',
+        color: 'green',
+      }); 
+    } catch (error) {
+      console.error('Failed to update status:', error);
+      notifications.show({
+        title: 'Failed to update status',
+        message: error.data.message,
+        color: 'red',
+      });
     }
   };
 
@@ -76,11 +116,11 @@ export default function useUsedVehicles() {
   const [openBulkDeleteModal, setOpenBulkDeleteModal] = useState(false);
   
   const handleOpenBulkDeleteModal = () => {
-    setOpenBulkDeleteModal(true);
+    setOpenDeleteModal(true);
   };
 
   const handleCloseBulkDeleteModal = () => {
-    setOpenBulkDeleteModal(false);
+    setOpenDeleteModal(false);
   };
 
   const handleBulkAction = async (action) => {
@@ -94,10 +134,18 @@ export default function useUsedVehicles() {
       await deleteBulkVehicles(selectedRecords.map(item => item?._id)).unwrap();
       handleCloseBulkDeleteModal();
       setSelectedRecords([]);
-      successSnackbar('Vehicles deleted successfully.');
+      notifications.show({
+        title: 'Vehicles deleted successfully',
+        message: 'Vehicles deleted successfully',
+        color: 'green',
+      });
     } catch (error) {
       console.error('Error deleting vehicles:', error);
-      errorSnackbar(error.data.message);
+      notifications.show({
+        title: 'Error deleting vehicles',
+        message: error.data.message,
+        color: 'red',
+      });
     }
   };
 
@@ -127,10 +175,18 @@ export default function useUsedVehicles() {
 
       // Call your API to create a new vehicle
       const response = await createNewVehicle(vehicleData).unwrap();
-      successSnackbar('Vehicle duplicated successfully');
+      notifications.show({
+        title: 'Vehicle duplicated successfully',
+        message: 'Vehicle duplicated successfully',
+        color: 'green',
+      });
     } catch (error) {
       console.error('Error duplicating vehicle:', error);
-    //   errorSnackbar(error.data?.message || 'Failed to duplicate vehicle');
+      notifications.show({
+        title: 'Error duplicating vehicle',
+        message: error.data?.message || 'Failed to duplicate vehicle',
+        color: 'red',
+      });
     }
   };
 
@@ -159,5 +215,6 @@ export default function useUsedVehicles() {
     handleClickEditRow,
     handleClickDeleteRow,
     handleClickDuplicate,
+    handleStatusChange,
   };
 } 

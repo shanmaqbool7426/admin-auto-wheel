@@ -5,15 +5,15 @@ import { END_POINTS } from '@/constants/endpoints';
 // Used Vehicles APIs
 export const usedVehiclesAPIs = BASE_API.injectEndpoints({
     endpoints: (builder) => ({
-  
+
     // Get list of used vehicles with filters
     getUsedVehicles: builder.query({
       query: (params) => ({
-        url: `${END_POINTS.USED_VEHICLES}/vehicles-by-type`,
+        url: `${END_POINTS.USED_VEHICLES}/admin/vehicles`,
         method: 'GET',
         params,
       }), 
-      providesTags: ['UsedVehicles'],
+      providesTags: ['USED_VEHICLES'],
     }),
 
     // Create new vehicle
@@ -23,7 +23,7 @@ export const usedVehiclesAPIs = BASE_API.injectEndpoints({
         method: 'POST',
         body: data,
       }),
-      invalidatesTags: ['UsedVehicles'],
+      invalidatesTags: ['USED_VEHICLES'],
     }),
 
    
@@ -34,7 +34,7 @@ export const usedVehiclesAPIs = BASE_API.injectEndpoints({
         method: 'GET',
         params,
       }),
-      providesTags: ['UsedVehicles'],
+      providesTags: ['USED_VEHICLES'],
     }),
 
     // Update vehicle
@@ -44,7 +44,17 @@ export const usedVehiclesAPIs = BASE_API.injectEndpoints({
         method: 'PUT',
         body: data,
       }),
-      invalidatesTags: ['UsedVehicles'],
+      invalidatesTags: ['USED_VEHICLES'],
+    }),
+
+    // Update vehicle status
+    updateVehicleStatus: builder.mutation({
+      query: ({ id, status }) => ({
+        url: `${END_POINTS.USED_VEHICLES}/${id}/update-status`,
+        method: 'PUT',
+        body: { status },
+      }),
+      invalidatesTags: ['USED_VEHICLES'],
     }),
 
     // Delete single vehicle
@@ -53,23 +63,23 @@ export const usedVehiclesAPIs = BASE_API.injectEndpoints({
         url: `${END_POINTS.USED_VEHICLES}/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['UsedVehicles'],
+      invalidatesTags: ['USED_VEHICLES'],
     }),
 
     // Bulk delete vehicles
     deleteBulkUsedVehicles: builder.mutation({
       query: (ids) => ({
-        url: `${END_POINTS.USED_VEHICLES}/bulk-delete`,
+        url: `${END_POINTS.USED_VEHICLES}/admin/bulk-delete`,
         method: 'DELETE',
         body: { ids },
       }),
-      invalidatesTags: ['UsedVehicles'],
+      invalidatesTags: ['USED_VEHICLES'],
     }),
 
     // Get vehicle by slug
     getUsedVehicleBySlug: builder.query({
       query: (slug) => `${END_POINTS.USED_VEHICLES}/${slug}`,
-      providesTags: ['UsedVehicles'],
+      providesTags: ['USED_VEHICLES'],
     }),
   }),
 });
@@ -83,4 +93,5 @@ export const {
   useDeleteUsedVehicleMutation,
   useDeleteBulkUsedVehiclesMutation,
   useGetUsedVehicleBySlugQuery,
+  useUpdateVehicleStatusMutation,
 } = usedVehiclesAPIs;

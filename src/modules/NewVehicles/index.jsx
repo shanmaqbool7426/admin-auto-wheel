@@ -119,8 +119,9 @@ export default function NewVehicles() {
           selection
           selectedRecords={selectedRecords}
           onSelectedRecordsChange={setSelectedRecords}
-          totalRecords={data?.data?.totalVehicles || 0}
+          totalRecords={data?.data?.total || 0}
           page={page}
+          enablePagination
           onPageChange={setPage}
         />
       </Box>

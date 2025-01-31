@@ -24,7 +24,6 @@ export default function AddVideo({
     categories
   } = useAddVideo({ selectedVideo ,form});
 
-  console.log("categoriesData", categoriesData);
   return (
     <CustomModal
       title={title}
@@ -34,6 +33,22 @@ export default function AddVideo({
     >
       <form onSubmit={form.onSubmit(handleSubmit)}>
         <Grid gutter="30px">
+
+        <Grid.Col span={12}>
+            <FormField
+              label="Type"
+              required
+              type="select"
+              placeholder="Enter video type"
+              data={[
+                { value: 'car', label: 'Car' },
+                { value: 'bike', label: 'Bike' },
+                { value: 'truck', label: 'Truck' },
+              ]}
+              {...form.getInputProps('type')}
+            />
+          </Grid.Col>
+          
           <Grid.Col span={12}>
             <FormField
               label="Title"
@@ -43,6 +58,7 @@ export default function AddVideo({
               {...form.getInputProps('title')}
             />
           </Grid.Col>
+    
 
           <Grid.Col span={12}>
             <FormField

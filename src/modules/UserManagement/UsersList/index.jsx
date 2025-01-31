@@ -29,13 +29,14 @@ export default function UsersList() {
     formAddUser,
     handdleOpenAddUserModal,
     handdleCloseAddUserModal,
+    handleClickEditRow,
     handleSubmit,
     isLoading,
 
     handleClickDuplicate,
   } = useUsersList();
 
-  const columns = getColumns(handdleOpenAddUserModal, handdleOpenAddUserModal, handleClickDuplicate)
+  const columns = getColumns(handleClickEditRow, handdleOpenAddUserModal, handleClickDuplicate)
 
   return (
     <>

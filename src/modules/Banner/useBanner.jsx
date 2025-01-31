@@ -55,7 +55,6 @@ export default function useBanner() {
     },
   });
 
-  console.log(">>>>>>>>>>bannersData", bannersData);
   useEffect(() => {
     if (bannerData) {
       formBanner.setValues({

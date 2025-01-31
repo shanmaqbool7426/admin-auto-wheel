@@ -22,10 +22,8 @@ export default function useChat() {
     date: '',
   });
 
-  console.log('conversationsList>>>>>>>>>>>',conversationsList)  
   useEffect(() => {
     if (data) {
-      console.log('data>>>>>>>>>>>',data)
       setUsers(data?.data?.users);
     }
   }, [data]);
@@ -45,7 +43,6 @@ export default function useChat() {
   };
 
 
-  console.log('users>>>>>>>>>>>', users)
   return {
     setSearchBy,
     conversationsList,

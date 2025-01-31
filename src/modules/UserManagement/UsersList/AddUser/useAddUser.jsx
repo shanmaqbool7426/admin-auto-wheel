@@ -1,41 +1,56 @@
-'use client';
-import React from 'react';
-import { useForm } from '@mantine/form';
-import { successSnackbar, errorSnackbar } from '@/utils/snackbar';
-import { useCreateUserMutation } from '@/services/user-management';
+  'use client';
+  import React from 'react';
+  import { useForm } from '@mantine/form';
+  import { useCreateUserMutation, useUpdateUserProfileMutation } from '@/services/user-management';
+  import { notifications } from '@mantine/notifications';
 
-export default function useAddUser(setOnClose) {
 
-  const form = useForm({
-    mode: 'uncontrolled',
-    initialValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      role: '',
-    },
-    validate: {
-      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
-    },
-  });
+  export default function useAddUser(setOnClose) {
 
-  const [createUser, { isLoading }] = useCreateUserMutation();
+    const form = useForm({
+      mode: 'uncontrolled',
+      initialValues: {
+        firstName: '',
+        lastName: '',
+        email: '',
+        role: '',
+      },
+      validate: {
+        email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+      },
+    });
 
-  const handleSubmit = async (values) => {
+    const [createUser, { isLoading }] = useCreateUserMutation();
+    const [updateUser, { isLoading: isLoadingUpdate }] = useUpdateUserProfileMutation();
 
-    try {
-      await createUser(values)?.unwrap();
-      setOnClose(false);
-      form.reset();
-      successSnackbar('User added successfully');
-    } catch (error) {
-      errorSnackbar(error?.data?.message);
-    }
-  };
+    const handleSubmit = async (values) => {
 
-  return {
-    form,
-    handleSubmit,
-    isLoading,
-  };
-}
+      try {
+        // update the user 
+        
+
+        await createUser(values)?.unwrap();
+        setOnClose(false);
+        form.reset();
+        notifications.show({
+          title: 'Success',
+          message: 'User added successfully',
+          color: 'green',
+        });
+
+      } catch (error) {
+        console.log("error",error);
+        notifications.show({
+          title: 'Error',
+          message: "User added failed",
+          color: 'red',
+        });
+      }
+    };
+
+    return {
+      form,
+      handleSubmit,
+      isLoading,
+    };
+  }

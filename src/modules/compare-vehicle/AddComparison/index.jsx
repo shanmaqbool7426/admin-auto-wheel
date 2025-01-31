@@ -7,13 +7,19 @@ import useAddComparison from './useAddComparison';
 import MakeModelVariantModel from '@/components/MakeModelVariantModel';
 
 export default function AddComparison({ open, setOnClose, comparison }) {
+  const [vehicles, setVehicles] = useState({
+    vehicle1: { make: '', model: '', variant: '' },
+    vehicle2: { make: '', model: '', variant: '' }
+  });
   const {
     form,
     handleSubmit,
     isLoading,
-  } = useAddComparison(setOnClose, comparison);
+  } = useAddComparison(setOnClose, comparison,vehicles);
 
   const [isMakeModelOpen, setIsMakeModelOpen] = useState(false);
+
+  
   const [selection, setSelection] = useState({
     make: comparison?.make || '',
     model: comparison?.model || '',
@@ -29,8 +35,7 @@ export default function AddComparison({ open, setOnClose, comparison }) {
   };
 
   const handleMakeModelSelect = (selectedData) => {
-    console.log('selectedData', selectedData)
-    const formattedValue = `${selectedData.make} ${selectedData.model}${selectedData.variant ? ' ' + selectedData.variant : ''}`;
+    const formattedValue =`${selectedData.make} ${selectedData.model} ${selectedData.variant}`;
 
     form.setFieldValue(activeField, formattedValue);
     setIsMakeModelOpen(false);
@@ -38,21 +43,30 @@ export default function AddComparison({ open, setOnClose, comparison }) {
 
 
   useEffect(() => {
-    form.setFieldValue(activeField, `${selection.make} ${selection.model}${selection.variant ? ' ' + selection.variant : ''}`);
+    setVehicles({...vehicles, [activeField]: {make: selection.make, model: selection.model, variant: selection.variant}});
+
+
+    form.setFieldValue(activeField,  `${selection.make} ${selection.model} ${selection.variant}`);
   }, [selection])
 
   useEffect(() => {
     if (comparison) {
-      comparison?.vehicles?.map((item) => {
-        form.setFieldValue('vehicle1', `${item.make} ${item.model}${item.variant ? ' ' + item.variant : ''}`);
-        form.setFieldValue('vehicle2', `${item.make} ${item.model}${item.variant ? ' ' + item.variant : ''}`);
+      let vehiclesSet = [];
+      
+      comparison?.vehicles?.map((item, index) => {
+        form.setFieldValue('vehicle1', `${item.make} ${item.model} ${item.variant}`);
+        form.setFieldValue('vehicle2', `${item.make} ${item.model} ${item.variant}`);
+        vehiclesSet.push({make: item.make, model: item.model, variant: item.variant});
       })  
+      setVehicles(vehiclesSet);
       form.setFieldValue('type', `${comparison?.type}`);
 
     }
   }, [comparison])
 
 
+
+  console.log(">>>>vehicles",vehicles)
   return (
     <>
       <CustomModal

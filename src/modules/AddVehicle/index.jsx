@@ -35,7 +35,6 @@ const AddVehicle = memo(({ editData,type }) => {
     variant: editData?.data?.info?.variant || ''
   });
 
-  console.log("aaaaaaaa>>>>>>>>>", form.values)
 
   // Current year for the year dropdown
   const currentYear = new Date().getFullYear();
@@ -47,7 +46,6 @@ const AddVehicle = memo(({ editData,type }) => {
 
 
   const vehicleType = form.values.type;
-  console.log("bodyData>>>>>>>>>", bodyData)
   const handleNextClick = () => {
     const tabValidation = {
       basic: ['type', 'make', 'model', 'variant', 'year', 'bodyType',"releaseDate"],
@@ -105,7 +103,6 @@ const AddVehicle = memo(({ editData,type }) => {
         return [];
     }
   };
-  console.log('FORM >>>>>>>>>>>>', form.getValues())
   const renderSpecifications = () => {
     switch (vehicleType) {
       case 'car':
@@ -126,7 +123,6 @@ const AddVehicle = memo(({ editData,type }) => {
     form.setFieldValue('variant', editData?.data?.Info?.variant || selection.variant);
   }, [selection]);
 
-  console.log("", form.values.year)
 
   return (
     <Box p="md">

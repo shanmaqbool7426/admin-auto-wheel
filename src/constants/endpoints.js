@@ -3,11 +3,13 @@ export const END_POINTS = {
 
   // User Profile Management
   GET_PROFILE: '/user/profile',
+  LOGIN: '/user/login',
   UPDATE_PROFILE: '/user/profile-update',
   CHANGE_PASSWORD: '/user/change-password-by-userId',
   UPDATE_PROFILE_IMAGES: '/user/update-profile-images',
   GET_USERS: '/user/get-users',
   CREATE_USER: '/user/create',
+
   UPDATE_PROFIL_BY_EMAIL: "/user/profile-update-by-email",
 
   // Chat endpoints
@@ -20,6 +22,7 @@ export const END_POINTS = {
 
   // Used Vehicles endpoints
   USED_VEHICLES: '/vehicle',
+  ROLES: '/roles',
 
   // Blog endpoints
   GET_BLOG_BY_ID: '/blog',

@@ -6,15 +6,30 @@ import { Box, NavLink, Collapse } from '@mantine/core';
 import { navMenu } from './data';
 import { IconAngleDown, IconEllipse } from '@/assets/icons';
 import classes from './Navbar.module.css';
+import { useGetRolesQuery } from '@/services/roles';
+import { getCookie } from '@/utils/cookies';
+import { checkPermission, getPermissionMapping } from '@/utils/permissions';
 
 export default function Navbar() {
+  const { data: roles, isLoading: isRolesLoading } = useGetRolesQuery();
   const { activeTab } = useParams();
   const pathname = usePathname();
   const [openedMenu, setOpenedMenu] = useState(null);
   const [activeItem, setActiveItem] = useState(null);
   const [activeSubItem, setActiveSubItem] = useState(null);
+  const user = JSON.parse(getCookie('user'));
 
-  const splitPath = pathname.split('/').slice(0, 3).join('/');
+  console.log(roles, "roles");
+  const permissions = roles?.data.roles.find(
+    (role) => role.name?.toLowerCase() === user.roles?.toLowerCase()
+  );
+  const permissionMapping = getPermissionMapping();
+
+  const filteredNavMenu = navMenu.filter(item => {
+    const moduleKey = item.key ? permissionMapping[item.key] : null;
+    if (!moduleKey) return true; // Show items without explicit permissions
+    return checkPermission(permissions, moduleKey);
+  });
 
   useEffect(() => {
     const mainItem = navMenu.find((item) => {
@@ -56,7 +71,7 @@ export default function Navbar() {
 
   return (
     <Box component="ul" className={classes?.menu}>
-      {navMenu.map((item) => (
+      {filteredNavMenu.map((item) => (
         <Box component="li" key={item.label}>
           <NavLink
             component={Link}

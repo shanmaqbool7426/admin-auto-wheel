@@ -32,13 +32,11 @@ const MakeModelVariantModel = ({
   const [variants, setVariants] = useState({});
   const [activeTab, setActiveTab] = useState("make"); // State to track active tab
   const {data:makesData} = useGetMakesQuery({type})
-console.log("selection type",type)
 
   useEffect(() => {
     const fetchedMakes = [];
     const fetchedModels = {};
     const fetchedVariants = {};
-
     makesData?.data?.forEach((make) => {
       fetchedMakes.push(make.name);
       fetchedModels[make.name] = [];
@@ -47,31 +45,32 @@ console.log("selection type",type)
         fetchedVariants[model.name] = model.variants;
       });
     });
-
+    
     setMakes(fetchedMakes);
     setModels(fetchedModels);
     setVariants(fetchedVariants);
   }, [makesData]);
-
+  
+  console.log(">>>>>>>>>makesData", models)
   const [makeSearch, setMakeSearch] = useState("");
   const [modelSearch, setModelSearch] = useState("");
   const [variantSearch, setVariantSearch] = useState("");
 
   const filteredMakes = makes.filter((make) =>
-    make.toLowerCase().includes(makeSearch.toLowerCase())
+    make?.toLowerCase().includes(makeSearch?.toLowerCase())
   );
 
   const filteredModels =
     selection.make && models[selection.make]
       ? models[selection.make].filter((model) =>
-          model.toLowerCase().includes(modelSearch.toLowerCase())
+          model?.toLowerCase().includes(modelSearch?.toLowerCase())
         )
       : [];
 
   const filteredVariants =
     selection.model && variants[selection.model]
       ? variants[selection.model].filter((variant) =>
-          variant.toLowerCase().includes(variantSearch.toLowerCase())
+          variant?.toLowerCase().includes(variantSearch?.toLowerCase())
         )
       : [];
 
@@ -220,7 +219,7 @@ console.log("selection type",type)
                   }`}
                   icon={
                     <Image
-                      src={`/megamenu/search-menu/${make.toLowerCase()}-sm.svg`}
+                      src={`/megamenu/search-menu/${make?.toLowerCase()}-sm.svg`}
                     />
                   }
                   onClick={() => {

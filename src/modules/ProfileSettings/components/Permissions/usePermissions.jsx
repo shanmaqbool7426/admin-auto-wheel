@@ -18,7 +18,6 @@ export default function usePermissions() {
   });
 
   const handleSubmit = (values) => {
-    console.log('Form Data:: ', values);
   };
 
   return {

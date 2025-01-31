@@ -5,5 +5,8 @@ export const PROVIDES_TAGS = [
   'LOCATIONS',
   'USERS',
   'BODIES',
-  'VIDEOS'
+  'VIDEOS',
+  'MAKES',
+  'USED_VEHICLES',
+  'ROLES'
 ]

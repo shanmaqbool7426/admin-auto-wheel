@@ -20,9 +20,21 @@ import { IconPlus } from '@tabler/icons-react';
 import { MdEdit, MdDelete } from "react-icons/md";
 import AddComparison from './AddComparison';
 import { useDeleteComparisonSetMutation } from '@/services/comparison';
+import FormField from '@/components/FormField';
+import { useGetRolesQuery } from '@/services/roles';
+import { getCookie } from '@/utils/cookies';
+
 export default function CompareList() {
+    const { data: roles } = useGetRolesQuery();
+    const user = JSON.parse(getCookie('user'));
+    const permissions = roles?.data?.roles.find(
+        (role) => role.name?.toLowerCase() === user.roles?.toLowerCase()
+    );
+
+    const hasEditPermission = permissions?.permissions?.compareVehicle?.edit;
+
     const [isComparisonModalOpen, setIsComparisonModalOpen] = useState(false);
-    const { comparisons, isLoading } = useCompareVehicle();
+    const { comparisons, isLoading, type, setType } = useCompareVehicle();
     const [deleteComparisonSetMutation] = useDeleteComparisonSetMutation();
     const [comparison, setComparison] = useState(null);
 
@@ -50,31 +62,51 @@ export default function CompareList() {
 
     return (
         <Box className={styles.container}>
-            <Flex justify="flex-end" mb="md">
-                <CustomButton
-                    leftSection={<IconPlus />}
-                    onClick={() => setIsComparisonModalOpen(true)}
-                >
-                    Add Comparison
-                </CustomButton>
+      
+            <Flex justify="flex-end" mb="md" gap="md">
+
+            <Box className={styles.header}>
+                {/*  type */}
+                <FormField
+                    type="select"
+                    placeholder="Filter by type"
+                    data={[
+                        { value: 'car', label: 'Cars' },
+                        { value: 'bike', label: 'Bikes' },
+                        { value: 'truck', label: 'Trucks' }
+                    ]}
+                    value={type}
+                    onChange={(value) => setType(value)}
+                />
+            </Box>
+                {hasEditPermission && (
+                    <CustomButton
+                        leftSection={<IconPlus />}
+                        onClick={() => setIsComparisonModalOpen(true)}
+                    >
+                        Add Comparison
+                    </CustomButton>
+                )}
             </Flex>
 
             <Grid>
                 {comparisons?.map((comparison) => (
                     <Grid.Col key={comparison.compareSetId} span={4}>
                         <Card className={styles.comparisonCard}>
-                            <div className={styles.actionButtons}>
-                                <MdEdit 
-                                    size={25} 
-                                    className={styles.editIcon}
-                                    onClick={() => handleEdit(comparison)}
-                                />
-                                <MdDelete 
-                                    size={25}
-                                    className={styles.deleteIcon}
-                                    onClick={() => handleDelete(comparison._id)}
-                                />
-                            </div>
+                            {hasEditPermission && (
+                                <div className={styles.actionButtons}>
+                                    <MdEdit 
+                                        size={25} 
+                                        className={styles.editIcon}
+                                        onClick={() => handleEdit(comparison)}
+                                    />
+                                    <MdDelete 
+                                        size={25}
+                                        className={styles.deleteIcon}
+                                        onClick={() => handleDelete(comparison._id)}
+                                    />
+                                </div>
+                            )}
 
                                     {console.log("vehicle.defaultImage", comparison.vehicles)}
                             <div className={styles.compareProducts}>
@@ -141,11 +173,13 @@ export default function CompareList() {
                 ))}
             </Grid>
 
-            <AddComparison
-                open={isComparisonModalOpen}
-                setOnClose={() => setIsComparisonModalOpen(false)}
-                comparison={comparison}
-            />
+            {hasEditPermission && (
+                <AddComparison
+                    open={isComparisonModalOpen}
+                    setOnClose={() => setIsComparisonModalOpen(false)}
+                    comparison={comparison}
+                />
+            )}
         </Box>
     );
-} 
+}

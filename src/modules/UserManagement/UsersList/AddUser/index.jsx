@@ -56,11 +56,9 @@ export default function AddUser({ type, open, onClose, form, handleSubmit, isLoa
               placeholder="Select Role"
               type="select"
               data={[
-                { value: 'superAdmin', label: 'Super Admin' },
-                { value: 'admin', label: 'Admin' },
-                { value: 'moderator', label: 'Moderator' },
-                { value: 'dealer', label: 'Dealer' },
-                { value: 'user', label: 'User' },
+                { value: 'developer', label: 'Developer' },
+                { value: 'editor', label: 'Editor' },
+                { value: 'administrator', label: 'Administrator' },
               ]}
               {...form.getInputProps('role')}
               required

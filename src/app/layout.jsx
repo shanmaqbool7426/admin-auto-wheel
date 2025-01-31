@@ -15,11 +15,10 @@ export default function RootLayout({ children }) {
         <ColorSchemeScript />
       </head>
       <body suppressHydrationWarning>
-        <ClientLayout>
-          {children}
-        </ClientLayout>
+          <ClientLayout>
+            {children}
+          </ClientLayout>
       </body>
     </html>
   );
 }
-  

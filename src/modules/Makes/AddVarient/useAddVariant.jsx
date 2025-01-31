@@ -25,7 +25,6 @@ export default function useAddVariant(setOnClose, editData) {
     }
   });
 
-  console.log("editData>>>>>>>",editData)
   useEffect(() => {
     if (editData) {
       form.setValues({

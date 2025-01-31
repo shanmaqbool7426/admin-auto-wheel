@@ -15,7 +15,6 @@ export default function PersonalInformation() {
   } = usePersonalInformation();
 
 
-  console.log('form>>>>>>.',form)
   return (
     <Card title="Personal Information">
       <form onSubmit={form.onSubmit(handleSubmit)}>

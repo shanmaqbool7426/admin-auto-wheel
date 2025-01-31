@@ -37,7 +37,6 @@ export default function useChatSidebar() {
   }, [conversationsList, searchBy]);
 
 
-  console.log('conversations>>>>>>>>>>>',conversations)
   return {
     setSearchBy,
     conversations,

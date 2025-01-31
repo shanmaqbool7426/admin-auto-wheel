@@ -27,7 +27,6 @@ export default function usePersonalInformation() {
 
   useEffect(() => {
     if (profileData) {
-      console.log('profileData>>>>>>>',profileData)
       form.setValues({
         firstName: profileData.data.firstName || '',
         lastName: profileData.data.lastName || '',

@@ -12,7 +12,14 @@ export const usersAPIs = BASE_API.injectEndpoints({
       }),
       providesTags: ['USERS'],
     }),
-
+    // login
+    login: builder.mutation({
+      query: (body) => ({
+        url: `${END_POINTS?.LOGIN}`,
+        method: 'POST',
+        body,
+      }),
+    }),
     createUser: builder.mutation({
       query: (body) => ({
         url: `${END_POINTS?.CREATE_USER}`,
@@ -76,5 +83,7 @@ export const {
   useUpdatePasswordMutation,
   useGetUserProfileQuery,
   useUpdateProfileImagesMutation,
-  useUpdateUserProfileMutation
+  useUpdateUserProfileMutation,
+  useLoginMutation
+
 } = usersAPIs;

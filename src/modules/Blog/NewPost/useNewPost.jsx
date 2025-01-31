@@ -53,13 +53,11 @@ export default function useNewPost() {
       },
     },
     onValuesChange: (values) => {
-      console.log('values::: ', values);
     }
   });
 
   useEffect(() => {
     if (postId && postDetails) {
-      console.log('postDetails:', postDetails);
       form.setValues({
         title: postDetails?.data?.title || '',
         content: postDetails?.data?.content || '',
@@ -79,7 +77,7 @@ export default function useNewPost() {
   }, [postId, postDetails]);
 
 
-
+console.log("formmmmmmmmmm",form.values)
   const handleSubmit = async (values) => {
     try {
       if (postId) {

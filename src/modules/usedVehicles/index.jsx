@@ -8,6 +8,7 @@ import useUsedVehicles  from './useUsedVehicles';
 import { getColumns } from './UsedVehicles.data';
 import styles from './UsedVehicles.module.css';
 import { useRouter } from 'next/navigation';
+import ConfirmationModal from '@/components/ConfirmationModal';
 
 export default function UsedVehicles() {
   const {
@@ -35,15 +36,14 @@ export default function UsedVehicles() {
     handleClickEditRow,
     handleClickDeleteRow,
     handleClickDuplicate,
-
+    handleStatusChange
   } = useUsedVehicles();
 
   const router = useRouter();
 
-  const columns = getColumns(handleClickEditRow, handleClickDeleteRow, handleClickDuplicate, router);
+  const columns = getColumns(handleClickEditRow, handleClickDeleteRow, router,handleStatusChange);
   const [bulkActionValue, setBulkActionValue] = React.useState('');
 
-  console.log(">>>>>data", data);
   return (
     <>
       <Box className={styles.filterbar}>
@@ -82,6 +82,18 @@ export default function UsedVehicles() {
               onChange={(_value, option) => handleChangeFilter('type', option.value)}
             />
           </Box>
+          {/* status */}
+          <Box className={styles.dropdown}>
+            <FormField
+              type="select"
+              name="status"
+              data={[{ value: 'active', label: 'Active' }, { value: 'inactive', label: 'Inactive' }, { value: 'deleted', label: 'Deleted' }, { value: 'featured', label: 'Featured' }, { value: 'sold', label: 'Sold' },{ value: 'pending', label: 'Pending' },{ value: 'approved', label: 'Approved' },{ value: 'rejected', label: 'Rejected'},{ value: 'expired', label: 'Expired' }]}
+              placeholder="Status"
+              checkIconPosition="right"
+              value={filterParams.status}
+              onChange={(_value, option) => handleChangeFilter('status', option.value)}
+            />
+          </Box>
         </Box>
         <Box className={styles.filterbarRight}>
           <Box className={styles.rightDropdown}>
@@ -106,16 +118,26 @@ export default function UsedVehicles() {
       <Box>
         <DataTable
           columns={columns}
-          records={data || []}
+          records={data?.vehicles || []}
           fetching={isLoading || isFetching}
           selection
           selectedRecords={selectedRecords}
           onSelectedRecordsChange={setSelectedRecords}
-          totalRecords={data?.data?.totalVehicles || 0}
+          totalRecords={data?.pagination?.totalVehicles || 0}
           page={page}
           onPageChange={setPage}
         />
       </Box>
+{/* // delete modal */}
+
+     <ConfirmationModal
+     title="Delete Vehicle"
+     message="Are you sure you want to delete this vehicle?"
+     open={openDeleteModal}
+     onClose={handleCloseDeleteModal}
+     onSubmit={handleDeleteVehicle}
+    //  isLoading={loadingDelete}
+     />
     </>
   );
 }

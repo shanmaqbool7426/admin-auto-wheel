@@ -4,8 +4,9 @@ import { ActionIcon, Group, Box, Badge } from '@mantine/core';
 // Import icons from @tabler/icons-react
 import { IconEdit, IconTrash, IconEye } from '@tabler/icons-react';
 import styles from './UsedVehicles.module.css';
+import FormField from '@/components/FormField';
 
-export const getColumns = (handleEdit, handleDelete, router) => {
+export const getColumns = (handleEdit, handleDelete, router, handleStatusChange) => {
     return [
         {
             accessor: 'image',
@@ -13,17 +14,17 @@ export const getColumns = (handleEdit, handleDelete, router) => {
             render: (row) => (
                 <Box className={styles.vehicle}>
                     <Box className={styles.vehicleImage}>
-                        {/* <Image 
-                  src={row.defaultImage || '/placeholder-vehicle.png'} 
+                        <Image 
+                  src={row?.images[0] || '/placeholder-vehicle.png'} 
                   alt={`${row.make} ${row.model}`} 
                   width={80} 
                   height={60} 
                   style={{ objectFit: 'cover' }}
-                /> */}
+                />
                     </Box>
                     <Box className={styles.vehicleInfo}>
-                        <Box className={styles.vehicleName}>{row.make} {row.model}</Box>
-                        <Box className={styles.vehicleVariant}>{row.variant}</Box>
+                        <Box className={styles.vehicleName}>{row.Info?.make} {row.Info?.model}</Box>
+                        <Box className={styles.vehicleVariant}>{row.Info?.variant}</Box>
                     </Box>
                 </Box>
             ),
@@ -44,7 +45,18 @@ export const getColumns = (handleEdit, handleDelete, router) => {
             accessor: 'status',
             title: 'Status',
             render: (row) => (
-                <Badge color={row.status === 'active' ? 'green' : row.status === 'inactive' ? 'red' : row.status === 'deleted' ? 'orange' : row.status === 'pending' ? 'blue' : 'green '}>{row.status}</Badge>
+                <FormField
+                    type="select"
+                    value={row.status}
+                    data={[
+                        { value: 'active', label: 'Active' },
+                        { value: 'inactive', label: 'Inactive' },
+                        { value: 'deleted', label: 'Deleted' },
+                        { value: 'pending', label: 'Pending' },
+                        { value: 'expired', label: 'Expired' },
+                    ]}
+                    onChange={(_value, option) => handleStatusChange(row._id, option.value)}
+                />
             )
         },
         {
@@ -91,14 +103,14 @@ export const getColumns = (handleEdit, handleDelete, router) => {
                     >
                         <IconEye size={16} />
                     </ActionIcon>
-                    <ActionIcon
-                        size="sm"
-                        variant="subtle"
-                        color="blue"
-                        onClick={() => handleEdit(row._id)}
-                    >
-                        <IconEdit size={16} />
-                    </ActionIcon>
+                        {/* <ActionIcon
+                            size="sm"
+                            variant="subtle"
+                            color="blue"
+                            onClick={() => handleEdit(row._id)}
+                        >
+                            <IconEdit size={16} />
+                        </ActionIcon> */}
                     <ActionIcon
                         size="sm"
                         variant="subtle"

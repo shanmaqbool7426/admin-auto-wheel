@@ -6,11 +6,17 @@ export const getColumns = ({ handleOpenModalDelete, handleEditVideo }) => [
   {
     accessor: 'title',
     title: 'Title',
+    width: 200,
   },
   {
     accessor: 'description',
     title: 'Description',
-    width: 200,
+    width: 400,
+  },
+  {
+    accessor: 'type',
+    title: 'Type',
+    width: 100,
   },
   {
     accessor: 'thumbnail',
@@ -26,6 +32,7 @@ export const getColumns = ({ handleOpenModalDelete, handleEditVideo }) => [
   {
     accessor: 'category',
     title: 'Category',
+    width: 100,
   },
   {
     accessor: 'url',

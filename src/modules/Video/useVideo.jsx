@@ -51,6 +51,7 @@ export default function useVideo() {
       url: '',
       thumbnail: null,
       category: '',
+      type: '',
     },
     validate: {
       title: (value) => (!value ? 'Title is required' : null),
@@ -59,7 +60,6 @@ export default function useVideo() {
     },
   });
 
-  console.log("videosData", videosData);
 
   // Handle Edit Video
   const handleEditVideo = (video) => {

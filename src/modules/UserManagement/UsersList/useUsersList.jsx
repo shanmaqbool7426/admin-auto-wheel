@@ -1,15 +1,15 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { useForm } from '@mantine/form';
-import { successSnackbar, errorSnackbar } from '@/utils/snackbar';
-import { useCreateUserMutation } from '@/services/user-management';
+import { useCreateUserMutation, useUpdateUserProfileMutation } from '@/services/user-management';
 import { useGetUsersQuery } from '@/services/user-management';
 import { PAGE_SIZE } from '@/constants/pagination';
 import { MODAL_TYPE } from './UsersList.data';
-
+import { notifications } from '@mantine/notifications';
 export default function useComments() {
   const [searchBy, setSearchBy] = useState();
   const [page, setPage] = useState(1);
+
   const [selectedRecords, setSelectedRecords] = useState([]);
   const initParams = {
     sortOrder: 'desc',
@@ -72,6 +72,7 @@ export default function useComments() {
   }, [modalData]);
 
   const handdleOpenAddUserModal = (type, data) => {
+    console.log("data",data);
     setModalType(type);
     setModalData(data);
     setIsOpenAddUserModal(true);
@@ -83,25 +84,39 @@ export default function useComments() {
   }
 
   const [createUser, { isLoading }] = useCreateUserMutation();
+  const [updateUserProfile, { isLoading: isLoadingUpdateUserProfile }] = useUpdateUserProfileMutation();
 
   const handleSubmit = async (values) => {
 
     try {
-      await createUser(values)?.unwrap();
-      setOnClose(false);
-      form.reset();
-      successSnackbar('User added successfully');
+      if(modalType === MODAL_TYPE.ADD){
+        await createUser(values)?.unwrap();
+      }else{
+        await updateUserProfile(values)?.unwrap();
+      }
+      // setOnClose(false);
+      formAddUser.reset();
+      notifications.show({
+        title: 'Success',
+        message: 'User added successfully',
+        color: 'green',
+      });
     } catch (error) {
-      errorSnackbar(error?.data?.message);
+      console.log('error', error);
+      notifications.show({
+        title: 'Error',
+        message: error?.data?.message,
+        color: 'red',
+
+      });
     }
   };
 
 
 
-  const handleClickEditRow = (e, id) => {
+  const handleClickEditRow = (e,type, data) => {
     e.stopPropagation();
-    console.log('Edit Row', id);
-    alert(`Edit Row ${id}`);
+    handdleOpenAddUserModal(type, data);
   }
 
   const handleClickDeleteRow = (e, id) => {

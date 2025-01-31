@@ -39,7 +39,7 @@ export default function useHeader() {
     if (pathname === PATH_NAME.BLOG_NEW_POSTS && postId) {
       setTitle('Edit Post');
     } else {
-      setTitle(titleMap[pathname] || 'Dashboard');
+      setTitle(titleMap[pathname] || '');
     }
   }, [pathname, postId, activeTab]);
 

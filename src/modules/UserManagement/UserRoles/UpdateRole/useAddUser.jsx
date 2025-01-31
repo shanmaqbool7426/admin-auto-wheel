@@ -1,11 +1,11 @@
 'use client';
-import React from 'react';
 import { useForm } from '@mantine/form';
+import { useGetRolesQuery } from '@/services/roles';
 
 export default function useAddUser() {
+  const { data: roles, isLoading: isRolesLoading } = useGetRolesQuery();
 
   const form = useForm({
-    mode: 'uncontrolled',
     initialValues: {
       firstName: '',
       lastName: '',
@@ -17,12 +17,9 @@ export default function useAddUser() {
     },
   });
 
-  const handleSubmit = (values) => {
-    console.log('Form Data:: ', values);
-  };
-
   return {
     form,
-    handleSubmit,
+    roles,
+    isRolesLoading,
   };
 }

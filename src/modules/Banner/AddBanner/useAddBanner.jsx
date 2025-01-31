@@ -51,7 +51,6 @@ export default function useAddBanner({ selectedBanner, onClose }) {
   }, [selectedBanner]);
 
 
-  console.log("selectedBanner>", selectedBanner);
   const handleImageChange = async (file) => {
     if (file) {
       try {
@@ -67,7 +66,6 @@ export default function useAddBanner({ selectedBanner, onClose }) {
         
         // Set the returned image URL
         form.setFieldValue('image', response?.data[0]);
-        console.log("form>>>>11",response?.data[0]);
         notifications.show({
           title: 'Success',
           message: 'Image uploaded successfully',
@@ -84,7 +82,6 @@ export default function useAddBanner({ selectedBanner, onClose }) {
     }
   };
 
-  console.log("form>>>>", form.values);
 
   const handleRemoveImage = () => {
     form.setFieldValue('image', null);

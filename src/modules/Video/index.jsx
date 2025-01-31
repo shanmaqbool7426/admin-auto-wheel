@@ -49,7 +49,6 @@ export default function VideoModule() {
 
   const { data: categoriesData } = useGetCategoriesQuery();
 
-  console.log("categoriesData>>>", categoriesData?.data?.data);
 
   const columns = getColumns({ 
     handleOpenModalDelete, 
@@ -80,7 +79,7 @@ export default function VideoModule() {
         /> */}
 
 
-<FormField
+         <FormField
           type="select"
           placeholder="Select video category"
           data={[

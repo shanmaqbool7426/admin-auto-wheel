@@ -98,6 +98,7 @@ export default function Tags() {
           </CustomButton>
         </Box>
       </Box>
+      
 
       <DataTable
         columns={columns}

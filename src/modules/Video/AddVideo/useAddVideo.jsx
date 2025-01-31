@@ -31,7 +31,6 @@ export default function useAddVideo({ selectedVideo ,form}) {
         
         const response = await uploadImage(formData).unwrap();
 
-        console.log("response>>>>>", response);
         form.setFieldValue('thumbnail', response?.data[0]);
 
         notifications.show({

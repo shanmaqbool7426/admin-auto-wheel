@@ -11,7 +11,19 @@ import { getColumns } from './data';
 import ConfirmationModal from '@/components/ConfirmationModal';
 import AddBody from './AddBody';
 import FormField from '@/components/FormField';
+import { useGetRolesQuery } from '@/services/roles';
+import { getCookie } from '@/utils/cookies';
+import { checkPermission } from '@/utils/permissions';
+
 export default function BodiesModule() {
+  const { data: roles } = useGetRolesQuery();
+  const user = JSON.parse(getCookie('user'));
+  const permissions = roles?.data?.roles.find(
+    (role) => role.name?.toLowerCase() === user.roles?.toLowerCase()
+  );
+
+  const hasEditPermission = permissions?.permissions?.body?.edit;
+
   const {
     page,
     setPage,
@@ -43,7 +55,6 @@ export default function BodiesModule() {
   });
 
 
-  console.log(">>>>>>bodiesData",bodiesData)
   return (
     <>
       <Box className={styles.filterbar}>
@@ -62,12 +73,14 @@ export default function BodiesModule() {
           />
         </Box>
         <Box className={styles.filterbarRight}>
-          <CustomButton
-            leftSection={<IconPlus />}
-            onClick={() => handleOpenModal('New Body Type', null)}
-          >
-            Add New Body Type
-          </CustomButton>
+          {hasEditPermission && (
+            <CustomButton
+              leftSection={<IconPlus />}
+              onClick={() => handleOpenModal('New Body Type', null)}
+            >
+              Add New Body Type
+            </CustomButton>
+          )}
         </Box>
       </Box>
 

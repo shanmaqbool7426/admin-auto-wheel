@@ -14,8 +14,13 @@ import logo from '@/assets/images/brand/logo.svg';
 import Header from './Header';
 import styles from './Rootlayout.module.css'
 import { Suspense } from 'react';
+import { getCookie } from '@/utils/cookies';
 
 export default function RootLayout({ children }) {
+  const token = getCookie('token') || '';
+
+
+  console.log(">>>>>>>>>>>>...token.........", token);
   const [opened, { toggle }] = useDisclosure();
   return (
     <AppShell
@@ -23,7 +28,7 @@ export default function RootLayout({ children }) {
       layout="alt"
       header={{ height: 80 }}
       navbar={{
-        width: 248,
+        width: token ? 248 : 0,
         p: 0,
         // breakpoint: 'sm', collapsed: { mobile: !opened },
         padding: 0,
@@ -42,7 +47,7 @@ export default function RootLayout({ children }) {
         </Suspense>
       </AppShell.Header>
 
-      <AppShell.Navbar p={0}>
+      {token && <AppShell.Navbar p={0}>
         <AppShell.Section>
           <Box className={styles.navbarHeader}>
             <Box className={styles.logo}>
@@ -68,7 +73,7 @@ export default function RootLayout({ children }) {
         <AppShell.Section grow component={ScrollArea}>
           <Navbar />
         </AppShell.Section>
-      </AppShell.Navbar>
+      </AppShell.Navbar> }
 
       <AppShell.Main>
         <Box className={styles.mainContent}>

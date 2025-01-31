@@ -1,14 +1,15 @@
+"use client"
 import React, { Suspense } from 'react';
 import Makes from '@/modules/Makes';
 import ClientWrapper from '@/components/ClientWrapper';
-
-export default function MakePage() {
+import withProtectedRoute from '@/components/AuthGuard/withAuth';
+export default withProtectedRoute(function MakePage() {
   return (
     <ClientWrapper>
     <Makes  />
   </ClientWrapper>
   )
-}
+})
 
 
 

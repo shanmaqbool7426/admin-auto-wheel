@@ -1,11 +1,10 @@
-"use client"
+  "use client"
 import React from 'react'
 import UsedVehicles from '@/modules/usedVehicles';
-
-const UsedVehiclesPage = () => {
+import withProtectedRoute from '@/components/AuthGuard/withAuth';
+export default withProtectedRoute(function UsedVehiclesPage() {
   return (
     <UsedVehicles />
   )
-}
+})
 
-export default UsedVehiclesPage

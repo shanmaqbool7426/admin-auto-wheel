@@ -30,7 +30,6 @@ export default function useProfileSettings() {
   });
 
 
-  console.log(profileData, 'profileData');
   // Update form when profile data is loaded
   useEffect(() => {
     if (profileData) {
