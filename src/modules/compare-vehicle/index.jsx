@@ -1,5 +1,5 @@
 'use client';
-import { Box } from '@mantine/core';
+import { Box, Loader } from '@mantine/core';
 import DataTable from '@/components/DataTable';
 import Search from '@/components/Search';
 import FormField from '@/components/FormField';
@@ -20,7 +20,11 @@ export default function CompareVehiclesModule() {
 
   // Early return while permissions are loading
   if (isLoadingPermissions) {
-    return <Box>Loading...</Box>;
+    return (
+      <Box style={{ display: 'flex', justifyContent: 'center', padding: '2rem' }}>
+        <Loader />
+      </Box>
+    );
   }
 
   const {
