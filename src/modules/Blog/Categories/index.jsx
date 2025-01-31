@@ -11,17 +11,11 @@ import { IconPlus } from '@/assets/icons';
 import styles from './Categories.module.css';
 import AddCategory from './AddCategory';
 import ConfirmationModal from '@/components/ConfirmationModal';
-import { useGetRolesQuery } from '@/services/roles';
-import { getSafeUserFromCookie } from '@/utils/cookies';
+import { usePermissions } from '@/hooks/usePermissions';
 
 export default function Categories() {
-  const { data: roles } = useGetRolesQuery();
-  const user = getSafeUserFromCookie();
-  const permissions = roles?.data?.roles.find(
-    (role) => role.name?.toLowerCase() === user?.roles?.toLowerCase()
-  );
-
-  const hasEditPermission = permissions?.permissions?.blog?.edit || false;
+  const { hasPermission } = usePermissions();
+  const hasEditPermission = hasPermission('blog', 'edit');
 
   const {
     page,

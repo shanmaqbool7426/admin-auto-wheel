@@ -12,16 +12,16 @@ import { IconPlus } from '@tabler/icons-react';
 import AddCompare from './addCompare/AddCompare';
 import { useGetRolesQuery } from '@/services/roles';
 import { getSafeUserFromCookie } from '@/utils/cookies';
+import { usePermissions } from '@/hooks/usePermissions';
 
 export default function CompareVehiclesModule() {
-  const { data: roles } = useGetRolesQuery();
-  const user = getSafeUserFromCookie();
-  
-  const permissions = roles?.data?.roles.find(
-    (role) => role.name?.toLowerCase() === user?.roles?.toLowerCase()
-  );
+  const { hasPermission, isLoading: isLoadingPermissions } = usePermissions();
+  const hasEditPermission = hasPermission('compareVehicle', 'edit');
 
-  const hasEditPermission = permissions?.permissions?.compareVehicle?.edit || false;
+  // Early return while permissions are loading
+  if (isLoadingPermissions) {
+    return <Box>Loading...</Box>;
+  }
 
   const {
     page,
