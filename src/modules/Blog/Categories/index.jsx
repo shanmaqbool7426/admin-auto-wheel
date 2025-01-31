@@ -16,12 +16,13 @@ import { getCookie } from '@/utils/cookies';
 
 export default function Categories() {
   const { data: roles } = useGetRolesQuery();
-  const user = JSON.parse(getCookie('user'));
+  const userCookie = getCookie('user');
+  const user = userCookie ? JSON.parse(userCookie) : null;
   const permissions = roles?.data?.roles.find(
-    (role) => role.name?.toLowerCase() === user.roles?.toLowerCase()
+    (role) => role.name?.toLowerCase() === user?.roles?.toLowerCase()
   );
 
-  const hasEditPermission = permissions?.permissions?.blog?.edit;
+  const hasEditPermission = permissions?.permissions?.blog?.edit || false;
 
   const {
     page,
