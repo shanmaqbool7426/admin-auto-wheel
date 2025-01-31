@@ -9,11 +9,11 @@ import useAddCompare from '../AddComparison/useAddComparison';
 import { getColumns } from './data';
 import styles from './AddCompare.module.css';
 import { useGetRolesQuery } from '@/services/roles';
-import { getCookie } from '@/utils/cookies';
+import { getSafeUserFromCookie } from '@/utils/cookies';
 
 export default function AddCompare({ open, setOnClose }) {
   const { data: roles } = useGetRolesQuery();
-  const user = JSON.parse(getCookie('user'));
+  const user = getSafeUserFromCookie('user');
   const permissions = roles?.data?.roles.find(
     (role) => role.name?.toLowerCase() === user.roles?.toLowerCase()
   );

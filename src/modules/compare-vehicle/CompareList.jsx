@@ -22,11 +22,11 @@ import AddComparison from './AddComparison';
 import { useDeleteComparisonSetMutation } from '@/services/comparison';
 import FormField from '@/components/FormField';
 import { useGetRolesQuery } from '@/services/roles';
-import { getCookie } from '@/utils/cookies';
+import { getSafeUserFromCookie } from '@/utils/cookies';
 
 export default function CompareList() {
     const { data: roles } = useGetRolesQuery();
-    const user = JSON.parse(getCookie('user'));
+    const user = getSafeUserFromCookie('user');
     const permissions = roles?.data?.roles.find(
         (role) => role.name?.toLowerCase() === user.roles?.toLowerCase()
     );

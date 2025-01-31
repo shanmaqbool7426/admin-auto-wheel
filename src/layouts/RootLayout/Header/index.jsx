@@ -5,12 +5,12 @@ import { IconCog, IconNotification } from './icons';
 import useHeader from './useHeader';
 import LoginForm from './LoginForm';
 import { Button } from '@mantine/core';
-import { getCookie, removeCookie } from '@/utils/cookies';
+import { getSafeUserFromCookie, removeCookie } from '@/utils/cookies';
 import { useRouter } from 'next/navigation';
 
 export default function Header() {
-  const token = getCookie('token') || null;
-  const user = getCookie('user') || null;
+  const token = getSafeUserFromCookie('token') || null;
+  const user = getSafeUserFromCookie('user') || null;
   const router = useRouter();
   const handleLogout = () => {
     removeCookie('token');

@@ -9,23 +9,20 @@ import classes from './Navbar.module.css';
 import { useGetRolesQuery } from '@/services/roles';
 import { getSafeUserFromCookie } from '@/utils/cookies';
 import { checkPermission, getPermissionMapping } from '@/utils/permissions';
-import { usePermissions } from '@/hooks/usePermissions';
 
 export default function Navbar() {
-  const { permissions, isLoading } = usePermissions();
-  
-  if (isLoading) {
-    return <Box>Loading...</Box>;
-  }
-
+  const { data: roles, isLoading: isRolesLoading } = useGetRolesQuery();
   const { activeTab } = useParams();
   const pathname = usePathname();
   const [openedMenu, setOpenedMenu] = useState(null);
   const [activeItem, setActiveItem] = useState(null);
   const [activeSubItem, setActiveSubItem] = useState(null);
-  const user = getSafeUserFromCookie();
+  const user = getSafeUserFromCookie('user');
 
   console.log(roles, "roles");
+  const permissions = roles?.data.roles.find(
+    (role) => role.name?.toLowerCase() === user.roles?.toLowerCase()
+  );
   const permissionMapping = getPermissionMapping();
 
   const filteredNavMenu = navMenu.filter(item => {

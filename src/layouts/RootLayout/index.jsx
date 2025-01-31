@@ -14,10 +14,10 @@ import logo from '@/assets/images/brand/logo.svg';
 import Header from './Header';
 import styles from './Rootlayout.module.css'
 import { Suspense } from 'react';
-import { getCookie } from '@/utils/cookies';
+import { getSafeUserFromCookie } from '@/utils/cookies';
 
 export default function RootLayout({ children }) {
-  const token = getCookie('token') || '';
+  const token = getSafeUserFromCookie('token') || '';
 
 
   console.log(">>>>>>>>>>>>...token.........", token);
