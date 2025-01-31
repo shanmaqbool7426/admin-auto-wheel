@@ -10,13 +10,13 @@ import useAllPosts from './useAllPosts';
 import { getColumns, postsData } from './data';
 import { IconPlus } from '@/assets/icons';
 import { useGetRolesQuery } from '@/services/roles';
-import { getCookie } from '@/utils/cookies';
+import { getSafeUserFromCookie } from '@/utils/cookies';
 
 export default function AllPosts() {
   const { data: roles } = useGetRolesQuery();
-  const user = JSON.parse(getCookie('user'));
+  const user = getSafeUserFromCookie();
   const permissions = roles?.data?.roles.find(
-    (role) => role.name?.toLowerCase() === user.roles?.toLowerCase()
+    (role) => role.name?.toLowerCase() === user?.roles?.toLowerCase()
   );
 
   const hasEditPermission = permissions?.permissions?.blog?.edit;

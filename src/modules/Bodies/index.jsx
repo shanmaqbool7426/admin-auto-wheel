@@ -12,14 +12,15 @@ import ConfirmationModal from '@/components/ConfirmationModal';
 import AddBody from './AddBody';
 import FormField from '@/components/FormField';
 import { useGetRolesQuery } from '@/services/roles';
-import { getCookie } from '@/utils/cookies';
+import { getSafeUserFromCookie } from '@/utils/cookies';
 import { checkPermission } from '@/utils/permissions';
 
 export default function BodiesModule() {
   const { data: roles } = useGetRolesQuery();
-  const user = JSON.parse(getCookie('user'));
+  const user = getSafeUserFromCookie();
+  
   const permissions = roles?.data?.roles.find(
-    (role) => role.name?.toLowerCase() === user.roles?.toLowerCase()
+    (role) => role.name?.toLowerCase() === user?.roles?.toLowerCase()
   );
 
   const hasEditPermission = permissions?.permissions?.body?.edit;

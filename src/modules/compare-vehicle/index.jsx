@@ -11,17 +11,17 @@ import CustomButton from '@/components/CustomButton';
 import { IconPlus } from '@tabler/icons-react';
 import AddCompare from './addCompare/AddCompare';
 import { useGetRolesQuery } from '@/services/roles';
-import { getCookie } from '@/utils/cookies';
+import { getSafeUserFromCookie } from '@/utils/cookies';
 
 export default function CompareVehiclesModule() {
   const { data: roles } = useGetRolesQuery();
-  const user = JSON.parse(getCookie('user'));
+  const user = getSafeUserFromCookie();
+  
   const permissions = roles?.data?.roles.find(
-    (role) => role.name?.toLowerCase() === user.roles?.toLowerCase()
+    (role) => role.name?.toLowerCase() === user?.roles?.toLowerCase()
   );
 
-  const hasEditPermission = permissions?.permissions?.compareVehicle?.edit;
-
+  const hasEditPermission = permissions?.permissions?.compareVehicle?.edit || false;
 
   const {
     page,

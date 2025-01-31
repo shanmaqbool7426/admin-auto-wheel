@@ -12,12 +12,11 @@ import styles from './Categories.module.css';
 import AddCategory from './AddCategory';
 import ConfirmationModal from '@/components/ConfirmationModal';
 import { useGetRolesQuery } from '@/services/roles';
-import { getCookie } from '@/utils/cookies';
+import { getSafeUserFromCookie } from '@/utils/cookies';
 
 export default function Categories() {
   const { data: roles } = useGetRolesQuery();
-  const userCookie = getCookie('user');
-  const user = userCookie ? JSON.parse(userCookie) : null;
+  const user = getSafeUserFromCookie();
   const permissions = roles?.data?.roles.find(
     (role) => role.name?.toLowerCase() === user?.roles?.toLowerCase()
   );

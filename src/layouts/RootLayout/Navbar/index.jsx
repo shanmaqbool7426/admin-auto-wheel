@@ -7,21 +7,21 @@ import { navMenu } from './data';
 import { IconAngleDown, IconEllipse } from '@/assets/icons';
 import classes from './Navbar.module.css';
 import { useGetRolesQuery } from '@/services/roles';
-import { getCookie } from '@/utils/cookies';
+import { getSafeUserFromCookie } from '@/utils/cookies';
 import { checkPermission, getPermissionMapping } from '@/utils/permissions';
 
 export default function Navbar() {
-  const { data: roles, isLoading: isRolesLoading } = useGetRolesQuery();
+  const { data: roles } = useGetRolesQuery();
   const { activeTab } = useParams();
   const pathname = usePathname();
   const [openedMenu, setOpenedMenu] = useState(null);
   const [activeItem, setActiveItem] = useState(null);
   const [activeSubItem, setActiveSubItem] = useState(null);
-  const user = JSON.parse(getCookie('user'));
+  const user = getSafeUserFromCookie();
 
   console.log(roles, "roles");
-  const permissions = roles?.data.roles.find(
-    (role) => role.name?.toLowerCase() === user.roles?.toLowerCase()
+  const permissions = roles?.data?.roles.find(
+    (role) => role.name?.toLowerCase() === user?.roles?.toLowerCase()
   );
   const permissionMapping = getPermissionMapping();
 
