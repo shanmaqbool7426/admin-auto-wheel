@@ -1,5 +1,6 @@
 'use client';
 // setCookie, getCookie, removeCookie
+// USE HERE LOCAL STORAGE
 import cookies from 'js-cookie';
 
 export const setCookie = (name, value, options = {}) => {

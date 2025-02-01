@@ -5,15 +5,25 @@ import {
   useGetUserProfileQuery, 
   useUpdateUserProfileMutation 
 } from '@/services/user-management';
+import { getSafeUserFromCookie } from '@/utils/cookies';
+import { useGetRolesQuery } from '@/services/roles';
 
 export default function useProfileSettings() {
   const phoneRegex = /^(\+92|0)[0-9]{10}$/;
   const emailRegex = /^\S+@\S+\.\S+$/;
 
-  // Get user profile data
-  const { data: profileData, isLoading: isProfileLoading } = useGetUserProfileQuery();
+  // Get user profile 
+  const user = getSafeUserFromCookie(); 
+  const userId = user?._id;
+
+  console.log("userId",userId)
+
+  const { data: profileData, isLoading: isProfileLoading } = useGetUserProfileQuery(userId &&userId );
+  // get roles
+  const { data: roles } = useGetRolesQuery();
   const [updateProfile, { isLoading: isUpdating }] = useUpdateUserProfileMutation();
 
+  //  get use  from cookie
   const personalInfoForm = useForm({
     initialValues: {
       firstName: '',
@@ -29,17 +39,19 @@ export default function useProfileSettings() {
     },
   });
 
+  console.log(">>>>>>user",user)
+console.log("user>>>>",roles?.data?.roles.find(role => role?.name?.toLowerCase() === user.roles.toLowerCase()))
 
   // Update form when profile data is loaded
   useEffect(() => {
-    if (profileData) {
+    if (user) {
       personalInfoForm.setValues({
-        firstName: profileData.firstName || '',
-        lastName: profileData.lastName || '',
-        phoneNumber: profileData.phone || '',
-        email: profileData.email || '',
-        whatsAppOnThisNumber: profileData.hasWhatsApp || false,
-        showEmail: profileData.showEmail || false,
+        firstName: user.firstName || '',
+        lastName: user.lastName || '',
+        phoneNumber: user.phone || '',
+        email: user.email || '',
+        whatsAppOnThisNumber: user.hasWhatsApp || false,
+        showEmail: user.showEmail || false,
       });
     }
   }, [profileData]);
@@ -74,6 +86,7 @@ export default function useProfileSettings() {
     handleSubmitPersonalInformation,
     isProfileLoading,
     isUpdating,
+    roles:roles?.data?.roles?.find(role => role?.name?.toLowerCase() === user?.roles?.toLowerCase()),
     profileData
   };
 }

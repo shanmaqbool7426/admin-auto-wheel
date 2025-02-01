@@ -7,13 +7,15 @@ import usePersonalInformation from './usePersonalInformation';
 import styles from './PersonalInformation.module.css';
 import CustomButton from '@/components/CustomButton';
 
-export default function PersonalInformation() {
+export default function PersonalInformation({ profileData }) {
   const {
     form,
     handleSubmit,
     isLoading
-  } = usePersonalInformation();
+  } = usePersonalInformation(profileData);
 
+
+  console.log(">>>>>profileData",profileData)
 
   return (
     <Card title="Personal Information">

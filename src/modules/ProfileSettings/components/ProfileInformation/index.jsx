@@ -8,7 +8,7 @@ import styles from './ProfileInformation.module.css';
 import { ProfileBg, ProfileAvatar } from '@/assets/images'
 import CustomButton from '@/components/CustomButton';
 
-export default function ProfileInformation() {
+export default function ProfileInformation({profileData}) {
 
   const {
     form,
@@ -18,6 +18,7 @@ export default function ProfileInformation() {
   return (
     <Card noContentPadding>
       <Box className={styles.profileBanner}>
+        
         <Image
           src={ProfileBg}
           alt="Profile"
@@ -41,10 +42,10 @@ export default function ProfileInformation() {
             order={3}
             align="center"
           >
-            Albert Kart
+            {profileData?.firstName} {profileData?.lastName}
           </Title>
-          <Box className={styles.userEmail}>abc@gmail.com</Box>
-          <Box className={styles.userStatus}>Active</Box>
+          <Box className={styles.userEmail}>{profileData?.email}</Box>
+          <Box className={styles.userStatus}>{profileData?.status ? 'Active' : 'Inactive'}</Box>
         </Box>
         <Box className={styles.userContactDetials}>
           <Box className={styles.contactGroup}>
@@ -52,7 +53,7 @@ export default function ProfileInformation() {
               Phone No
             </Box>
             <Box className={styles.contactTitle}>
-              +92 345 765 7645
+              {profileData?.phone}
             </Box>
           </Box>
 
@@ -61,7 +62,7 @@ export default function ProfileInformation() {
               Last Login
             </Box>
             <Box className={styles.contactTitle}>
-              26 March 2024, 8:57 Pm
+              {profileData?.lastLogin}
             </Box>
           </Box>
 

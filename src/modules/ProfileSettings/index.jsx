@@ -8,11 +8,14 @@ import Permissions from './components/Permissions';
 import ProfileInformation from './components/ProfileInformation';
 import LastLogin from './components/LastLogin';
 import ChangePassword from './components/ChangePassword';
+import { getSafeUserFromCookie } from '@/utils/cookies';
 
 export default function ProfileSettings() {
-  const { profileData, isProfileLoading } = useProfileSettings();
+  const { profileData, isProfileLoading, roles } = useProfileSettings();
+  // get user from cookie
+  const user = getSafeUserFromCookie();
 
-  if (!profileData?.data) {
+  if (!user) {
     return <LoadingOverlay visible={isProfileLoading} />;
   }
 
@@ -21,10 +24,11 @@ export default function ProfileSettings() {
       <Box className={styles.sidebar}>
         <Stack gap="24px">
           <ProfileInformation 
-            profileData={profileData.data}
+            profileData={user}
+            roles={roles}
           />
           <LastLogin 
-            lastLogin={profileData.data.lastLogin}
+            lastLogin={user.lastLogin}
           />
         </Stack>
       </Box>
@@ -32,13 +36,14 @@ export default function ProfileSettings() {
       <Box className={styles.content}>
         <Stack gap="24px">
           <PersonalInformation 
-            profileData={profileData.data}
+            profileData={user}
           />
           <Permissions 
-            permissions={profileData.data.permissions}
+            
+            permissions={roles}
           />
           <ChangePassword 
-            userId={profileData.data._id}
+            userId={user._id}
           />
         </Stack>
       </Box>

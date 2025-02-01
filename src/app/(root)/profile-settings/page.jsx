@@ -5,8 +5,6 @@ import ClientWrapper from '@/components/ClientWrapper';
 import withProtectedRoute from '@/components/AuthGuard/withAuth';
 export default withProtectedRoute(function ProfileSettingsPage() {
   return (
-    <ClientWrapper>
       <ProfileSettings />
-    </ClientWrapper>
   )
 })

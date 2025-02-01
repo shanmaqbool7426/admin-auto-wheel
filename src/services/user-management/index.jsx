@@ -58,7 +58,7 @@ export const usersAPIs = BASE_API.injectEndpoints({
 
     getUserProfile: builder.query({
       query: (userId) => ({
-        url: `${END_POINTS?.GET_PROFILE}/674761797eecf481d36dc12a`,
+        url: `${END_POINTS?.GET_PROFILE}/${userId}`,
         method: 'GET',
       }),
       providesTags: ['USER_PROFILE'],

@@ -10,7 +10,7 @@ export default function useProfileInformation() {
       const formData = new FormData();
       formData.append(type === 'profile' ? 'profileImage' : 'bannerImage', imageFile);
 
-      await updateImages(formData).unwrap();
+     const res = await updateImages(formData).unwrap();
       notifications.show({
         title: 'Success',
         message: 'Image updated successfully',
