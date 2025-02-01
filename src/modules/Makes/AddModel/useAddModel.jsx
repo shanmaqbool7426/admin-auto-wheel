@@ -36,6 +36,7 @@ export default function useAddModel(setOnClose, editData) {
   const handleSubmit = async (values) => {
     setIsLoading(true);
     try {
+      console.log(',,,,,,,,,,,,,,,,,,,,')
       if (editData) {
         console.log("editData>>",editData)
         // Update existing model
@@ -51,6 +52,7 @@ export default function useAddModel(setOnClose, editData) {
         }).unwrap();
       } else {
         // Add new model
+        console.log("values>>",values)
         await addModel(values).unwrap();
       }
       

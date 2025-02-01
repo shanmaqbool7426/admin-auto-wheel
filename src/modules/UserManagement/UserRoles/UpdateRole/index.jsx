@@ -32,7 +32,7 @@ export default function UpdateRole({ isOpen, setIsOpen }) {
   };
   
 
-  const handleSubmit = async (e) => {
+  const handleSubmitRoles = async (e) => {
     console.log('Form submitted:', localPermissions);
     e.preventDefault();
     try {
@@ -101,7 +101,7 @@ export default function UpdateRole({ isOpen, setIsOpen }) {
       onClose={() => setIsOpen(false)}
       size='762'
     >
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmitRoles}>
         {roles?.data?.roles?.map((role, roleIndex) => (
           <Box key={generateUniqueKey('role', roleIndex)} mt="md">
             <Text size="lg" weight={500} mb="md">{role.name}</Text>
