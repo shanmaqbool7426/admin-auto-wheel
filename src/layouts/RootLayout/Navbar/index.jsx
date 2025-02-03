@@ -19,7 +19,6 @@ export default function Navbar() {
   const [activeSubItem, setActiveSubItem] = useState(null);
   const user = getSafeUserFromCookie('user');
 
-  console.log(roles, "roles");
   const permissions = roles?.data.roles.find(
     (role) => role.name?.toLowerCase() === user.roles?.toLowerCase()
   );

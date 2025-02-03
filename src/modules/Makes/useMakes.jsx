@@ -138,19 +138,16 @@ export default function useMakes() {
   };
 
   const handleEdit = (item, type) => {
-    console.log(`Edit>>>>>>>>>> ${type}:`, item);
     // Implement edit logic
     setIsMakeModalOpen(true)
   };
 
   const handleEditForModel = (item, type) => {
-    console.log(`Edit>>>>>>>>>> ${type}:`, item);
     // Implement edit logic
     setIsModelModalOpen(true)
   };
   // edit for varient
   const handleEditForVariant = (item, type) => {
-    console.log(`Edit>>>>>>>>>> ${type}:`, item);
     // Implement edit logic
     setIsVariantModalOpen(true)
   };

@@ -22,9 +22,7 @@ export default function LoginForm({ isLoginModalOpen, setIsLoginModalOpen }) {
   const [login, { isLoading: isLoginLoading }] = useLoginMutation();
 
   const handleSubmit = (values) => {
-    console.log(values);
     login(values).unwrap().then((res) => {
-      console.log("res>>>>>>..........", res);
       window.location.href = '/';
       localStorage.setItem('token', res?.data?.token);
       setCookie('token', res?.data?.token);

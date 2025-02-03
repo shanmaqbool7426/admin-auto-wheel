@@ -41,11 +41,9 @@ export default function CompareList() {
 
     const handleDelete = async (id) => {
         const response = await deleteComparisonSetMutation(id);
-        console.log('Delete:', response);
     };
 
     const handleEdit = (comparison) => {
-        console.log('Edit:', comparison);
         setIsComparisonModalOpen(true);
         setComparison(comparison);
     };

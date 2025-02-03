@@ -30,7 +30,6 @@ export default function AddBody({
   } = useAddBody({ selectedBody, onClose });
 
 
-  console.log("modalTitle", modalTitle);
   return (
     <CustomModal
       title={modalTitle}

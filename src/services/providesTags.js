@@ -9,6 +9,8 @@ export const PROVIDES_TAGS = [
   'MAKES',
   'USED_VEHICLES',
   'ROLES',
-  'USER_PROFILE'
+  'USER_PROFILE',
+  'FOOTER',
+  'BANNERS'
 
 ]

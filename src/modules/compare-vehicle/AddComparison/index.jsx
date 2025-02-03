@@ -26,7 +26,6 @@ export default function AddComparison({ open, setOnClose, comparison }) {
     variant: comparison?.variant || '',
   });
 
-  console.log("comparison>>>>>>>", comparison)
   const [activeField, setActiveField] = useState(''); // 'vehicle1' or 'vehicle2'
 
   const handleFieldClick = (fieldName) => {
@@ -66,7 +65,6 @@ export default function AddComparison({ open, setOnClose, comparison }) {
 
 
 
-  console.log(">>>>vehicles",vehicles)
   return (
     <>
       <CustomModal

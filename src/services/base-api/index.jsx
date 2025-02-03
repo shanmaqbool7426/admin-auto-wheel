@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery, retry } from '@reduxjs/toolkit/query/react';
-import { BASE_URL } from '@/constants/config';
+import { BASE_URL, FE_BASE_URL } from '@/constants/config';
 import { PROVIDES_TAGS } from '../providesTags';
 
 

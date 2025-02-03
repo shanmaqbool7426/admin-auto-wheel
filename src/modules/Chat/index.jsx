@@ -26,7 +26,6 @@ export default function Chat() {
 
   const columns = getColumns(handleClickExternalLink)
 
-console.log('users>>>', users)
   return (
     <>
       <Box className={styles.filterbar}>

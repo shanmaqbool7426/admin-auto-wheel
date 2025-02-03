@@ -51,7 +51,6 @@ const MakeModelVariantModel = ({
     setVariants(fetchedVariants);
   }, [makesData]);
   
-  console.log(">>>>>>>>>makesData", models)
   const [makeSearch, setMakeSearch] = useState("");
   const [modelSearch, setModelSearch] = useState("");
   const [variantSearch, setVariantSearch] = useState("");

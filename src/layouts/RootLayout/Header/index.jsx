@@ -25,7 +25,6 @@ export default function Header() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   
-  console.log(">>>>>>>>>>>>...token", token);
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Box className={styles.header}>

@@ -19,7 +19,10 @@ export const END_POINTS = {
   // Location endpoints
   LOCATION: '/location',
   LOCATION_DELETE: '/location/bulk-delete',
-
+  // Footer
+  FOOTER: '/footer',
+  FOOTER_LINK: '/footer-link',
+  FOOTER_LINK_DELETE: '/footer-link/bulk-delete',
   // Used Vehicles endpoints
   USED_VEHICLES: '/vehicle',
   ROLES: '/roles',

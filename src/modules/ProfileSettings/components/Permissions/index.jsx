@@ -14,6 +14,7 @@ export default function Permissions({permissions}) {
   const permissionsArray = React.useMemo(() => {
     if (!permissions?.permissions) return [];
     
+    
     return Object.entries(permissions.permissions).map(([key, value]) => ({
       _id: key,
       module: key.charAt(0).toUpperCase() + key.slice(1),

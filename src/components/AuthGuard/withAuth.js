@@ -11,7 +11,6 @@ const withProtectedRoute = (WrappedComponent) => {
     const token = getSafeUserFromCookie('token') || null;
     // get path
     const path = usePathname();
-    console.log("path>>>>>>", path);
     useEffect(() => {
       // If the user is not authenticated, redirect to the login page
       if (!token) {

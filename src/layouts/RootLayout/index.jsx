@@ -20,7 +20,6 @@ export default function RootLayout({ children }) {
   const token = getSafeUserFromCookie('token') || '';
 
 
-  console.log(">>>>>>>>>>>>...token.........", token);
   const [opened, { toggle }] = useDisclosure();
   return (
     <AppShell

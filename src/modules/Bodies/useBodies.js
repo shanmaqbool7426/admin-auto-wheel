@@ -34,7 +34,6 @@ useEffect(() => {
       type: type
     }));
  }, [searchBy, type]);
-  console.log("searchBy",searchBy)
 
   const { data: bannersData, isLoading: isLoadingBanners, isFetching: isFetchingBanners } = useGetBannersQuery(filterParams);
   const { data: bodiesData, isLoading, isFetching } = useGetBodiesQuery(filterParams);
@@ -151,7 +150,7 @@ useEffect(() => {
     setPage,
     isLoading,
     isFetching,
-    bodiesData: bodiesData?.data,
+    bodiesData: bodiesData?.data ? bodiesData?.data : [],
     setSearchBy,
     filterParams,
     modalTitle,

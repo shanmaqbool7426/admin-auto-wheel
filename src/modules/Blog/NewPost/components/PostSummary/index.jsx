@@ -10,8 +10,8 @@ export default function PostSummary({ form, isEdit, authors = [] }) {
 
   // Default authors if none provided
   const defaultAuthors = [
-    { value: '12345', label: 'Shan Maqbool' },
-    { value: '1234', label: 'Waqas Afzal' },
+    { value: 'Shan Maqbool', label: 'Shan Maqbool' },
+    { value: 'Waqas Afzal', label: 'Waqas Afzal' },
   ];
 
   const visibilityOptions = [

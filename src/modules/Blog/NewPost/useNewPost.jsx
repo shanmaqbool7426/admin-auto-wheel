@@ -77,7 +77,6 @@ export default function useNewPost() {
   }, [postId, postDetails]);
 
 
-console.log("formmmmmmmmmm",form.values)
   const handleSubmit = async (values) => {
     try {
       if (postId) {

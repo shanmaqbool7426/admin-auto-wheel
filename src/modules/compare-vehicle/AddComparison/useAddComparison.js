@@ -17,11 +17,9 @@ const useAddComparison = (setOnClose, comparison,vehicles) => {
   const [updateComparisonSet] = useUpdateComparisonSetMutation()
   const handleSubmit = async (values) => {
     try {
-      console.log('Form submitted:', form.getValues());
       const {vehicle1,vehicle2} = vehicles
       
       const payload = [vehicle1,vehicle2]
-      console.log('payload',payload)
       if(comparison){
         await updateComparisonSet({id:comparison._id,data:{vehicles:payload,type:form.values.type}})
       }else{

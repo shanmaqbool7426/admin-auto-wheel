@@ -20,7 +20,6 @@ export default function AddCompare({ open, setOnClose }) {
 
   const hasEditPermission = permissions?.permissions?.compareVehicle?.edit;
 
-console.log("AddCompare -> hasEditPermission", hasEditPermission)
 
   const {
     form,
