@@ -5,7 +5,7 @@ import { PROVIDES_TAGS } from '../providesTags';
 
 console.log("BASE_URL",BASE_URL)
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://localhost:5000/api",
+  baseUrl: BASE_URL,
   // prepareHeaders: (headers) => {
   //   // By default, if we have a token in the store, let's use that for authenticated requests
   //   const token = store.getState().auth.token
