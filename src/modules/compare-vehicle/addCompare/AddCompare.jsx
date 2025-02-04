@@ -18,7 +18,8 @@ export default function AddCompare({ open, setOnClose }) {
     (role) => role.name?.toLowerCase() === user.roles?.toLowerCase()
   );
 
-  const hasEditPermission = permissions?.permissions?.compareVehicle?.edit;
+  // const hasEditPermission = permissions?.permissions?.compareVehicle?.edit;
+  const hasEditPermission = true;
 
 
   const {

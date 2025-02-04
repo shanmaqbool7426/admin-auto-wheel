@@ -31,7 +31,7 @@ export default function CompareList() {
         (role) => role.name?.toLowerCase() === user.roles?.toLowerCase()
     );
 
-    const hasEditPermission = permissions?.permissions?.compareVehicle?.edit;
+    const hasEditPermission = true;
 
     const [isComparisonModalOpen, setIsComparisonModalOpen] = useState(false);
     const { comparisons, isLoading, type, setType } = useCompareVehicle();
