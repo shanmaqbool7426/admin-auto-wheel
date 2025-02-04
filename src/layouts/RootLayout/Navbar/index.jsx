@@ -70,7 +70,7 @@ export default function Navbar() {
 
   return (
     <Box component="ul" className={classes?.menu}>
-      {filteredNavMenu.map((item) => (
+      {navMenu.map((item) => (
         <Box component="li" key={item.label}>
           <NavLink
             component={Link}
