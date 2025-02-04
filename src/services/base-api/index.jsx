@@ -1,8 +1,8 @@
 import { createApi, fetchBaseQuery, retry } from '@reduxjs/toolkit/query/react';
-import { BASE_URL } from '@/constants/api-endpoints';
+// import { BASE_URL } from '@/constants/api-endpoints';
 import { PROVIDES_TAGS } from '../providesTags';
 
-console.log("BASE_URL",BASE_URL)
+// console.log("BASE_URL",BASE_URL)
 const baseQuery = fetchBaseQuery({
   baseUrl: `https://auto-wheel-be.vercel.app/api`,
   credentials: 'include',
