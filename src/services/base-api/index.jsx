@@ -1,21 +1,19 @@
 import { createApi, fetchBaseQuery, retry } from '@reduxjs/toolkit/query/react';
-import { BASE_URL, FE_BASE_URL } from '@/constants/config';
+import { BASE_URL } from '@/constants/api-endpoints';
 import { PROVIDES_TAGS } from '../providesTags';
-
 
 console.log("BASE_URL",BASE_URL)
 const baseQuery = fetchBaseQuery({
-  baseUrl: BASE_URL,
-  // prepareHeaders: (headers) => {
-  //   // By default, if we have a token in the store, let's use that for authenticated requests
-  //   const token = store.getState().auth.token
-  //   if (token) {
-  //     headers.set('authentication', `Bearer ${token}`)
-  //   }
-  //   return headers 
-  // },
+  baseUrl: `https://auto-wheel-be.vercel.app/api`,
+  credentials: 'include',
+  prepareHeaders: (headers) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      headers.set('authorization', `Bearer ${token}`);
+    }
+    return headers;
+  }
 })
-// const baseQueryWithRetry = retry(baseQuery, { maxRetries: 6 })
 
 export const BASE_API = createApi({
 
