@@ -11,19 +11,19 @@ const withProtectedRoute = (WrappedComponent) => {
     const token = getSafeUserFromCookie('token') || null;
     // get path
     const path = usePathname();
-    // useEffect(() => {
-    //   // If the user is not authenticated, redirect to the login page
-    //   if (!token) {
-    //     router.push('/login');
-    //   }
-    //   if (token && path === '/login') {
-    //     router.push('/');
-    //   }
-    // }, [token, router]);
+    useEffect(() => {
+      // If the user is not authenticated, redirect to the login page
+      if (!token) {
+        router.push('/login');
+      }
+      if (token && path === '/login') {
+        router.push('/');
+      }
+    }, [token, router]);
 
     // If the user is authenticated, render the WrappedComponent
     // Otherwise, render null while the redirection is in progress
-    return true ? <WrappedComponent {...props} /> : null;
+    return token ? <WrappedComponent {...props} /> : null;
   };
 };
 
