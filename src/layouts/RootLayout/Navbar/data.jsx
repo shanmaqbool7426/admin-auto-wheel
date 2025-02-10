@@ -44,6 +44,7 @@ export const navMenu = [
   { key: 'file-manager', label: 'File Manager', href: PATH_NAME.FILE_MANAGER, icon: IconMenuFileManager },
   { key: 'settings', label: 'Settings', href: PATH_NAME.SETTINGS_BANNER, icon: IconMenuProfileSettings, links: [
     { key: 'banner', label: 'Banner', href: PATH_NAME.SETTINGS_BANNER },
+    { key: 'near-by-location', label: 'Near By Location', href: PATH_NAME.SETTINGS_NEAR_BY_LOCATION },
     // { key: 'notifications', label: 'Notifications', href: PATH_NAME.SETTINGS_NOTIFICATIONS },
     // { key: 'security', label: 'Security', href: PATH_NAME.SETTINGS_SECURITY },
   ] },

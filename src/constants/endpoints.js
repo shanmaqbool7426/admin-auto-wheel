@@ -63,6 +63,8 @@ export const END_POINTS = {
   GET_VEHICLE_BY_ID: '/new-vehicles/get-vehicle-by-id',
   COMPARISON: '/comparison',
   BANNER: '/banners',
+  NEAR_BY_LOCATION: '/near-by-location',
+  NEAR_BY_LOCATION_DELETE: '/near-by-location/bulk-delete',
 
   VIDEO: '/video',
 }

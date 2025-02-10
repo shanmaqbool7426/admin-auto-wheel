@@ -21,4 +21,5 @@ export const PATH_NAME = {
   FILE_MANAGER: '/file-manager',
   SETTINGS: '/settings',
   SETTINGS_BANNER: '/settings/banner',
+  SETTINGS_NEAR_BY_LOCATION: '/settings/near-by-location',
 }
