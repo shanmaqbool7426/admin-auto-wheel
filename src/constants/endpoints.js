@@ -66,5 +66,8 @@ export const END_POINTS = {
   NEAR_BY_LOCATION: '/near-by-location',
   NEAR_BY_LOCATION_DELETE: '/near-by-location/bulk-delete',
 
+  FAQ: '/faq',
+  FAQ_DELETE: '/faq/bulk-delete',
+
   VIDEO: '/video',
 }
