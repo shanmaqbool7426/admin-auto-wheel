@@ -35,7 +35,7 @@
 }
 
 .active {
-  color: var(--mantine-color-green-6);
+  /* color: var(--mantine-color-green-6); */
   background-color: var(--mantine-color-green-0);
   padding: 4px 8px;
   border-radius: 4px;
