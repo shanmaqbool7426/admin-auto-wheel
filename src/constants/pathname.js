@@ -19,6 +19,8 @@ export const PATH_NAME = {
   CHAT: '/chat',
   EMAIL: '/email',
   FILE_MANAGER: '/file-manager',
+  FAQ: '/faq',
   SETTINGS: '/settings',
   SETTINGS_BANNER: '/settings/banner',
+  SETTINGS_NEAR_BY_LOCATION: '/settings/near-by-location',
 }
