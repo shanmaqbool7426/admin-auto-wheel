@@ -69,5 +69,14 @@ export const END_POINTS = {
   FAQ: '/faq',
   FAQ_DELETE: '/faq/bulk-delete',
 
+  FUEL_TYPE: '/fuel-type',
+  FUEL_TYPE_DELETE: '/fuel-type/bulk-delete',
+  DRIVE: '/drive',
+  DRIVE_DELETE: '/drive/bulk-delete',
+  TRANSMISSION: '/transmission',
+  TRANSMISSION_DELETE: '/transmission/bulk-delete',
+  COLOR: '/color',
+  COLOR_DELETE: '/color/bulk-delete',
+
   VIDEO: '/video',
 }
