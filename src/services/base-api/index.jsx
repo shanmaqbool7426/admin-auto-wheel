@@ -4,7 +4,7 @@ import { PROVIDES_TAGS } from '../providesTags';
 
 // console.log("BASE_URL",BASE_URL)
 const baseQuery = fetchBaseQuery({
-  baseUrl: `http://localhost:5000/api`,
+  baseUrl: `https://auto-wheel-be.vercel.app/api`,
   credentials: 'include',
   prepareHeaders: (headers) => {
     const token = localStorage.getItem('token');
