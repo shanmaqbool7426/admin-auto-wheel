@@ -23,4 +23,5 @@ export const PATH_NAME = {
   SETTINGS: '/settings',
   SETTINGS_BANNER: '/settings/banner',
   SETTINGS_NEAR_BY_LOCATION: '/settings/near-by-location',
+  SETTINGS_FOOTER_MANAGEMENT: '/settings/footer-management',
 }

@@ -70,4 +70,7 @@ export const END_POINTS = {
   FAQ_DELETE: '/faq/bulk-delete',
 
   VIDEO: '/video',
+
+  // Reports endpoint
+  REPORTS: '/reports',
 }
