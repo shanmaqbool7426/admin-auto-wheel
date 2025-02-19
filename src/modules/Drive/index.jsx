@@ -10,6 +10,7 @@ import useDrive from './useDrive';
 import { getColumns } from './data';
 import ConfirmationModal from '@/components/ConfirmationModal';
 import AddDrive from './AddDrive';
+import FormField from '@/components/FormField';
 
 export default function DriveModule() {
   const {
@@ -19,6 +20,8 @@ export default function DriveModule() {
     isFetching,
     drivesData,
     setSearchBy,
+    filterParams,
+    handleChangeFilter,
     
     // Drive Modal
     modalTitle,
@@ -47,6 +50,22 @@ export default function DriveModule() {
         <Box className={styles.filterbarLeft}>
           <Box className={styles.searchbar}>
             <Search setSearchBy={setSearchBy} />
+          </Box>
+          <Box className={styles.dropdown}>
+            <FormField
+              type="select"
+              name="type"
+              data={[
+                { value: 'all', label: 'All' },
+                { value: 'car', label: 'Car' },
+                { value: 'bike', label: 'Bike' },
+                { value: 'truck', label: 'Truck' },
+              ]}
+              placeholder="Vehicle Type"
+              checkIconPosition="right"
+              value={filterParams.type}
+              onChange={(_value, option) => handleChangeFilter('type', option.value)}
+            />
           </Box>
         </Box>
         <Box className={styles.filterbarRight}>

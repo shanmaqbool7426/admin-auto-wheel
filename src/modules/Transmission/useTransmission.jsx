@@ -1,22 +1,24 @@
 'use client';
 import { useState } from 'react';
+import { PAGE_SIZE } from '@/constants/pagination';
 import { useGetTransmissionsQuery, useDeleteTransmissionMutation } from '@/services/transmission';
 import { notifications } from '@mantine/notifications';
 
 export default function useTransmission() {
-  const [page, setPage] = useState(1);
-  const [searchBy, setSearchBy] = useState('');
+  const [filterParams, setFilterParams] = useState({
+    type: 'all',
+    page: 1,
+    limit: PAGE_SIZE,
+    search: '',
+    sortOrder: 'desc'
+  });
   const [selectedTransmission, setSelectedTransmission] = useState(null);
   const [modalTitle, setModalTitle] = useState('');
   const [openModalTransmission, setOpenModalTransmission] = useState(false);
   const [openModalDelete, setOpenModalDelete] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
 
-  const { data: transmissionsData, isLoading, isFetching } = useGetTransmissionsQuery({
-    page,
-    search: searchBy,
-  });
-
+  const { data: transmissionsData, isLoading, isFetching } = useGetTransmissionsQuery(filterParams);
   const [deleteTransmission, { isLoading: loadingDelete }] = useDeleteTransmissionMutation();
 
   const handleOpenModal = (title, transmission) => {
@@ -62,13 +64,27 @@ export default function useTransmission() {
     handleOpenModal('Edit Transmission', transmission);
   };
 
+  const handleChangeFilter = (name, value) => {
+    setFilterParams(prev => ({ ...prev, [name]: value }));
+  };
+
+  const setSearchBy = (value) => {
+    handleChangeFilter('search', value);
+  };
+
+  const setPage = (value) => {
+    handleChangeFilter('page', value);
+  };
+
   return {
-    page,
+    page: filterParams.page,
     setPage,
+    setSearchBy,
+    filterParams,
+    handleChangeFilter,
     isLoading,
     isFetching,
     transmissionsData,
-    setSearchBy,
     
     // Transmission Modal
     modalTitle,

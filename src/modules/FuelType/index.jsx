@@ -10,6 +10,7 @@ import useFuelType from './useFuelType';
 import { getColumns } from './data';
 import ConfirmationModal from '@/components/ConfirmationModal';
 import AddFuelType from './AddFuelType';
+import FormField from '@/components/FormField';
 
 export default function FuelTypeModule() {
   const {
@@ -19,6 +20,8 @@ export default function FuelTypeModule() {
     isFetching,
     fuelTypesData,
     setSearchBy,
+    filterParams,
+    handleChangeFilter,
     
     // FuelType Modal
     modalTitle,
@@ -47,6 +50,22 @@ export default function FuelTypeModule() {
         <Box className={styles.filterbarLeft}>
           <Box className={styles.searchbar}>
             <Search setSearchBy={setSearchBy} />
+          </Box>
+          <Box className={styles.dropdown}>
+            <FormField
+              type="select"
+              name="type"
+              data={[
+                { value: 'all', label: 'All' },
+                { value: 'car', label: 'Car' },
+                { value: 'bike', label: 'Bike' },
+                { value: 'truck', label: 'Truck' },
+              ]}
+              placeholder="Vehicle Type"
+              checkIconPosition="right"
+              value={filterParams.type}
+              onChange={(_value, option) => handleChangeFilter('type', option.value)}
+            />
           </Box>
         </Box>
         <Box className={styles.filterbarRight}>

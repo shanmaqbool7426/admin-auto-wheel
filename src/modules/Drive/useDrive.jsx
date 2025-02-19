@@ -2,20 +2,23 @@
 import { useState } from 'react';
 import { useGetDrivesQuery, useDeleteDriveMutation } from '@/services/drive';
 import { notifications } from '@mantine/notifications';
+import { PAGE_SIZE } from '@/constants/pagination';
 
 export default function useDrive() {
-  const [page, setPage] = useState(1);
-  const [searchBy, setSearchBy] = useState('');
+  const [filterParams, setFilterParams] = useState({
+    type: 'all',
+    page: 1,
+    limit: PAGE_SIZE,
+    search: '',
+    sortOrder: 'desc'
+  });
   const [selectedDrive, setSelectedDrive] = useState(null);
   const [modalTitle, setModalTitle] = useState('');
   const [openModalDrive, setOpenModalDrive] = useState(false);
   const [openModalDelete, setOpenModalDelete] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
 
-  const { data: drivesData, isLoading, isFetching } = useGetDrivesQuery({
-    page,
-    search: searchBy,
-  });
+  const { data: drivesData, isLoading, isFetching } = useGetDrivesQuery(filterParams);
 
   const [deleteDrive, { isLoading: loadingDelete }] = useDeleteDriveMutation();
 
@@ -62,13 +65,27 @@ export default function useDrive() {
     handleOpenModal('Edit Drive', drive);
   };
 
+  const handleChangeFilter = (name, value) => {
+    setFilterParams(prev => ({ ...prev, [name]: value }));
+  };
+
+  const setSearchBy = (value) => {
+    handleChangeFilter('search', value);
+  };
+
+  const setPage = (value) => {
+    handleChangeFilter('page', value);
+  };
+
   return {
-    page,
+    page: filterParams.page,
     setPage,
+    setSearchBy,
+    filterParams,
+    handleChangeFilter,
     isLoading,
     isFetching,
     drivesData,
-    setSearchBy,
     
     // Drive Modal
     modalTitle,

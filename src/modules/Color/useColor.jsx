@@ -2,20 +2,23 @@
 import { useState } from 'react';
 import { useGetColorsQuery, useDeleteColorMutation } from '@/services/color';
 import { notifications } from '@mantine/notifications';
+import { PAGE_SIZE } from '@/constants/pagination';
 
 export default function useColor() {
-  const [page, setPage] = useState(1);
-  const [searchBy, setSearchBy] = useState('');
+  const [filterParams, setFilterParams] = useState({
+    type: 'all',
+    page: 1,
+    limit: PAGE_SIZE,
+    search: '',
+    sortOrder: 'desc'
+  });
   const [selectedColor, setSelectedColor] = useState(null);
   const [modalTitle, setModalTitle] = useState('');
   const [openModalColor, setOpenModalColor] = useState(false);
   const [openModalDelete, setOpenModalDelete] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
 
-  const { data: colorsData, isLoading, isFetching } = useGetColorsQuery({
-    page,
-    search: searchBy,
-  });
+  const { data: colorsData, isLoading, isFetching } = useGetColorsQuery(filterParams);
 
   const [deleteColor, { isLoading: loadingDelete }] = useDeleteColorMutation();
 
@@ -62,13 +65,27 @@ export default function useColor() {
     handleOpenModal('Edit Color', color);
   };
 
+  const handleChangeFilter = (name, value) => {
+    setFilterParams(prev => ({ ...prev, [name]: value }));
+  };
+
+  const setSearchBy = (value) => {
+    handleChangeFilter('search', value);
+  };
+
+  const setPage = (value) => {
+    handleChangeFilter('page', value);
+  };
+
   return {
-    page,
+    page: filterParams.page,
     setPage,
+    setSearchBy,
+    filterParams,
+    handleChangeFilter,
     isLoading,
     isFetching,
     colorsData,
-    setSearchBy,
     
     // Color Modal
     modalTitle,

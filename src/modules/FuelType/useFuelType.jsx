@@ -1,22 +1,24 @@
 'use client';
 import { useState } from 'react';
+import { PAGE_SIZE } from '@/constants/pagination';
 import { useGetFuelTypesQuery, useDeleteFuelTypeMutation } from '@/services/fuel-type';
 import { notifications } from '@mantine/notifications';
 
 export default function useFuelType() {
-  const [page, setPage] = useState(1);
-  const [searchBy, setSearchBy] = useState('');
+  const [filterParams, setFilterParams] = useState({
+    type: 'all',
+    page: 1,
+    limit: PAGE_SIZE,
+    search: '',
+    sortOrder: 'desc'
+  });
   const [selectedFuelType, setSelectedFuelType] = useState(null);
   const [modalTitle, setModalTitle] = useState('');
   const [openModalFuelType, setOpenModalFuelType] = useState(false);
   const [openModalDelete, setOpenModalDelete] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
 
-  const { data: fuelTypesData, isLoading, isFetching } = useGetFuelTypesQuery({
-    page,
-    search: searchBy,
-  });
-
+  const { data: fuelTypesData, isLoading, isFetching } = useGetFuelTypesQuery(filterParams);
   const [deleteFuelType, { isLoading: loadingDelete }] = useDeleteFuelTypeMutation();
 
   const handleOpenModal = (title, fuelType) => {
@@ -62,13 +64,27 @@ export default function useFuelType() {
     handleOpenModal('Edit Fuel Type', fuelType);
   };
 
+  const handleChangeFilter = (name, value) => {
+    setFilterParams(prev => ({ ...prev, [name]: value }));
+  };
+
+  const setSearchBy = (value) => {
+    handleChangeFilter('search', value);
+  };
+
+  const setPage = (value) => {
+    handleChangeFilter('page', value);
+  };
+
   return {
-    page,
+    page: filterParams.page,
     setPage,
+    setSearchBy,
+    filterParams,
+    handleChangeFilter,
     isLoading,
     isFetching,
     fuelTypesData,
-    setSearchBy,
     
     // FuelType Modal
     modalTitle,
