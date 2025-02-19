@@ -4,7 +4,7 @@ import CustomModal from '@/components/CustomModal';
 import FormField from '@/components/FormField';
 import CustomButton from '@/components/CustomButton';
 import useAddColor from './useAddColor';
-
+import styles from './AddColor.module.css';
 export default function AddColor({ 
   title, 
   open, 
@@ -37,7 +37,20 @@ export default function AddColor({
           </Grid.Col>
 
           <Grid.Col span={12}>
-          <FormField
+            <FormField
+              label="Color Code"
+              required
+              type="color"
+              placeholder="Pick a color"
+              {...form.getInputProps('code')}
+              classNames={{
+                input: styles.input,
+              }}
+            />
+          </Grid.Col>
+
+          <Grid.Col span={12}>
+            <FormField
               label="Vehicle Type"
               type="select"
               required

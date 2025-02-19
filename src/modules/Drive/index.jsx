@@ -62,10 +62,11 @@ export default function DriveModule() {
       <Box>
         <DataTable
           columns={columns}
-          records={drivesData?.data || []}
+          records={drivesData?.data?.drives || []}
           fetching={isLoading || isFetching}
-          totalRecords={drivesData?.pagination?.totalItems || 0}
+          totalRecords={drivesData?.data?.pagination?.totalItems || 0}
           page={page}
+          enablePagination
           onPageChange={setPage}
         />
       </Box>

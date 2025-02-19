@@ -8,6 +8,21 @@ export const getColumns = ({ handleOpenModalDelete, handleEditColor }) => [
     title: 'Title',
   },
   {
+    accessor: 'code',
+    title: 'Color',
+    render: (data) => (
+      <div
+        style={{
+          width: '24px',
+          height: '24px',
+          borderRadius: '4px',
+          backgroundColor: data.code,
+          border: '1px solid #ddd'
+        }}
+      />
+    ),
+  },
+  {
     accessor: 'slug',
     title: 'Slug',
   },

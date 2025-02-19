@@ -62,10 +62,11 @@ export default function TransmissionModule() {
       <Box>
         <DataTable
           columns={columns}
-          records={transmissionsData?.data || []}
+          records={transmissionsData?.data?.transmissions || []}
           fetching={isLoading || isFetching}
-          totalRecords={transmissionsData?.pagination?.totalItems || 0}
+          totalRecords={transmissionsData?.data?.pagination?.totalItems || 0}
           page={page}
+          enablePagination
           onPageChange={setPage}
         />
       </Box>

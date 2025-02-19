@@ -62,10 +62,11 @@ export default function FuelTypeModule() {
       <Box>
         <DataTable
           columns={columns}
-          records={fuelTypesData?.data || []}
+          records={fuelTypesData?.data?.fuelTypes || []}
           fetching={isLoading || isFetching}
-          totalRecords={fuelTypesData?.pagination?.totalItems || 0}
+          totalRecords={fuelTypesData?.data?.pagination?.totalItems || 0}
           page={page}
+          enablePagination
           onPageChange={setPage}
         />
       </Box>

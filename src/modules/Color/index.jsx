@@ -62,10 +62,11 @@ export default function ColorModule() {
       <Box>
         <DataTable
           columns={columns}
-          records={colorsData?.data || []}
+          records={colorsData?.data?.colors || []}
           fetching={isLoading || isFetching}
-          totalRecords={colorsData?.pagination?.totalItems || 0}
+          totalRecords={colorsData?.data?.pagination?.totalItems || 0}
           page={page}
+          enablePagination
           onPageChange={setPage}
         />
       </Box>

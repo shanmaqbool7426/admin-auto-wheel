@@ -13,9 +13,11 @@ export default function useAddColor({ selectedColor, onClose }) {
       title: '',
       type: '',
       order: 0,
+      code: '#000000',
     },
     validate: {
       title: (value) => (!value ? 'Title is required' : null),
+      code: (value) => (!value ? 'Color code is required' : null),
       order: (value) => {
         if (value < 0) return 'Order must be a positive number';
         if (!Number.isInteger(Number(value))) return 'Order must be a whole number';
@@ -30,6 +32,7 @@ export default function useAddColor({ selectedColor, onClose }) {
         title: selectedColor.title || '',
         type: selectedColor.type || '',
         order: selectedColor.order || 0,
+        code: selectedColor.code || '#000000',
       });
     } else {
       form.reset();
