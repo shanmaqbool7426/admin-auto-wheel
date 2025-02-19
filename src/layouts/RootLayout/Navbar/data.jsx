@@ -45,6 +45,10 @@ export const navMenu = [
   { key: 'faq', label: 'FAQ', href: PATH_NAME.FAQ, icon: IconMenuFileManager },
   { key: 'settings', label: 'Settings', href: PATH_NAME.SETTINGS_BANNER, icon: IconMenuProfileSettings, links: [
     { key: 'banner', label: 'Banner', href: PATH_NAME.SETTINGS_BANNER },
+    { key: 'fuel-type', label: 'Fuel Type', href: PATH_NAME.SETTINGS_FUEL_TYPE },
+    { key: 'drive', label: 'Drive', href: PATH_NAME.SETTINGS_DRIVE },
+    { key: 'transmission', label: 'Transmission', href: PATH_NAME.SETTINGS_TRANSMISSION },
+    { key: 'color', label: 'Color', href: PATH_NAME.SETTINGS_COLOR },
     { key: 'near-by-location', label: 'Near By Location', href: PATH_NAME.SETTINGS_NEAR_BY_LOCATION },
     { key: 'footer-management', label: 'Footer Management', href: PATH_NAME.SETTINGS_FOOTER_MANAGEMENT }
 

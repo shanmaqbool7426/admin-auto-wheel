@@ -22,6 +22,10 @@ export const PATH_NAME = {
   FAQ: '/faq',
   SETTINGS: '/settings',
   SETTINGS_BANNER: '/settings/banner',
+  SETTINGS_FUEL_TYPE: '/settings/fuel-type',
+  SETTINGS_DRIVE: '/settings/drive',
+  SETTINGS_TRANSMISSION: '/settings/transmission',
+  SETTINGS_COLOR: '/settings/color',
   SETTINGS_NEAR_BY_LOCATION: '/settings/near-by-location',
   SETTINGS_FOOTER_MANAGEMENT: '/settings/footer-management',
 }

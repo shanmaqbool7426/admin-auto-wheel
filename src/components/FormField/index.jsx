@@ -13,6 +13,7 @@ import {
   MultiSelect,
   TagsInput,
   FileInput,
+  ColorInput,
 } from '@mantine/core';
 import styles from './FormField.module.css';
 import { IconSelect, IconInputDate } from "@/assets/icons";
@@ -118,6 +119,17 @@ export default function FormField(props) {
           label: styles.label,
           input: styles.input,
         }}
+      />
+    ),
+    'color': () => (
+      <ColorInput
+        {...rest}
+        classNames={{
+          label: styles.label,
+          input: styles.input,
+          ...rest.classNames,
+        }}
+        format="hex"
       />
     ),
     'switch': () => <Switch {...rest} />,
