@@ -12,6 +12,10 @@
       title: 'Type',
     },
     {
+      accessor: 'description',
+      title: 'Description',
+    },
+    {
       accessor: 'image',
       title: 'Body Image',
       render: (data) => (

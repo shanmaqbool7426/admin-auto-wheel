@@ -68,7 +68,9 @@ useEffect(() => {
       formBody.setValues({
         name: body.name,
         type: body.type,
+        description: body.description,
         bodyImage: body.bodyImage,
+
       });
     } else {
       formBody.reset();

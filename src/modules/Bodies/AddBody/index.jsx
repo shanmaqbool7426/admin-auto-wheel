@@ -62,6 +62,15 @@ export default function AddBody({
               {...form.getInputProps('type')}
             />
           </Grid.Col>
+          <Grid.Col span={12}>  
+            <FormField
+              label="Description"
+              required
+              type="textarea"
+              placeholder="Enter body description"
+              {...form.getInputProps('description')}
+            />
+          </Grid.Col>
 
           <Grid.Col span={12}>
             <Box className={styles.imageUpload}>

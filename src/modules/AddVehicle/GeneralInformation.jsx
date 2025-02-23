@@ -144,7 +144,7 @@ export const GeneralInformation = ({ form }) => {
           name="releaseDate"
         /> */}
 
-<DateInput clearable defaultValue={new Date(form.values.releaseDate)} label="Date input" placeholder="Date input" />
+<DateInput clearable  {...form.getInputProps('releaseDate')} value={new Date(form.values.releaseDate)} label="Date input" placeholder="Date input" />
 
       </Grid.Col>
 

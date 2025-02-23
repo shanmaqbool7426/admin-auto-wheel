@@ -15,11 +15,13 @@ export  function useAddBody({ selectedBody, onClose }) {
     initialValues: {
       title: '',
       type: '',
+      description: '',
       bodyImage: null,
     },
     validate: {
       title: (value) => (!value ? 'Title is required' : null),
       type: (value) => (!value ? 'Type is required' : null),
+      description: (value) => (!value? 'Description is required' : null),
       bodyImage: (value) => {
         if (!selectedBody && !value) {
           return 'Body image is required';
@@ -35,6 +37,7 @@ export  function useAddBody({ selectedBody, onClose }) {
         title: selectedBody.title || '',
         type: selectedBody.type || '',
         bodyImage: selectedBody.bodyImage || '',
+        description: selectedBody.description || '',
       });
       setImagePreview(selectedBody.bodyImage || null);
     } else {
@@ -84,6 +87,7 @@ export  function useAddBody({ selectedBody, onClose }) {
       const bodyData = {
         title: values.title,
         type: values.type,
+        description: values.description,
         bodyImage: values.bodyImage,
       };
 
