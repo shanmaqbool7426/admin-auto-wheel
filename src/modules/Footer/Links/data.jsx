@@ -18,6 +18,8 @@ export const footerSections = [
     { value: 'by-body-type', label: 'By Body Type' },
     { value: 'by-color', label: 'By Color' },
     { value: 'by-province', label: 'By Province' },
+     {value: 'used-by-city', label: 'Used  by City'}, 
+     {value: "popular-used", label: 'Popular Used'} 
 ];
 
 export const getColumns = ({ onEdit, onDelete }) => [
