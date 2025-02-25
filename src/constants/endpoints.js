@@ -62,6 +62,7 @@ export const END_POINTS = {
   NEW_VEHICLES: '/new-vehicles',
   GET_VEHICLE_BY_ID: '/new-vehicles/get-vehicle-by-id',
   COMPARISON: '/comparison',
+  COMPETITOR: '/competitor',
   BANNER: '/banners',
   NEAR_BY_LOCATION: '/near-by-location',
   NEAR_BY_LOCATION_DELETE: '/near-by-location/bulk-delete',
