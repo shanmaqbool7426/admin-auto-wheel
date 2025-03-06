@@ -6,16 +6,8 @@ import FormField from '@/components/FormField'
 import useTotalUsers from './useTotalUsers'
 import dynamic from 'next/dynamic';
 import { IconCalendarBlue, IconIncrement, IconDecrement } from '@/assets/icons';
-const Chart = dynamic(() => import('react-apexcharts').then((mod) => {
-  // Import ApexCharts only on client side
-  if (typeof window !== 'undefined') {
-    return mod.default;
-  }
-  return null;
-}), {
-  ssr: false,
-  loading: () => <div>Loading Chart...</div>
-});
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
+
 export default function TotalUsers() {
   const {
     daysValue,
@@ -62,4 +54,3 @@ export default function TotalUsers() {
     </section>
   )
 }
-

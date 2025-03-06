@@ -30,6 +30,7 @@
   justify-content: center;
   align-items: center;
   margin-right: 12px;
+  overflow: hidden;
 }
 
 .tableTitleText {
@@ -37,7 +38,6 @@
 }
 
 .tableTitleTitle {
-  color: #1B84FF;
   line-height: 1;
 }
 

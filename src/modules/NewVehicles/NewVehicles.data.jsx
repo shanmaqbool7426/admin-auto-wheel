@@ -16,7 +16,7 @@ export const getColumns = (handleEdit, handleOpenDeleteModal, router) => {
                 <Box className={styles.vehicle}>
                     <Box className={styles.vehicleImage}>
                         <Image 
-                  src={row?.defaultImage || '/placeholder-vehicle.png'} 
+                  src={ row?.defaultImage || '/placeholder-vehicle.png'} 
                 //   alt={`${row.make} ${row.model}`} 
                   width={80} 
                   height={60} 

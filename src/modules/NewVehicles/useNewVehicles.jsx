@@ -6,6 +6,8 @@ import {
   useDeleteBulkNewVehiclesMutation,
 } from '@/services/newVehicles';
 import { useParams, useRouter } from 'next/navigation';
+import { notifications } from '@mantine/notifications';
+import { IconX } from '@tabler/icons-react';
 
 
 
@@ -15,6 +17,8 @@ export default function useNewVehicles() {
   const [searchBy, setSearchBy] = useState();
   const [page, setPage] = useState(1);
   const [selectedRecords, setSelectedRecords] = useState([]);
+  const [error, setError] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
   const initParams = {
     type: 'all',
@@ -36,10 +40,20 @@ export default function useNewVehicles() {
     setFilterParams(prev => ({ ...prev, type: activeTab }));
   }, [activeTab]);
 
+  // Update error handling for data fetching
+  useEffect(() => {
+    if (isError) {
+      notifications.show({
+        title: 'Error',
+        message: 'Failed to fetch vehicles data',
+        color: 'red',
+        icon: <IconX />,
+      });
+    }
+  }, [isError]);
+
   // handle change filters
   const handleChangeFilter = (name, value) => {
-
-
     setFilterParams(prev => ({ ...prev, [name]: value }));
   };
 
@@ -58,14 +72,26 @@ export default function useNewVehicles() {
     setOpenDeleteModal(false);
   };
 
+  // Update handleDeleteVehicle with notifications
   const handleDeleteVehicle = async () => {
+    setIsSubmitting(true);
     try {
       await deleteBulkVehicles([vehicleId]).unwrap();
       handleCloseDeleteModal();
-      successSnackbar('Vehicle deleted successfully');
+      notifications.show({
+        title: 'Success',
+        message: 'Vehicle deleted successfully',
+        color: 'green',
+      });
     } catch (error) {
-      console.error('Error deleting vehicles:', error);
-      errorSnackbar(error.data.message);
+      notifications.show({
+        title: 'Error',
+        message: error.data?.message || 'Error deleting vehicle',
+        color: 'red',
+        icon: <IconX />,
+      });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -86,15 +112,27 @@ export default function useNewVehicles() {
     }
   };
 
+  // Update handleBulkDeleteVehicles with notifications
   const handleBulkDeleteVehicles = async () => {
+    setIsSubmitting(true);
     try {
       await deleteBulkVehicles(selectedRecords.map(item => item?._id)).unwrap();
       handleCloseBulkDeleteModal();
       setSelectedRecords([]);
-      successSnackbar('Vehicles deleted successfully.');
+      notifications.show({
+        title: 'Success',
+        message: 'Vehicles deleted successfully',
+        color: 'green',
+      });
     } catch (error) {
-      console.error('Error deleting vehicles:', error);
-      errorSnackbar(error.data.message);
+      notifications.show({
+        title: 'Error',
+        message: error.data?.message || 'Error deleting vehicles',
+        color: 'red',
+        icon: <IconX />,
+      });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -156,5 +194,7 @@ export default function useNewVehicles() {
     handleClickEditRow,
     handleClickDeleteRow,
     handleClickDuplicate,
+    error,
+    isSubmitting,
   };
-} 
+}

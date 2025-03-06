@@ -16,7 +16,12 @@ const nextConfig = {
           protocol:"http",
           hostname:"res.cloudinary.com",
           pathname:"/**"
+        },
+        {
+          protocol: 'https',
+          hostname: 'auto-wheels.s3.eu-north-1.amazonaws.com'  // Add your S3 bucket path
         }
+
       ],
     },
     webpack: (config, { isServer }) => {

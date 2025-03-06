@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { Box } from '@mantine/core';
+import { Box, ActionIcon, Drawer, Grid, Autocomplete } from '@mantine/core';
 import Search from '@/components/Search';
 import FormField from '@/components/FormField';
 import DataTable from '@/components/DataTable';
@@ -11,6 +11,10 @@ import { IconPlus } from '@/assets/icons';
 import styles from './Locations.module.css';
 import AddLocation from './AddLocation';
 import ConfirmationModal from '@/components/ConfirmationModal';
+import { IconFilter } from '@tabler/icons-react';
+import FilterDrawer from './FilterDrawer';
+import { useGetStatesOfCountry } from '@/services/location';
+
 
 export default function Locations() {
   const {
@@ -30,6 +34,12 @@ export default function Locations() {
     handleBulkAction,
     handleBulkDeleteLocations,
     loadingBulkDelete,
+
+    openFilterDrawer,
+    handleOpenDrawer,
+    handleCloseDrawer,
+    handleSubmit,
+    filterForm,
   } = useLocations();
 
   const columns = getColumns();
@@ -58,6 +68,10 @@ export default function Locations() {
           </Box>
         </Box>
         <Box className={styles.filterbarRight}>
+          <Box className={styles.filterButton} onClick={handleOpenDrawer}>
+            <IconFilter style={{ width: '70%', height: '70%' }} stroke={1.5} /> Filter
+          </Box>
+
           <Box>
             <CustomButton
               leftSection={<IconPlus />}
@@ -95,6 +109,13 @@ export default function Locations() {
         onClose={handleCloseBulkDeleteModal}
         onSubmit={handleBulkDeleteLocations}
         isLoading={loadingBulkDelete}
+      />
+
+      <FilterDrawer
+        open={openFilterDrawer}
+        onClose={handleCloseDrawer}
+        form={filterForm}
+        handleSubmit={handleSubmit}
       />
     </>
   )

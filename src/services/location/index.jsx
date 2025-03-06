@@ -12,6 +12,12 @@ export const locationAPIs = BASE_API.injectEndpoints({
       }),
       providesTags: ['LOCATIONS'],
     }),
+    getStatesOfCountry: function () {
+      return this.query({
+        url: `${END_POINTS?.LOCATION_PROVINCES}`,
+        method: 'GET',
+      });
+    },
 
     addLocation: builder.mutation({
       query: (body) => ({
@@ -41,4 +47,5 @@ export const {
   useGetLocationsQuery,
   useAddLocationMutation,
   useDeleteBulkLocationMutation,
+  useGetStatesOfCountry,
 } = locationAPIs;

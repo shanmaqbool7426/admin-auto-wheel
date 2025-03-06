@@ -1,38 +1,41 @@
 import dayjs from 'dayjs';
-import { ActionIcon, Group, Box } from '@mantine/core';
+import { Box } from '@mantine/core';
 import Image from 'next/image';
 import styles from './LatestUsers.module.css';
-import { ImgPostVehicle } from '@/assets/images';
 
 export const columns = [
   {
-    accessor: 'post',
-    title: 'Post',
-    render: ({ title, image, model }) => {
+    accessor: 'fullName',
+    title: 'User',
+    render: ({ fullName, accountType, profileImage
+    }) => {
       return (
         <Box className={styles.tableTitle}>
-          <Box className={styles.tableTitleImage}>
-            <Image src={image} alt="car" width={44} height={36} />
-          </Box>
+          {profileImage && (
+            <Box className={styles.tableTitleImage}>
+              <Image src={profileImage} alt="car" width={44} height={36} />
+            </Box>
+          )}
+
           <Box className={styles.tableTitleText}>
-            <Box className={styles.tableTitleTitle}>{title}</Box>
-            <Box className={styles.tableTitleModal}>{model}</Box>
+            <Box className={styles.tableTitleTitle}>{fullName}</Box>
+            <Box className={styles.tableTitleModal}>{accountType}</Box>
           </Box>
         </Box>
       )
     },
   },
   {
-    accessor: 'createdDate',
+    accessor: 'createdAt',
     title: 'Created',
-    render: ({ createdDate }) => {
+    render: ({ createdAt }) => {
       return (
         <>
           <Box className={styles.createdDate}>
-            {dayjs(createdDate).format('DD--MM-YYYY')}
+            {dayjs(createdAt).format('DD--MM-YYYY')}
           </Box>
           <Box className={styles.createdTime}>
-            {dayjs(createdDate).format('hh:mm A')}
+            {dayjs(createdAt).format('hh:mm A')}
           </Box>
         </>
       )
@@ -45,6 +48,8 @@ export const columns = [
   {
     accessor: 'followers',
     title: 'Followers',
+    textAlign: 'center',
+    render: ({ followers }) => followers?.length,
   },
   {
     accessor: 'location',
@@ -59,80 +64,5 @@ export const columns = [
     accessor: 'pendingAds',
     title: 'Pending Ads',
     textAlign: 'center',
-  },
-]
-
-export const data = [
-  {
-    id: "6f9sd34969a0f1",
-    title: "USED 2.0 L 2020 KIA Picanto...",
-    model: "2016 Ford Escape",
-    image: ImgPostVehicle,
-    createdDate: new Date(),
-    followers: '1325',
-    email: "abc@gmail.com",
-    location: "Perth",
-    activeAds: "154",
-    pendingAds: '400',
-  },
-  {
-    id: "6f9sd34969a0f2",
-    title: "Stock ID 24563",
-    model: "2016 Ford Escape",
-    image: ImgPostVehicle,
-    createdDate: new Date(),
-    followers: '1325',
-    email: "abc@gmail.com",
-    location: "Sydney",
-    activeAds: "154",
-    pendingAds: '300',
-  },
-  {
-    id: "6f9sd34969a0f3",
-    title: "Stock ID 24563",
-    model: "2016 Ford Escape",
-    image: ImgPostVehicle,
-    createdDate: new Date(),
-    followers: '1325',
-    email: "abc@gmail.com",
-    location: "Perth",
-    activeAds: "154",
-    pendingAds: '300',
-  },
-  {
-    id: "6f9sd34969a0f4",
-    title: "Stock ID 24563",
-    model: "2016 Ford Escape",
-    image: ImgPostVehicle,
-    createdDate: new Date(),
-    followers: '1325',
-    email: "abc@gmail.com",
-    location: "Perth",
-    activeAds: "154",
-    pendingAds: '200',
-  },
-  {
-    id: "6f9sd34969a0f5",
-    title: "Stock ID 24563",
-    model: "2016 Ford Escape",
-    image: ImgPostVehicle,
-    createdDate: new Date(),
-    followers: '1325',
-    email: "abc@gmail.com",
-    location: "Perth",
-    activeAds: "154",
-    pendingAds: '200',
-  },
-  {
-    id: "6f9sd34969a0f6",
-    title: "Stock ID 24563",
-    model: "2016 Ford Escape",
-    image: ImgPostVehicle,
-    createdDate: new Date(),
-    followers: '1325',
-    email: "abc@gmail.com",
-    location: "Perth",
-    activeAds: "154",
-    pendingAds: '300',
   },
 ]

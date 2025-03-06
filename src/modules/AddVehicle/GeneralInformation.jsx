@@ -12,8 +12,15 @@ export const GeneralInformation = ({ form }) => {
   useEffect(() => {
     setPreviews(form.values.images)
   }, [])
-  
 
+  /**
+   * Handles image drop from user.
+   * 1. Creates blob URLs for the dropped images.
+   * 2. Uploads the images to the server.
+   * 3. Updates the form's images field with the uploaded image URLs.
+   * 4. Sets the first image as default if no default image exists.
+   * @param {File[]} files - The dropped images.
+   */
   const handleFileDrop = async (files) => {
     if (files?.length) {
       const newPreviews = files.map(file => URL.createObjectURL(file));
@@ -27,12 +34,18 @@ export const GeneralInformation = ({ form }) => {
         });
 
         const responses = await Promise.all(uploadPromises);
+        console.log(">>>responses",responses);
         const imageUrls = responses.map(response => response?.data[0]);
         const updatedImages = [...(form.values.images || []), ...imageUrls];
+        
         form.setFieldValue('images', updatedImages);
+        console.log(">>>updatedImages",updatedImages);
         
         // Set first image as default if no default exists
-        if (!form.values.defaultImage) {
+        console.log(">>>updatedImages..",form.values.defaultImage);
+
+        if (form.values.defaultImage == "null") {
+          console.log(">>>>>>>>>");
           form.setFieldValue('defaultImage', updatedImages[0]);
         }
       } catch (error) {
@@ -126,13 +139,14 @@ export const GeneralInformation = ({ form }) => {
 
       {/* Colors and Release Date */}
       <Grid.Col span={6}>
-        <MultiSelect
-          value={form.values.colorsAvailable}
-          label="Available Colors"
-          placeholder="Select available colors"
-          data={["white","red"]}
-          {...form.getInputProps('colorsAvailable')}
-          name="colors"
+      <NumberInput
+          label="Price"
+          required
+          value={form.values.price}
+          min={0}
+          placeholder="Enter maximum price"
+          {...form.getInputProps('price')}
+          name="price"
         />
       </Grid.Col>
       <Grid.Col span={6}>

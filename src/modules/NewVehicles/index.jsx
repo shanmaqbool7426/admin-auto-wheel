@@ -1,11 +1,11 @@
 'use client';
 import React from 'react';
-import { Box } from '@mantine/core';
+import { Box, LoadingOverlay, Center, Paper } from '@mantine/core';
 import Search from '@/components/Search';
 import FormField from '@/components/FormField';
 import DataTable from '@/components/DataTable';
 import CustomButton from '@/components/CustomButton';
-import useNewVehicles  from './useNewVehicles';
+ import useNewVehicles from './useNewVehicles';
 import { getColumns } from './NewVehicles.data';
 import { IconPlus } from '@/assets/icons';
 import styles from './NewVehicles.module.css';
@@ -38,17 +38,39 @@ export default function NewVehicles() {
     handleClickEditRow,
     handleClickDeleteRow,
     handleClickDuplicate,
-
+    error,
+    isSubmitting,
   } = useNewVehicles();
 
   const router = useRouter();
-
   const columns = getColumns(handleClickEditRow, handleOpenDeleteModal, handleClickDuplicate, router);
   const [bulkActionValue, setBulkActionValue] = React.useState('');
 
-  console.log(">>>>>data", data);
+  if (isLoading) {
+    return (
+      <Center h={200}>
+        <LoadingOverlay visible={true} />
+      </Center>
+    );
+  }
+
+  if (error) {
+    return (
+      <Box m={2}>
+        <Alert severity="error">{error}</Alert>
+      </Box>
+    );
+  }
+
   return (
-    <>
+    <Paper p="md" pos="relative">
+      {/* Replace loading overlay */}
+      <LoadingOverlay 
+        visible={isSubmitting || isFetching} 
+        zIndex={1000}
+        overlayProps={{ radius: "sm", blur: 2 }}
+      />
+      
       <Box className={styles.filterbar}>
         <Box className={styles.filterbarLeft}>
           <Box className={styles.searchbar}>
@@ -111,6 +133,7 @@ export default function NewVehicles() {
           </Box>
         </Box>
       </Box>
+
       <Box>
         <DataTable
           columns={columns}
@@ -132,8 +155,7 @@ export default function NewVehicles() {
         open={openDeleteModal}
         onClose={handleCloseDeleteModal}
         onSubmit={handleDeleteVehicle}
-        // isLoading={loadingDelete}
       />
-    </>
+    </Paper>
   );
 }

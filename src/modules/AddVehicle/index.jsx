@@ -1,18 +1,5 @@
 "use client"
-import {
-  Box,
-  Paper,
-  Title,
-  Tabs,
-  Group,
-  Button,
-  LoadingOverlay,
-  Grid,
-  Select,
-  TextInput,
-  NumberInput,
-  Modal
-} from '@mantine/core';
+import { Box, Paper, Title, Tabs, Button, LoadingOverlay, Grid, Select, TextInput, Alert } from '@mantine/core';
 import { memo, useEffect, useState } from 'react';
 import { useAddVehicle } from './useAddVehicle';
 import MakeModelVariantModel from '@/components/MakeModelVariantModel';
@@ -21,12 +8,10 @@ import BikeSpecifications from './BikeSpecifications';
 import { TruckSpecifications } from './TruckSpecifications';
 import { GeneralInformation } from './GeneralInformation';
 import useMakes from '../Makes/useMakes';
-import { DateInput } from '@mantine/dates';
-//   import MakeModelVariantModel from '@/components/MakeModelVariantModel';
 
-const AddVehicle = memo(({ editData,type }) => {
-  const { form, handleSubmit, isLoading ,bodyData} = useAddVehicle(editData?.data,type);
-  const { makesData, transformedMakesData } = useMakes()
+const AddVehicle = memo(({ editData, type }) => {
+  const { form, handleSubmit, isLoading, isSubmitting, bodyData, error } = useAddVehicle(editData?.data, type);
+  const { makesData } = useMakes();
   const [activeTab, setActiveTab] = useState('basic');
   const [isModelOpen, setIsModelOpen] = useState(false);
   const [selection, setSelection] = useState({
@@ -35,6 +20,7 @@ const AddVehicle = memo(({ editData,type }) => {
     variant: editData?.data?.info?.variant || ''
   });
 
+  console.log('isLoading', isLoading);
 
   // Current year for the year dropdown
   const currentYear = new Date().getFullYear();
@@ -43,23 +29,28 @@ const AddVehicle = memo(({ editData,type }) => {
     label: (currentYear - i).toString()
   }));
 
-
-
   const vehicleType = form.values.type;
-  const handleNextClick = () => {
+
+  // Validate current tab fields
+  const validateCurrentTab = () => {
     const tabValidation = {
-      basic: ['type', 'make', 'model', 'variant', 'year', 'bodyType',"releaseDate"],
+      basic: ['type', 'make', 'model', 'variant', 'year', 'bodyType'],
       general: ['minPrice', 'maxPrice', 'description', 'defaultImage'],
       specifications: [],
     };
 
     const currentTabFields = tabValidation[activeTab] || [];
-    const hasErrors = currentTabFields.some(field => {
+    const errors = currentTabFields.reduce((acc, field) => {
       const error = form.validateField(field);
-      return error;
-    });
+      if (error) acc[field] = error;
+      return acc;
+    }, {});
 
-    if (!hasErrors) {
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleNextClick = () => {
+    if (validateCurrentTab()) {
       const tabOrder = ['basic', 'general', 'specifications'];
       const currentIndex = tabOrder.indexOf(activeTab);
       if (currentIndex < tabOrder.length - 1) {
@@ -123,13 +114,24 @@ const AddVehicle = memo(({ editData,type }) => {
     form.setFieldValue('variant', editData?.data?.Info?.variant || selection.variant);
   }, [selection]);
 
-
   return (
     <Box p="md">
       <Paper shadow="xs" p="md" pos="relative">
-        <LoadingOverlay visible={isLoading} />
+        <LoadingOverlay 
+          visible={isLoading || isSubmitting} 
+          zIndex={1000}
+          overlayProps={{ radius: "sm", blur: 2 }}
+        />
 
-        <Title order={2} mb="lg">Add New Vehicle</Title>
+        <Title order={2} mb="lg">
+          {editData ? 'Edit Vehicle' : 'Add New Vehicle'}
+        </Title>
+
+        {error && (
+          <Alert color="red" mb="md">
+            {error}
+          </Alert>
+        )}
 
         <form onSubmit={handleSubmit}>
           <Tabs value={activeTab} onChange={setActiveTab}>
@@ -159,15 +161,6 @@ const AddVehicle = memo(({ editData,type }) => {
 
                 {/* Make */}
                 <Grid.Col span={4} onClick={() => setIsModelOpen(true)}>
-                  {/* <TextInput
-                      label="Make"
-                      required
-                      placeholder="Select make"
-                      value={selection.make}
-                      onClick={() => setIsModelOpen(true)}
-                      readOnly
-                      // styles={{ input: { cursor: 'pointer' } }}
-                    /> */}
                   <TextInput
                     label="Make"
                     onClick={() => setIsModelOpen(true)}
@@ -225,20 +218,18 @@ const AddVehicle = memo(({ editData,type }) => {
                     required
                     data={bodyData}
                     {...form.getInputProps('bodyType')}
-                    // disabled={!form.values.type}
                   />
                 </Grid.Col>
+
+                {Object.keys(form.errors).length > 0 && (
+                  <Grid.Col span={12}>
+                    <Alert color="red">
+                      Please fix the validation errors before proceeding
+                    </Alert>
+                  </Grid.Col>
+                )}
               </Grid>
 
-                    
-
-              {/* Modal for Make/Model/Variant selection */}
-              {/* <Modal
-                  opened={isModelOpen}
-                  onClose={() => setIsModelOpen(false)}
-                  title="Select Make, Model & Variant"
-                  size="lg"
-                > */}
               <MakeModelVariantModel
                 selection={selection}
                 fetchMakesByTypeData={makesData}
@@ -248,7 +239,6 @@ const AddVehicle = memo(({ editData,type }) => {
                 onClose={() => setIsModelOpen(false)}
                 type={form.values.type}
               />
-              {/* </Modal> */}
             </Tabs.Panel>
 
             <Tabs.Panel value="general">
@@ -271,6 +261,7 @@ const AddVehicle = memo(({ editData,type }) => {
                     setActiveTab(tabOrder[currentIndex - 1]);
                   }
                 }}
+                disabled={isSubmitting}
               >
                 Back
               </Button>
@@ -279,36 +270,9 @@ const AddVehicle = memo(({ editData,type }) => {
             {activeTab !== 'specifications' ? (
               <Button
                 color="blue"
-                onClick={() => {
-                  // Validation logic based on current tab
-                  let canProceed = true;
-
-                  if (activeTab === 'basic') {
-                    const requiredFields = ['type', 'make', 'model', 'variant', 'year', 'bodyType'];
-                    canProceed = requiredFields.every(field => {
-                      const value = form.values[field];
-                      return value !== undefined && value !== '';
-                    });
-                  } else if (activeTab === 'general') {
-                    const requiredFields = ['minPrice', 'maxPrice', 'description', 'defaultImage'];
-                    canProceed = requiredFields.every(field => {
-                      const value = form.values[field];
-                      return value !== undefined && value !== '';
-                    });
-                  }
-
-                  // Only proceed if validation passes
-                  if (canProceed) {
-                    const tabOrder = ['basic', 'general', 'specifications'];
-                    const currentIndex = tabOrder.indexOf(activeTab);
-                    if (currentIndex < tabOrder.length - 1) {
-                      setActiveTab(tabOrder[currentIndex + 1]);
-                    }
-                  } else {
-                    // Show error message or handle validation failure
-                    alert('Please fill in all required fields before proceeding.');
-                  }
-                }}
+                onClick={handleNextClick}
+                loading={isSubmitting}
+                disabled={Object.keys(form.errors).length > 0}
               >
                 Next
               </Button>
@@ -316,9 +280,10 @@ const AddVehicle = memo(({ editData,type }) => {
               <Button
                 color="green"
                 type="submit"
-                loading={isLoading}
+                loading={isSubmitting}
+                disabled={Object.keys(form.errors).length > 0}
               >
-                Submit Vehicle
+                {editData ? 'Update Vehicle' : 'Submit Vehicle'}
               </Button>
             )}
           </Box>

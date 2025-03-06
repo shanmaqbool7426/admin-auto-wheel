@@ -68,3 +68,17 @@
   background-color: transparent;
   color: #1B84FF;
 }
+
+.filterButton {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid #ced4da;
+  height: 32px;
+  border-radius: 16px;
+  color: #878787;
+  font-size: 14px;
+  padding: 0 8px;
+  background-color: #ffffff;
+  cursor: pointer;
+}

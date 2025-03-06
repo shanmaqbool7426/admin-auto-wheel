@@ -4,16 +4,7 @@ import useLocationBaseUsers from './useLocationBaseUsers';
 import dynamic from 'next/dynamic';
 import styles from './LocationBaseUser.module.css';
 import Card from '@/components/Card';
-const Chart = dynamic(() => import('react-apexcharts').then((mod) => {
-  // Import ApexCharts only on client side
-  if (typeof window !== 'undefined') {
-    return mod.default;
-  }
-  return null;
-}), {
-  ssr: false,
-  loading: () => <div>Loading Chart...</div>
-});
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 export default function LocationBaseUser() {
   const {
@@ -40,4 +31,3 @@ export default function LocationBaseUser() {
     </Box>
   )
 }
-

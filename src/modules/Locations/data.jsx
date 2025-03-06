@@ -16,6 +16,11 @@ export const getColumns = () => [
     title: 'Slug',
   },
   {
+    accessor: 'type',
+    title: 'Type',
+    render: ({ type }) => (<Box>{type}</Box>)
+  },
+  {
     accessor: 'vehicleCount',
     title: 'Count',
     textAlign: 'center',

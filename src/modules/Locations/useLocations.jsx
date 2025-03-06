@@ -7,6 +7,8 @@ import {
 } from '@/services/location';
 import { PAGE_SIZE } from '@/constants/pagination';
 import { successSnackbar, errorSnackbar } from '@/utils/snackbar';
+import { useForm } from '@mantine/form';
+import { Country, State, City } from 'country-state-city';
 
 export default function useLocations() {
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
@@ -71,6 +73,67 @@ export default function useLocations() {
   };
 
 
+  const [selectedCountry, setSelectedCountry] = useState('');
+  const [selectedState, setSelectedState] = useState('');
+  const [selectedCity, setSelectedCity] = useState('');
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [openFilterDrawer, setOpenFilterDrawer] = useState(false);
+
+  const handleCountryChange = (country) => {
+    console.log('country::; ', country);
+    setSelectedCountry(country);
+    setSelectedState(''); // Reset state when country changes
+    setSelectedCity(''); // Reset city when country changes
+
+    // Fetch states for the selected country
+    const fetchedStates = State.getStatesOfCountry(country).map((state) => ({
+      value: state.isoCode,
+      label: state.name,
+    }));
+    setStates(fetchedStates);
+  };
+
+  const handleStateChange = (state) => {
+    setSelectedState(state);
+    setSelectedCity(''); // Reset city when state changes
+
+    // Fetch cities for the selected state
+    const fetchedCities = City.getCitiesOfState(selectedCountry, state).map((city) => ({
+      value: city.name,
+      label: city.name,
+    }));
+    setCities(fetchedCities);
+  };
+
+
+  const filterForm = useForm({
+    initialValues: {
+      country: "",
+      state: "",
+      city: "",
+    },
+  });
+
+  const handleOpenDrawer = () => {
+    setOpenFilterDrawer(true)
+  }
+  const handleCloseDrawer = () => {
+    setOpenFilterDrawer(false)
+  }
+
+  const handleSubmit = (values) => {
+    console.log("Form Submitted:", values);
+  };
+
+  // const handleFilterSubmit = async (values) => {
+  //   console.log('Form Data:: ', values);
+  // };
+
+
+
+
+
   return {
     page,
     setPage,
@@ -93,5 +156,11 @@ export default function useLocations() {
     handleBulkAction,
     handleBulkDeleteLocations,
     loadingBulkDelete,
+
+    openFilterDrawer,
+    handleOpenDrawer,
+    handleCloseDrawer,
+    handleSubmit,
+    filterForm,
   };
 }

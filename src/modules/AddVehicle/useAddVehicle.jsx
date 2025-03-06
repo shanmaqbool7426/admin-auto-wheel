@@ -1,13 +1,19 @@
 import { useForm } from '@mantine/form';
+import { useRouter } from 'next/navigation';
+import { notifications } from '@mantine/notifications';
+import { IconX, IconCheck } from '@tabler/icons-react';
 import { useCreateVehicleMutation, useUpdateVehicleMutation } from '@/services/vehicle-manage';
 import { useGetBodiesQuery } from '@/services/bodies';
-import { notifications } from '@mantine/notifications';
+import { useState, useEffect } from 'react';
 
 export const useAddVehicle = (editData, type) => {
-  const [createVehicle] = useCreateVehicleMutation()
-  const [updateVehicle] = useUpdateVehicleMutation()
+  const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState(null);
 
-  // get bodies
+  const [createVehicle] = useCreateVehicleMutation();
+  const [updateVehicle] = useUpdateVehicleMutation();
+
   const form = useForm({
     initialValues: {
       // Basic Information
@@ -22,6 +28,7 @@ export const useAddVehicle = (editData, type) => {
       // General Info
       minPrice: editData?.minPrice || '',
       maxPrice: editData?.maxPrice || '',
+      price: editData?.price || '',
       colorsAvailable: editData?.colorsAvailable || [],
       releaseDate: editData?.releaseDate || new Date(),
       description: editData?.description || '',
@@ -267,75 +274,81 @@ export const useAddVehicle = (editData, type) => {
     },
 
     validate: {
-      // Add validation rules as needed
-      // type: (value) => (!value ? 'Vehicle type is required' : null),
-      // make: (value) => (!value ? 'Make is required' : null),
-      // model: (value) => (!value ? 'Model is required' : null),
-      // ... add more validation rules
-    }
+      type: (value) => (!value ? 'Vehicle type is required' : null),
+      make: (value) => (!value ? 'Make is required' : null),
+      model: (value) => (!value ? 'Model is required' : null),
+      variant: (value) => (!value ? 'Variant is required' : null),
+      year: (value) => (!value ? 'Year is required' : null),
+      bodyType: (value) => (!value ? 'Body type is required' : null),
+      minPrice: (value) => (!value ? 'Minimum price is required' : null),
+      maxPrice: (value, values) => {
+        if (!value) return 'Maximum price is required';
+        if (Number(value) <= Number(values.minPrice)) return 'Maximum price must be greater than minimum price';
+        return null;
+      },
+    },
   });
-  const { data: getBodiesData } = useGetBodiesQuery({type: form.values.type})
-  const bodyData = getBodiesData?.data?.map(body => ({ value: body?._id, label: body?.title })) || [];
- 
 
-  // Function to recursively merge edit data with initial values
-  // const mergeWithInitialValues = (initial, edit) => {
-  //   if (!edit) return initial;
-
-  //   const merged = { ...initial };
-
-  //   Object.keys(initial).forEach(key => {
-  //     if (edit.hasOwnProperty(key)) {
-  //       if (typeof initial[key] === 'object' && !Array.isArray(initial[key]) && initial[key] !== null) {
-  //         merged[key] = mergeWithInitialValues(initial[key], edit[key]);
-  //       } else {
-  //         merged[key] = edit[key];
-  //       }
-  //     }
-  //   });
-
-  //   return merged;
-  // };
-
+  const { data: getBodiesData, isLoading: isLoadingBodies, error: bodiesError } = useGetBodiesQuery(
+    { type: form.values.type },
+    { skip: !form.values.type }
+  );
 
   const handleSubmit = async (values) => {
+    setIsSubmitting(true);
+    setError(null);
+    
     try {
       if (editData) {
-        const response = await updateVehicle({
-          vehicleId: editData?._id,
-          ...values
-        }).unwrap();
-
+        await updateVehicle({ vehicleId: editData?._id, ...values }).unwrap();
         notifications.show({
           title: 'Success',
           message: 'Vehicle updated successfully',
           color: 'green',
+          icon: <IconCheck />,
         });
-
-        return response;
+        router.push('/vehicle');
       } else {
-        const response = await createVehicle(values).unwrap();
-
+        await createVehicle(values).unwrap();
         notifications.show({
           title: 'Success',
           message: 'Vehicle created successfully',
           color: 'green',
+          icon: <IconCheck />,
         });
-
-        return response;
+        router.push('/vehicles');
       }
     } catch (error) {
+      setError(error?.data?.message || 'Something went wrong');
       notifications.show({
         title: 'Error',
         message: error?.data?.message || 'Something went wrong',
         color: 'red',
+        icon: <IconX />,
       });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
+  // Show error notification for bodies loading error
+  useEffect(() => {
+    if (bodiesError) {
+      notifications.show({
+        title: 'Error',
+        message: 'Failed to load body types',
+        color: 'red',
+        icon: <IconX />,
+      });
+    }
+  }, [bodiesError]);
+
   return {
     form,
-    bodyData,
-    handleSubmit: form.onSubmit(handleSubmit)
+    bodyData: getBodiesData?.data?.map(body => ({ value: body?._id, label: body?.title })) || [],
+    handleSubmit: form.onSubmit(handleSubmit),
+    isLoading: isLoadingBodies,
+    isSubmitting,
+    error
   };
 };

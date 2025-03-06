@@ -1,42 +1,43 @@
 import dayjs from 'dayjs';
-import { ActionIcon, Group, Box } from '@mantine/core';
+import { Box } from '@mantine/core';
 import Image from 'next/image';
 import styles from './LatestPosts.module.css';
-import { ImgPostVehicle } from '@/assets/images';
 
 export const columns = [
   {
     accessor: 'post',
     title: 'Post',
-    render: ({ title, image, model }) => {
+    render: ({ title, imageUrl, author }) => {
       return (
         <Box className={styles.tableTitle}>
           <Box className={styles.tableTitleImage}>
-            <Image src={image} alt="car" width={44} height={36} />
+            <Image src={imageUrl} alt="car" width={44} height={36} />
           </Box>
           <Box className={styles.tableTitleText}>
             <Box className={styles.tableTitleTitle}>{title}</Box>
-            <Box className={styles.tableTitleModal}>{model}</Box>
+            <Box className={styles.tableTitleModal}>{author}</Box>
           </Box>
         </Box>
       )
     },
   },
   {
-    accessor: 'createdDate',
+    accessor: 'createdAt',
     title: 'Created',
-    render: ({ createdDate }) => {
-      return (
+    render: ({ createdAt }) => (
+      !createdAt ? (
+        <>-</>
+      ) : (
         <>
           <Box className={styles.createdDate}>
-            {dayjs(createdDate).format('DD--MM-YYYY')}
+            {dayjs(createdAt).format('DD--MM-YYYY')}
           </Box>
           <Box className={styles.createdTime}>
-            {dayjs(createdDate).format('hh:mm A')}
+            {dayjs(createdAt).format('hh:mm A')}
           </Box>
         </>
       )
-    },
+    ),
   },
   {
     accessor: 'type',
@@ -47,12 +48,14 @@ export const columns = [
     title: 'User',
   },
   {
-    accessor: 'views',
+    accessor: 'viewCount',
     title: 'Views',
+    textAlign: 'center',
   },
   {
     accessor: 'clicks',
     title: 'Clicks',
+    textAlign: 'center',
   },
   {
     accessor: 'status',
@@ -66,80 +69,5 @@ export const columns = [
         </>
       )
     },
-  },
-]
-
-export const data = [
-  {
-    id: "6f9sd34969a0f1",
-    title: "USED 2.0 L 2020 KIA Picanto...",
-    model: "2016 Ford Escape",
-    image: ImgPostVehicle,
-    createdDate: new Date(),
-    user: 'John Doe',
-    type: "Car",
-    views: "100",
-    clicks: "200",
-    status: 'active',
-  },
-  {
-    id: "6f9sd34969a0f2",
-    title: "Stock ID 24563",
-    model: "2016 Ford Escape",
-    image: ImgPostVehicle,
-    createdDate: new Date(),
-    user: 'John Doe',
-    type: "Car",
-    views: "98",
-    clicks: "154",
-    status: 'pending',
-  },
-  {
-    id: "6f9sd34969a0f3",
-    title: "Stock ID 24563",
-    model: "2016 Ford Escape",
-    image: ImgPostVehicle,
-    createdDate: new Date(),
-    user: 'John Doe',
-    type: "Car",
-    views: "98",
-    clicks: "154",
-    status: 'active',
-  },
-  {
-    id: "6f9sd34969a0f4",
-    title: "Stock ID 24563",
-    model: "2016 Ford Escape",
-    image: ImgPostVehicle,
-    createdDate: new Date(),
-    user: 'John Doe',
-    type: "Car",
-    views: "98",
-    clicks: "154",
-    status: 'pending',
-  },
-  {
-    id: "6f9sd34969a0f5",
-    title: "Stock ID 24563",
-    model: "2016 Ford Escape",
-    image: ImgPostVehicle,
-    createdDate: new Date(),
-    user: 'John Doe',
-    type: "Car",
-    views: "98",
-    clicks: "154",
-    status: 'active',
-  },
-  {
-    id: "6f9sd34969a0f6",
-    title: "Stock ID 24563",
-    model: "2016 Ford Escape",
-    image: ImgPostVehicle,
-    createdDate: new Date(),
-    user: 'John Doe',
-    type: "Car",
-    views: "98",
-    clicks: "154",
-    status: 'active',
   },
 ]

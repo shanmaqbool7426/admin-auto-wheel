@@ -65,7 +65,7 @@ export default function Categories() {
           <Box className={styles.searchbar}>
             <Search setSearchBy={setSearchBy} />
           </Box>
-          {hasEditPermission && (
+          {true && (
             <Box className={styles.dropdown}>
               <FormField
                 type="select"
@@ -96,7 +96,7 @@ export default function Categories() {
                 onChange={(_value, option) => handleChangeFilter('sortOrder', option.value)}
               />
             </Box>
-            {hasEditPermission && (
+            {true && (
               <Box>
                 <CustomButton
                   leftSection={<IconPlus />}
@@ -124,7 +124,7 @@ export default function Categories() {
         />
       </Box>
 
-      {hasEditPermission && (
+      {true && (
         <>
           <AddCategory
             title={modalTitle}
