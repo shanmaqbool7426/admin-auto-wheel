@@ -18,8 +18,11 @@ export const END_POINTS = {
 
   // Location endpoints
   LOCATION: '/location',
+  LOCATION_CHILDREN: '/location/children',
   LOCATION_PROVINCES: '/location/provinces',
   LOCATION_DELETE: '/location/bulk-delete',
+  LOCATION_CITIES: '/location/cities',
+  
   // Footer
   FOOTER: '/footer',
   FOOTER_LINK: '/footer-link',

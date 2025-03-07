@@ -3,15 +3,24 @@ import { Drawer, Grid, Autocomplete } from '@mantine/core';
 import CustomButton from '@/components/CustomButton';
 import styles from './FilterDrawer.module.css';
 import { Country, State, City } from "country-state-city";
+import { useGetLocationsQuery, useGetChildrenLocationsQuery } from '@/services/location';
 
 export default function FilterDrawer({ open, onClose, form, handleSubmit }) {
 
   const [countries] = useState(Country.getAllCountries());
+  const { data: locationsData } = useGetLocationsQuery({
+    type: "province",
+    limit: 1000,
+  });
+  const { data: childrenLocationsData } = useGetChildrenLocationsQuery("67ca1ef58928ed870d9578eb");
+
+  
+  console.log('childrenLocationsData::... ', childrenLocationsData);
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
 
   const handleCountryChange = (value) => {
-    form.setFieldValue("country", value); // Update form value
+    // form.setFieldValue("country", value); // Update form value
     form.setFieldValue("state", ""); // Clear state field
     form.setFieldValue("city", ""); // Clear city field
     setStates([]);
@@ -54,30 +63,17 @@ export default function FilterDrawer({ open, onClose, form, handleSubmit }) {
     >
       <form onSubmit={form.onSubmit(handleSubmit)}>
         <Grid gutter="24px">
-
           <Grid.Col span={12}>
             <Autocomplete
-              label="Country"
-              placeholder="Select a country"
-              data={countries.map((country) => country.name)}
-              value={form.values.country}
-              onChange={handleCountryChange}
-              error={form.errors.country}
-            />
-          </Grid.Col>
-
-          <Grid.Col span={12}>
-            <Autocomplete
-              label="State"
-              placeholder="Select a state"
-              data={states.map((state) => state.name)}
-              value={form.values.state}
+              label="Province"
+              placeholder="Select a province"
+              data={locationsData?.data?.locations?.map((location) => location.name)}
+              value={form.values.province}
               onChange={(value) => {
-                form.setFieldValue("state", value);
+                form.setFieldValue("province", value);
                 handleStateChange(value);
               }}
-              disabled={!form.values.country}
-              error={form.errors.state}
+              error={form.errors.province}
             />
           </Grid.Col>
 

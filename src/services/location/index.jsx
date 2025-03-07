@@ -38,13 +38,19 @@ export const locationAPIs = BASE_API.injectEndpoints({
       },
       invalidatesTags: ['LOCATIONS'],
     }),
-
+    getChildrenLocations: builder.query({
+      query: (parentId) => ({
+        url: `${END_POINTS?.LOCATION_CHILDREN}/${parentId}`,
+        method: 'GET',
+      }),
+    }),
   }),
 });
 
 
 export const {
   useGetLocationsQuery,
+  useGetChildrenLocationsQuery,
   useAddLocationMutation,
   useDeleteBulkLocationMutation,
   useGetStatesOfCountry,

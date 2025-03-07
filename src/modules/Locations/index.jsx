@@ -68,9 +68,9 @@ export default function Locations() {
           </Box>
         </Box>
         <Box className={styles.filterbarRight}>
-          <Box className={styles.filterButton} onClick={handleOpenDrawer}>
+          {/* <Box className={styles.filterButton} onClick={handleOpenDrawer}>
             <IconFilter style={{ width: '70%', height: '70%' }} stroke={1.5} /> Filter
-          </Box>
+          </Box> */}
 
           <Box>
             <CustomButton

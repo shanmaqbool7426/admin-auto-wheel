@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import CustomModal from '@/components/CustomModal'
 import useAddLocation from './useAddLocation'
 import { Grid } from '@mantine/core'
@@ -10,7 +10,13 @@ export default function AddLocation({ open, setOnClose }) {
     form,
     handleSubmit,
     isLoading,
+    locations
   } = useAddLocation(setOnClose);
+
+  useEffect(() => {
+    // Debug form values changes
+    console.log('Form values updated:', form.values);
+  }, [form.values]);
 
   return (
     <CustomModal
@@ -19,9 +25,7 @@ export default function AddLocation({ open, setOnClose }) {
       onClose={() => setOnClose(false)}
     >
       <form
-        onSubmit={
-          form.onSubmit((values) => handleSubmit(values))
-        }
+        onSubmit={form.onSubmit((values) => handleSubmit(values))}
       >
         <Grid gutter="30px">
           <Grid.Col span={12}>
@@ -56,6 +60,36 @@ export default function AddLocation({ open, setOnClose }) {
               {...form.getInputProps('slug')}
             />
           </Grid.Col>
+          {/* parent id and parent type */}
+          <Grid.Col span={12}>
+            <FormField
+              label="Parent Type:"
+              type="select"
+              placeholder="Parent Type"
+              data={[
+                { value: 'country', label: 'Country' },
+                { value: 'province', label: 'Province' },
+                { value: 'city', label: 'City' },
+                { value: 'suburb', label: 'Suburb' },
+              ]}
+              {...form.getInputProps('parentType')}
+            />
+          </Grid.Col>
+
+          <Grid.Col span={12}>
+            <FormField
+              label="Parent ID:"
+              type="select"
+              data={locations?.map((location) => ({
+                value: location._id,
+                label: location.name,
+              })) || []}
+              placeholder="Parent ID"
+
+              {...form.getInputProps('parentId')}
+            />
+          </Grid.Col>
+
 
           <Grid.Col span={12}>
             <FormField
