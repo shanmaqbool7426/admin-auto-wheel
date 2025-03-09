@@ -8,9 +8,10 @@ import BikeSpecifications from './BikeSpecifications';
 import { TruckSpecifications } from './TruckSpecifications';
 import { GeneralInformation } from './GeneralInformation';
 import useMakes from '../Makes/useMakes';
+import { values } from 'lodash';
 
 const AddVehicle = memo(({ editData, type }) => {
-  const { form, handleSubmit, isLoading, isSubmitting, bodyData, error } = useAddVehicle(editData?.data, type);
+  const { form, handleSubmit, isLoading, isSubmitting, bodyData, error, colors } = useAddVehicle(editData?.data, type);
   const { makesData } = useMakes();
   const [activeTab, setActiveTab] = useState('basic');
   const [isModelOpen, setIsModelOpen] = useState(false);
@@ -20,10 +21,9 @@ const AddVehicle = memo(({ editData, type }) => {
     variant: editData?.data?.info?.variant || ''
   });
 
-  console.log('isLoading', isLoading);
 
   // Current year for the year dropdown
-  const currentYear = new Date().getFullYear();
+  const currentYear = new Date().getFullYear()+2;
   const years = Array.from({ length: 30 }, (_, i) => ({
     value: (currentYear - i).toString(),
     label: (currentYear - i).toString()
@@ -45,12 +45,15 @@ const AddVehicle = memo(({ editData, type }) => {
       if (error) acc[field] = error;
       return acc;
     }, {});
+    console.log('errors', errors);
 
-    return Object.keys(errors).length === 0;
+    return  Object.values(errors).filter(item => item.hasError === true).length=== 0;
   };
 
+  console.log('formdata', form.values);
+
   const handleNextClick = () => {
-    if (validateCurrentTab()) {
+    if (true) {
       const tabOrder = ['basic', 'general', 'specifications'];
       const currentIndex = tabOrder.indexOf(activeTab);
       if (currentIndex < tabOrder.length - 1) {
@@ -114,6 +117,8 @@ const AddVehicle = memo(({ editData, type }) => {
     form.setFieldValue('variant', editData?.data?.Info?.variant || selection.variant);
   }, [selection]);
 
+
+  console.log('form...........', form.values);
   return (
     <Box p="md">
       <Paper shadow="xs" p="md" pos="relative">
@@ -269,6 +274,7 @@ const AddVehicle = memo(({ editData, type }) => {
 
             {activeTab !== 'specifications' ? (
               <Button
+                
                 color="blue"
                 onClick={handleNextClick}
                 loading={isSubmitting}

@@ -35,7 +35,13 @@ export const usersAPIs = BASE_API.injectEndpoints({
         method: 'GET',
       }),
     }),
-
+    // get colors
+    getColors: builder.query({    
+      query: () => ({
+        url: `${END_POINTS?.COLORS}`,
+        method: 'GET',
+      }),
+    }),
     createVehicle: builder.mutation({
       query: (body) => ({
         url: `${END_POINTS?.VEHICLES}`,
@@ -86,5 +92,6 @@ export const {
   useDeleteBulkVehicleMutation,
   useUpdateVehicleMutation,
   useGetVehicleQuery,
+  useGetColorsQuery,
   useUploadImageMutation
 } = usersAPIs;

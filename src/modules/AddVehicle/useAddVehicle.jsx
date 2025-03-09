@@ -2,13 +2,14 @@ import { useForm } from '@mantine/form';
 import { useRouter } from 'next/navigation';
 import { notifications } from '@mantine/notifications';
 import { IconX, IconCheck } from '@tabler/icons-react';
-import { useCreateVehicleMutation, useUpdateVehicleMutation } from '@/services/vehicle-manage';
+import { useCreateVehicleMutation, useUpdateVehicleMutation, useGetColorsQuery } from '@/services/vehicle-manage';
 import { useGetBodiesQuery } from '@/services/bodies';
 import { useState, useEffect } from 'react';
 
 export const useAddVehicle = (editData, type) => {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
+ const{data: colors}=  useGetColorsQuery()
   const [error, setError] = useState(null);
 
   const [createVehicle] = useCreateVehicleMutation();
@@ -289,6 +290,8 @@ export const useAddVehicle = (editData, type) => {
     },
   });
 
+  console.log("editData....",editData?.images);
+
   const { data: getBodiesData, isLoading: isLoadingBodies, error: bodiesError } = useGetBodiesQuery(
     { type: form.values.type },
     { skip: !form.values.type }
@@ -316,7 +319,7 @@ export const useAddVehicle = (editData, type) => {
           color: 'green',
           icon: <IconCheck />,
         });
-        router.push('/vehicles');
+        router.push('/vehicle');
       }
     } catch (error) {
       setError(error?.data?.message || 'Something went wrong');
@@ -345,6 +348,7 @@ export const useAddVehicle = (editData, type) => {
 
   return {
     form,
+    colors,
     bodyData: getBodiesData?.data?.map(body => ({ value: body?._id, label: body?.title })) || [],
     handleSubmit: form.onSubmit(handleSubmit),
     isLoading: isLoadingBodies,

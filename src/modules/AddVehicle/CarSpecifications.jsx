@@ -602,7 +602,7 @@ const ExteriorSpecs = ({ form }) => (
       </Grid.Col>
 
       {/* Colors Available - Full Width */}
-      <Grid.Col span={12}>
+      {/* <Grid.Col span={12}>
         <Select
           label="Available Colors"
           placeholder="Select available colors"
@@ -626,7 +626,7 @@ const ExteriorSpecs = ({ form }) => (
           {...form.getInputProps('carSpecs.exterior.colorsAvailable')}
           name="exteriorColors"
         />
-      </Grid.Col>
+      </Grid.Col> */}
     </Grid>
   </Box>
 );

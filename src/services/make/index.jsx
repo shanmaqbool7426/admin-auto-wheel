@@ -98,8 +98,8 @@ export const makeAPIs = BASE_API.injectEndpoints({
     }),
 
     deleteVariant: builder.mutation({
-      query: ({ makeId, modelId, variantId }) => ({
-        url: `${END_POINTS?.MAKE}/${makeId}/models/${modelId}/variants/${variantId}`,
+      query: ( {makeId, modelId, variant}) => ({
+        url: `${END_POINTS?.MAKE}/${makeId}/models/${modelId}/variants/${variant}`,
         method: 'DELETE'
       }),
       invalidatesTags: ['MAKES']

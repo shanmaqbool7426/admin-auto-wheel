@@ -258,7 +258,7 @@ function WheelsAndTyresSpecsComponent({ form }) {
             name="backTyre"
           />
         </Grid.Col>
-        <Grid.Col span={12}>
+        {/* <Grid.Col span={12}>
           <MultiSelect
             label="Available Colors"
             placeholder="Select available colors"
@@ -279,7 +279,7 @@ function WheelsAndTyresSpecsComponent({ form }) {
             {...form.getInputProps('bikeSpecs.colorsAvailable')}
             name="colorsAvailable"
           />
-        </Grid.Col>
+        </Grid.Col> */}
       </Grid>
     </Box>
   );

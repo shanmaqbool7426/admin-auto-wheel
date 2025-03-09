@@ -53,9 +53,13 @@ export default function Categories() {
     handleSubmitAddCatg,
   } = useCategories();
 
+  // const columns = getColumns(
+  //   hasEditPermission ? handleOpenModalAddCatg : null, 
+  //   hasEditPermission ? handleOpenModalDelete : null
+  // );
   const columns = getColumns(
-    hasEditPermission ? handleOpenModalAddCatg : null, 
-    hasEditPermission ? handleOpenModalDelete : null
+    true ? handleOpenModalAddCatg : null, 
+    true ? handleOpenModalDelete : null
   );
 
   return (

@@ -4,7 +4,8 @@ import {
   useGetMakesQuery,
   useDeleteBulkMakeMutation,
   useDeleteMakeMutation,
-  useDeleteModelMutation
+  useDeleteModelMutation,
+  useDeleteVariantMutation
 } from '@/services/make';
 import { PAGE_SIZE } from '@/constants/pagination';
 import { successSnackbar, errorSnackbar } from '@/utils/snackbar';
@@ -35,12 +36,13 @@ export default function useMakes() {
     data: makesData,
     isLoading: loadingGetMake,
     isFetching: fetchingGetMake,
-    isError
+    
   } = useGetMakesQuery(filterParams);
 
   const [deleteBulkMake, { isLoading: loadingBulkDelete }] = useDeleteBulkMakeMutation();
   const [deleteMake, { isLoading: loadingDeleteMake }] = useDeleteMakeMutation();
   const [deleteModel, { isLoading: loadingDeleteModel }] = useDeleteModelMutation();
+  const [deleteVariant, { isLoading: loadingDeleteVariant }]= useDeleteVariantMutation();
   // delete mmodel
   
   const transformedMakesData = useMemo(() => {
@@ -137,6 +139,14 @@ export default function useMakes() {
 
   };
 
+  
+  const handleDeleteMake = (id, type) => {
+    console.log(`Delete ${type} with id:`, id);
+    // Implement delete logic
+    deleteMake(id)
+
+  };
+
   const handleEdit = (item, type) => {
     // Implement edit logic
     setIsMakeModalOpen(true)
@@ -161,6 +171,17 @@ export default function useMakes() {
   const handleModelClick = (model) => {
     console.log('Selected model:', model);
     // Implement model click logic
+  };
+
+  const handleDeleteVariantClick = (makeId, modelId, variant) => {
+    console.log('Selected variant:', makeId, modelId, variant);
+    // Implement variant click 
+    const payload = {
+      makeId,
+      modelId,
+      variant
+    }
+    deleteVariant(payload)
   };
 
   const handleOpenBulkDeleteModal = () => {
@@ -228,6 +249,7 @@ export default function useMakes() {
     // Handlers
     getTypeIcon,
     handleDelete,
+    handleDeleteMake,
     
     handleEdit,
     handleEditForModel,
@@ -236,7 +258,8 @@ export default function useMakes() {
     handleCloseBulkDeleteModal,
     handleBulkAction,
     handleBulkDeleteMakes,
-    handleDeleteModel
+    handleDeleteModel,
+    handleDeleteVariantClick
 
   };
 }

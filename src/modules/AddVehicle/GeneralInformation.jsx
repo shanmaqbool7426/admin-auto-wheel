@@ -5,13 +5,17 @@ import { useState, useEffect } from 'react';
 import { DateInput, DatePickerInput  } from '@mantine/dates';
 import { IconX, IconStar, IconStarFilled } from '@tabler/icons-react';
 import classes from './GeneralInformation.module.css';
+import { useAddVehicle } from './useAddVehicle';
 
 export const GeneralInformation = ({ form }) => {
+  const{colors} =useAddVehicle()
   const [uploadImage] = useUploadImageMutation();
   const [previews, setPreviews] = useState([]);
   useEffect(() => {
     setPreviews(form.values.images)
   }, [])
+
+  console.log(">>>colors",colors);
 
   /**
    * Handles image drop from user.
@@ -248,6 +252,21 @@ export const GeneralInformation = ({ form }) => {
           name="brochureLink"
         />
       </Grid.Col>
+
+             <Grid.Col span={12}>
+          <MultiSelect
+            label="Available Colors"
+            placeholder="Select available colors"
+            data={colors?.data?.colors?.map((color) => ({
+              value: color._id,
+              label: color.title,
+            }))}
+            searchable
+            clearable
+            {...form.getInputProps('colorsAvailable')}
+            name="colorsAvailable"
+          />
+        </Grid.Col>
     </Grid>
   );
 };

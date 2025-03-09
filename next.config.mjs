@@ -20,6 +20,10 @@ const nextConfig = {
         {
           protocol: 'https',
           hostname: 'auto-wheels.s3.eu-north-1.amazonaws.com'  // Add your S3 bucket path
+        },
+        {
+          protocol: 'https',
+          hostname: 'auto-wheels.s3.amazonaws.com'  // Add your S3 bucket path
         }
 
       ],

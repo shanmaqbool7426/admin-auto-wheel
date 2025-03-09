@@ -43,11 +43,13 @@ export default function Makes() {
         setIsModelModalOpen,
         getTypeIcon,
         handleDelete,
+        handleDeleteMake,
         handleEdit,
         handleModelClick,
         handleEditForModel,
         handleEditForVariant,
         handleDeleteModel,
+        handleDeleteVariantClick
         // handleDeleteVariant
     } = useMakes();
 
@@ -208,7 +210,7 @@ export default function Makes() {
                                     color="red"
                                     onClick={(e) => {
                                         e.stopPropagation();
-                                        handleDeleteModel(make._id, 'make');
+                                        handleDeleteMake(make._id, 'make');
                                     }}
                                 >
                                     <IconTrash size={16} />
@@ -324,7 +326,7 @@ export default function Makes() {
                                                 accessor: 'variantActions',
                                                 textAlign: 'right',
                                                 width: 100,
-                                                render: ({ variant }) => (
+                                                render: ({ variant ,_id}) => (
                                                     <Group gap={4} justify="right">
                                                         <ActionIcon
                                                             variant="subtle"
@@ -356,7 +358,7 @@ export default function Makes() {
                                                             color="red"
                                                             onClick={(e) => {
                                                                 e.stopPropagation();
-                                                                handleDelete(variant, 'variant');
+                                                                handleDeleteVariantClick(make.record._id, model.record._id,variant);
                                                             }}
                                                         >
                                                             <IconTrash size={16} />

@@ -13,6 +13,8 @@ export const PROVIDES_TAGS = [
   'ROLES',
   'USER_PROFILE',
   'FOOTER',
-  'BANNERS'
+  'BANNERS',
+  'NEW_VEHICLES',
+  'VEHICLES'
 
 ]

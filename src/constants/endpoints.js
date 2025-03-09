@@ -87,4 +87,5 @@ export const END_POINTS = {
 
   // Reports endpoint
   REPORTS: '/reports',
+  COLORS:"/color"
 }
