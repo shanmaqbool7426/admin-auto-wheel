@@ -87,7 +87,7 @@ export default function UsedVehicles() {
             <FormField
               type="select"
               name="status"
-              data={[{ value: 'active', label: 'Active' }, { value: 'inactive', label: 'Inactive' }, { value: 'deleted', label: 'Deleted' }, { value: 'featured', label: 'Featured' }, { value: 'sold', label: 'Sold' },{ value: 'pending', label: 'Pending' },{ value: 'approved', label: 'Approved' },{ value: 'rejected', label: 'Rejected'},{ value: 'expired', label: 'Expired' }]}
+              data={[{value:"", label:"All"} ,{ value: 'active', label: 'Active' }, { value: 'inactive', label: 'Inactive' }, { value: 'deleted', label: 'Deleted' }, { value: 'featured', label: 'Featured' }, { value: 'sold', label: 'Sold' },{ value: 'pending', label: 'Pending' },{ value: 'approved', label: 'Approved' },{ value: 'rejected', label: 'Rejected'},{ value: 'expired', label: 'Expired' }]}
               placeholder="Status"
               checkIconPosition="right"
               value={filterParams.status}

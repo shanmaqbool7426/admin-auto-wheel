@@ -5,11 +5,13 @@ import { IconX, IconCheck } from '@tabler/icons-react';
 import { useCreateVehicleMutation, useUpdateVehicleMutation, useGetColorsQuery } from '@/services/vehicle-manage';
 import { useGetBodiesQuery } from '@/services/bodies';
 import { useState, useEffect } from 'react';
+import { useGetTransmissionsQuery } from '@/services/transmission';
 
 export const useAddVehicle = (editData, type) => {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
  const{data: colors}=  useGetColorsQuery()
+ const {data: transmissions} = useGetTransmissionsQuery()
   const [error, setError] = useState(null);
 
   const [createVehicle] = useCreateVehicleMutation();
@@ -51,6 +53,7 @@ export const useAddVehicle = (editData, type) => {
           compressionRatio: editData?.engine?.compressionRatio || '',
           clutch: editData?.engine?.clutch || ''
         },
+        drive: editData?.drive || '',
         transmission: editData?.transmission || '',
         fuelCapacity: editData?.fuelCapacity || '',
         fuelAverage: editData?.fuelAverage || '',
@@ -105,6 +108,7 @@ export const useAddVehicle = (editData, type) => {
           chargingTime: editData?.engine?.chargingTime || '',
           range: editData?.engine?.range || ''
         },
+        drive: editData?.drive || '',
         transmission: {
           type: editData?.transmission?.type || 'Automatic',
           cvt: editData?.transmission?.cvt || false
@@ -155,6 +159,9 @@ export const useAddVehicle = (editData, type) => {
           tachometer: editData?.entertainment?.tachometer || false,
           multiInfo: editData?.entertainment?.multiInfo || false,
           cdDvdPlayer: editData?.entertainment?.cdDvdPlayer || false,
+          amfmRadio: editData?.entertainment?.amfmRadio || false,
+          rearSpeakers: editData?.entertainment?.rearSpeakers || false,
+          cassettePlayer: editData?.entertainment?.cassettePlayer || false,
           usbAndAux: editData?.entertainment?.usbAndAux || false,
           displaySize: editData?.entertainment?.displaySize || '',
           frontSpeakers: editData?.entertainment?.frontSpeakers || false,
@@ -217,7 +224,7 @@ export const useAddVehicle = (editData, type) => {
           horsepower: editData?.engine?.horsepower || '',        // e.g., "400 HP @ 2100 RPM"
           torque: editData?.engine?.torque || '',            // e.g., "1850 Nm @ 1200 RPM"
         },
-
+        drive: editData?.drive || '',
         transmission: {
           type: editData?.transmission?.type || 'Manual',        // Manual/Automatic/AMT
           powerTakeOff: editData?.transmission?.powerTakeOff || false,   // Yes/No
@@ -349,6 +356,7 @@ export const useAddVehicle = (editData, type) => {
   return {
     form,
     colors,
+    transmissions: transmissions?.data?.transmissions?.map(transmission => ({ value: transmission?._id, label: transmission?.title })),
     bodyData: getBodiesData?.data?.map(body => ({ value: body?._id, label: body?.title })) || [],
     handleSubmit: form.onSubmit(handleSubmit),
     isLoading: isLoadingBodies,

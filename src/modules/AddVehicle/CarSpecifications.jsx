@@ -1,7 +1,12 @@
 import { Box, Grid, Title, NumberInput, TextInput, Select, Switch } from '@mantine/core';
 import { memo } from 'react';
+import { useAddVehicle } from './useAddVehicle';
+import useDrive from '../Drive/useDrive';
 
 export const CarSpecifications = memo(({ form }) => {
+  const {transmissions} = useAddVehicle()
+  const {drivesData} = useDrive()
+  console.log("drivesData....",drivesData);
   return (
     <Box>
       {/* Engine Specifications */}
@@ -11,7 +16,7 @@ export const CarSpecifications = memo(({ form }) => {
       <DimensionsSpecs form={form} />
 
       {/* Transmission */}
-      <TransmissionSpecs form={form} />
+      <TransmissionSpecs form={form} transmissions={transmissions} drivesData={drivesData?.data?.drives}/>
 
       {/* Suspension, Steering & Brakes */}
       <SuspensionSpecs form={form} />
@@ -279,24 +284,29 @@ const DimensionsSpecs = ({ form }) => (
 );
 DimensionsSpecs.displayName = 'DimensionsSpecs';
 
-const TransmissionSpecs = ({ form }) => (
+const TransmissionSpecs = ({ form, transmissions, drivesData }) => (
   <Box mb="xl">
-    <Title order={3} mb="md">Transmission</Title>
+    <Title order={3} mb="md">Transmission & Drive</Title>
     <Grid>
       <Grid.Col span={6}>
         <Select
           label="Transmission Type"
-          data={['Manual', 'Automatic', 'CVT', 'DCT']}
           {...form.getInputProps('carSpecs.transmission.type')}
+          data={transmissions}
           name="transmissionType"
-          value={form.values.carSpecs.transmission.type}
+          defaultValue={form.values.carSpecs.transmission.type}
         />
       </Grid.Col>
+
+      {/* Add Drive Type Selection */}
       <Grid.Col span={6}>
-        <Switch
-          label="CVT"
-          {...form.getInputProps('carSpecs.transmission.cvt', { type: 'checkbox' })}
-          name="transmissionCVT"
+        <Select
+          label="Drive Type"
+          required
+            data={drivesData?.map(item => ({ value: item.title, label: item.title }))}
+          {...form.getInputProps('carSpecs.drive')}
+          name="driveType"
+          defaultValue={form.values.carSpecs.drive}
         />
       </Grid.Col>
     </Grid>
@@ -668,6 +678,29 @@ const EntertainmentSpecs = ({ form }) => (
           label="CD/DVD Player"
           {...form.getInputProps('carSpecs.entertainment.cdDvdPlayer', { type: 'checkbox' })}
           name="entertainmentCdDvd"
+        />
+      </Grid.Col>
+      <Grid.Col span={4}>
+        <Switch
+          label="AM/FM Radio"
+          {...form.getInputProps('carSpecs.entertainment.amfmRadio', { type: 'checkbox' })}
+          name="entertainmentAmfmRadio"
+        />
+      </Grid.Col>
+      {/* Rear Speakers */}
+      <Grid.Col span={4}>
+        <Switch
+          label="Rear Speakers"
+          {...form.getInputProps('carSpecs.entertainment.rearSpeakers', { type: 'checkbox' })}
+          name="entertainmentRearSpeakers"
+        />
+      </Grid.Col>
+      {/* Cassette Player */}
+      <Grid.Col span={4}>
+        <Switch
+          label="Cassette Player"
+          {...form.getInputProps('carSpecs.entertainment.cassettePlayer', { type: 'checkbox' })}
+          name="entertainmentCassettePlayer"
         />
       </Grid.Col>
 

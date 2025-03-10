@@ -22,7 +22,7 @@ export default function useUsedVehicles() {
     type: 'all',
     sortOrder: 'desc',
     page,
-    status: 'active',
+    status: '',
     limit: PAGE_SIZE,
     search: '',
   }

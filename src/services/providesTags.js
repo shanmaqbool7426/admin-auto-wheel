@@ -15,6 +15,7 @@ export const PROVIDES_TAGS = [
   'FOOTER',
   'BANNERS',
   'NEW_VEHICLES',
-  'VEHICLES'
+  'VEHICLES',
+  'TRANSMISSIONS'
 
 ]

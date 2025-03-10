@@ -100,12 +100,14 @@ export const GeneralInformation = ({ form }) => {
                 <IconStar size={16} />
               )}
             </Box>
-            <Box
-              className={classes.actionButton}
-              onClick={() => removeImage(index)}
-            >
-              <IconX size={16} />
-            </Box>
+            {form.values.defaultImage !== form.values.images[index] && (
+              <Box
+                className={classes.actionButton}
+                onClick={() => removeImage(index)}
+              >
+                <IconX size={16} />
+              </Box>
+            )}
           </Box>
           <Text className={classes.defaultLabel}>
             {form.values.defaultImage === form.values.images[index] ? 'Default' : ''}
