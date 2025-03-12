@@ -12,6 +12,7 @@ export const useAddVehicle = (editData, type) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
  const{data: colors}=  useGetColorsQuery()
  const {data: transmissions} = useGetTransmissionsQuery()
+ const {data: fuelTypes} = useGetFuelTypesQuery()
   const [error, setError] = useState(null);
 
   const [createVehicle] = useCreateVehicleMutation();
@@ -52,6 +53,14 @@ export const useAddVehicle = (editData, type) => {
           boreStroke: editData?.engine?.boreStroke || '',
           compressionRatio: editData?.engine?.compressionRatio || '',
           clutch: editData?.engine?.clutch || ''
+        },
+        safety: {
+          brakes: editData?.safety?.brakes || '',
+          discBrake: editData?.safety?.discBrake || false,
+          ledLight: editData?.safety?.ledLight || false,
+          windShield: editData?.safety?.windShield || false,
+          antiTheftLock: editData?.safety?.antiTheftLock || false,
+
         },
         drive: editData?.drive || '',
         transmission: editData?.transmission || '',
@@ -267,7 +276,18 @@ export const useAddVehicle = (editData, type) => {
         safety: {
           abs: editData?.safety?.abs || false,           // Yes/No
           hillAssist: editData?.safety?.hillAssist || false,    // Yes/No
-          trailerStabilityControl: editData?.safety?.trailerStabilityControl || false  // Yes/No
+          trailerStabilityControl: editData?.safety?.trailerStabilityControl || false,  // Yes/No
+          bullBar: editData?.safety?.bullBar || false,
+          //dor for  bullBar,toolbox,hydraulicLift,gps,cruiseControl,reverseCamera,
+          toolbox: editData?.safety?.toolbox || false,
+          hydraulicLift: editData?.safety?.hydraulicLift || false,
+          gps: editData?.safety?.gps || false,
+          cruiseControl: editData?.safety?.cruiseControl || false ,
+          reverseCamera: editData?.safety?.reverseCamera || false,
+          airBrakeSystem: editData?.airBrakeSystem || ""
+
+
+
         },
 
         warranty: {

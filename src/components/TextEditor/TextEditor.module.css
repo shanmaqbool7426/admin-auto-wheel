@@ -1,12 +1,45 @@
-.root {
-  border-color: #CCCCCC;
-  border-radius: 24px;
+.editorWrapper {
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  background: white;
 }
 
-.toolbar {
-  background-color: transparent;
+.editor {
+  padding: 1rem;
+  min-height: 300px;
 }
 
-.content {
-  background-color: transparent;
+/* Make sure editor content doesn't overflow */
+.editor :global(.ce-block__content) {
+  max-width: 100%;
+  margin: 0;
+  padding: 0 1rem;
+}
+
+.editor :global(.ce-toolbar__content) {
+  max-width: 100%;
+  margin: 0;
+  padding: 0 1rem;
+}
+
+/* Style the blocks */
+.editor :global(.ce-block) {
+  margin: 0.5rem 0;
+}
+
+/* Style the toolbar */
+.editor :global(.ce-toolbar__actions) {
+  right: 1rem;
+}
+
+/* Style the inline toolbar */
+.editor :global(.ce-inline-toolbar) {
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  background: white;
+}
+
+/* Style the block toolbar */
+.editor :global(.ce-toolbar__plus) {
+  left: 1rem;
 }

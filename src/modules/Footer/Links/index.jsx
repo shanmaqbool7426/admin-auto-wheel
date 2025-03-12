@@ -31,6 +31,8 @@ export default function FooterLinks() {
     onDelete: handleDeleteClick,
   });
 
+  console.log("selectedData",selectedData)
+
   return (
     <Box className={styles.container}>
       <Box className={styles.header}>
@@ -53,6 +55,7 @@ export default function FooterLinks() {
         <AddFooterLink
           selectedData={selectedData}
           onClose={handleModalClose}
+          // footerLink={footerLink}
         />
       )}
 

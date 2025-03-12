@@ -1,12 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Grid, Group } from '@mantine/core';
 import Card from '@/components/Card';
 import FormField from '@/components/FormField';
 import CustomButton from '@/components/CustomButton';
 import TextEditor from '@/components/TextEditor';
 import { generateSlug } from '@/utils/helpers';
+import Output from 'editorjs-react-renderer';
 
 export default function PostCard({ form, isLoading, isEdit }) {
+  const [content, setContent] = useState(null);
+
   useEffect(() => {
     if (!isEdit && form.values.title) {
       const slug = generateSlug(form.values.title);
@@ -20,6 +23,26 @@ export default function PostCard({ form, isLoading, isEdit }) {
     }
     window.history.back(); // or use router.push('/posts')
   };
+
+  const handleEditorChange = (data) => {
+    setContent(data);
+    form.setValues({
+      content: data
+    });
+    
+  };
+
+  const handleSubmit = () => {
+    form.setFieldValue('content', content);
+    // ... rest of your form data
+  };
+  // Custom config if needed
+  const config = {
+    code: {
+      disableDefaultStyle: true,
+    }
+  };
+
 
   return (
     <Card>
@@ -35,11 +58,10 @@ export default function PostCard({ form, isLoading, isEdit }) {
         </Grid.Col>
 
         <Grid.Col span={12}>
-          <TextEditor
-            content={form.values.content}
-            setContent={(value) => form.setFieldValue('content', value)}
-            placeholder={isEdit ? "Edit your post content..." : "Write your post content..."}
-          />
+          {form.values.content && <TextEditor 
+            data={form.values.content} 
+            onChange={handleEditorChange}
+          />}
           {form.errors.content && (
             <div style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>
               {form.errors.content}

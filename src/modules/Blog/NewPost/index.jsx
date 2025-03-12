@@ -41,6 +41,32 @@ export default function NewPost() {
     }
     router.push('/posts');
   };
+  console.log(" ", form.values);
+
+  // const handleSubmit = async (formData) => {
+  //   try {
+  //     // Check if content exists and has blocks
+  //     if (!formData.content || !formData.content.blocks || formData.content.blocks.length === 0) {
+  //       throw new Error('Content is required');
+  //     }
+
+  //     // Make sure content has actual data
+  //     const hasContent = formData.content.blocks.some(block => 
+  //       block.data && Object.keys(block.data).length > 0
+  //     );
+
+  //     if (!hasContent) {
+  //       throw new Error('Content is required');
+  //     }
+
+  //     // Your API call here
+  //     await submitPost(formData);
+      
+  //   } catch (error) {
+  //     console.error('Submission error:', error);
+  //     // Handle error (show notification, etc.)
+  //   }
+  // };
 
   return (
     // <ErrorBoundary>

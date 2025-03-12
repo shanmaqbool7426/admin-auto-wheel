@@ -11,8 +11,9 @@ export const getColumns = (onClickEdit, onClickDelete, onClickDuplicate) => [
     render: (record) => {
       return (
         <Box className={styles.post}>
+          {console.log("record>>>>", record)}
           <Box className={styles.postAttachment}>
-            <Image src={record?.attachment} alt="car" width={44} height={36} />
+            <Image src={record?.imageUrl} alt="car" width={44} height={36} />
           </Box>
           <Box className={styles.postTitle}>
             {record?.title}

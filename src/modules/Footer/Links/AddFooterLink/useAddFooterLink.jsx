@@ -53,9 +53,9 @@ export default function useAddFooterLink({ footerLink, onClose ,selectedData}) {
 
   const handleSubmit = async (values) => {
     try {
-      if (footerLink) {
+      if (selectedData) {
         await updateFooterLink({
-          id: footerLink._id,
+          id: selectedData._id,
           data: values,
         }).unwrap();
         showNotification({

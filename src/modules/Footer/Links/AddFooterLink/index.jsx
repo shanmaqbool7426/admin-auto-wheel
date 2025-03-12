@@ -30,7 +30,7 @@ console.log("selectedData...",selectedData)
   return (
     <CustomModal
       open={true}
-      title={footerLink ? 'Edit Footer Link' : 'Add Footer Link'}
+      title={selectedData ? 'Edit Footer Link' : 'Add Footer Link'}
       onClose={onClose}
     >
       <form onSubmit={form.onSubmit(handleSubmit)} className={styles.form}>
@@ -108,7 +108,7 @@ console.log("selectedData...",selectedData)
             type="submit"
             loading={loading}
           >
-            {footerLink ? 'Update' : 'Create'}
+            {selectedData ? 'Update' : 'Create'}
           </CustomButton>
         </Box>
       </form>

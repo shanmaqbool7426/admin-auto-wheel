@@ -2,6 +2,7 @@ import { Box, Grid, Title, NumberInput, TextInput, Select, Switch } from '@manti
 import { memo } from 'react';
 
 export const TruckSpecifications = memo(({ form }) => {
+  console.log("form",form)
   return (
     <Box>
       {/* Engine Specifications */}
@@ -36,6 +37,8 @@ export const TruckSpecifications = memo(({ form }) => {
 
       {/* Warranty & Certification */}
       <WarrantyAndCertification form={form} />
+
+      {/* Additional Features */}
     </Box>
   );
 });
@@ -213,6 +216,15 @@ const ChassisSpecs = ({ form }) => (
     <Grid>
       <Grid.Col span={6}>
         <Select
+          label="Suspension Type"
+          placeholder="Select suspension type"
+          required
+          data={['Air', 'Leaf Spring', 'Coil']}
+          {...form.getInputProps('truckSpecs.chassis.suspensionType.front')}
+        />
+      </Grid.Col>
+      <Grid.Col span={6}>
+        <Select
           label="Frame Type"
           required
           data={['Ladder Frame', 'Channel Section', 'Box Section']}
@@ -220,12 +232,7 @@ const ChassisSpecs = ({ form }) => (
           {...form.getInputProps('truckSpecs.chassis.frameType')}
         />
       </Grid.Col>
-      <Grid.Col span={6}>
-        <Switch
-          label="Air Brake System"
-          {...form.getInputProps('truckSpecs.chassis.airBrakeSystem', { type: 'checkbox' })}
-        />
-      </Grid.Col>
+
       <Grid.Col span={6}>
         <Select
           label="Front Suspension"
@@ -454,7 +461,51 @@ const SafetySpecs = ({ form }) => (
           {...form.getInputProps('truckSpecs.safety.trailerStabilityControl', { type: 'checkbox' })}
         />
       </Grid.Col>
+      <Grid.Col span={4}>
+        <Switch
+          label="Bull Bar"
+          {...form.getInputProps('truckSpecs.safety.bullBar', { type: 'checkbox' })}
+        />
+      </Grid.Col>
+      <Grid.Col span={4}>
+        <Switch
+          label="Toolbox"
+          {...form.getInputProps('truckSpecs.safety.toolbox', { type: 'checkbox' })}
+        />
+      </Grid.Col>
+      <Grid.Col span={4}>
+        <Switch
+          label="Hydraulic Lift"
+          {...form.getInputProps('truckSpecs.safety.hydraulicLift', { type: 'checkbox' })}
+        />
+      </Grid.Col>
+      <Grid.Col span={4}>
+        <Switch
+          label="GPS"
+          {...form.getInputProps('truckSpecs.safety.gps', { type: 'checkbox' })}
+        />
+      </Grid.Col>
+      <Grid.Col span={4}>
+        <Switch
+          label="Cruise Control"
+          {...form.getInputProps('truckSpecs.safety.cruiseControl', { type: 'checkbox' })}
+        />
+      </Grid.Col>
+      <Grid.Col span={4}>
+        <Switch
+          label="Reverse Camera"
+          {...form.getInputProps('truckSpecs.safety.reverseCamera', { type: 'checkbox' })}
+        />
+      </Grid.Col>
+
     </Grid>
+    <Select
+          label="Braking System"
+          required
+          data={['Air Brakes', 'Hydraulic Brakes']}
+          placeholder="Select braking system"
+          {...form.getInputProps('truckSpecs.safety.airBrakeSystem')}
+        />
   </Box>
 );
 

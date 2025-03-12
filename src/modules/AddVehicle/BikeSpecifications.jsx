@@ -1,3 +1,4 @@
+import { Switch } from '@mantine/core';
 import { Box, Grid, Title, NumberInput, TextInput, Select, MultiSelect } from '@mantine/core';
 import { memo } from 'react';
 
@@ -284,6 +285,49 @@ function WheelsAndTyresSpecsComponent({ form }) {
     </Box>
   );
 }
+// safty  select for [Air Brakes, Hydraulic Brakes]
+function SafetyComponent({form }) {
+  
+  return (
+    <Box>
+  <Title order={3} mb="md">Safety</Title>
+  <Grid>
+   {/* // use switchbox for features  Anti Theft Lock, Disc Brake, Led Light, Wind Shield */}
+   <Grid.Col span={4}>
+    <Switch
+    label="Anti Theft Lock"
+    {...form.getInputProps('bikeSpecs.safety.antiTheftLock')}
+    name="antiTheftLock"
+    />
+   </Grid.Col>
+   <Grid.Col span={4}>
+    <Switch
+    label="Disc Brake"
+    {...form.getInputProps('bikeSpecs.safety.discBrake')}
+    name="discBrake"
+    />
+   </Grid.Col>
+   <Grid.Col span={4}>
+    <Switch
+    label="Led Light"
+    {...form.getInputProps('bikeSpecs.safety.ledLight')}
+    name="ledLight"
+    />
+   </Grid.Col>
+   <Grid.Col span={4}>
+    <Switch
+    label="Wind Shield"
+    {...form.getInputProps('bikeSpecs.safety.windShield')}
+    name="windShield"
+    />
+   </Grid.Col>
+   </Grid>
+   </Box>
+  )
+}
+SafetyComponent.displayName = 'SafetyComponent';
+
+
 WheelsAndTyresSpecsComponent.displayName = 'WheelsAndTyresSpecsComponent';
 const WheelsAndTyresSpecs = memo(WheelsAndTyresSpecsComponent);
 
@@ -295,6 +339,9 @@ function BikeSpecificationsComponent({ form }) {
       <DimensionsSpecs form={form} />
       <ChassisSpecs form={form} />
       <WheelsAndTyresSpecs form={form} />
+      {/* safty */}
+      <SafetyComponent form={form}/>
+
     </Box>
   );
 }

@@ -60,7 +60,7 @@ export default function useNewPost() {
     if (postId && postDetails) {
       form.setValues({
         title: postDetails?.data?.title || '',
-        content: postDetails?.data?.content || '',
+        content: JSON.parse(postDetails?.data?.content) || '',
         author: postDetails?.data?.author || '',
         categories: postDetails?.data?.categories?.map(cat => cat._id) || [],
         tags: postDetails?.data?.tags?.map(tag => tag._id) || [],
@@ -84,7 +84,7 @@ export default function useNewPost() {
         const updateData = {
           id: postId,
           title: values.title,
-          content: values.content,
+          content: JSON.stringify(values.content),
           author: values.author,
           categories: values.categories,
           tags: values.tags,

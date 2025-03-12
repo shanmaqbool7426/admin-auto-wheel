@@ -10,14 +10,15 @@ export const vehicleTypes = [
 
 export const footerSections = [
     { value: 'by-make', label: 'By Make' },
-    { value: 'by-city', label: 'By City' },
+    { value: 'by-province', label: 'By Province' },
     { value: 'explore-autowheels', label: 'Explore AutoWheels' },
     { value: 'autowheels', label: 'Autowheels.com' },
     { value: 'sell-on-autowheels', label: 'Sell On AutoWheels' },
     { value: 'by-category', label: 'By Category' },
     { value: 'by-body-type', label: 'By Body Type' },
     { value: 'by-color', label: 'By Color' },
-    { value: 'by-province', label: 'By Province' },
+    { value: 'by-city', label: 'By City' },
+
      {value: 'used-by-city', label: 'Used  by City'}, 
      {value: "popular-used", label: 'Popular Used'} 
 ];
