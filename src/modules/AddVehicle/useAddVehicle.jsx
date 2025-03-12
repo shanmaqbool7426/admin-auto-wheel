@@ -6,6 +6,7 @@ import { useCreateVehicleMutation, useUpdateVehicleMutation, useGetColorsQuery }
 import { useGetBodiesQuery } from '@/services/bodies';
 import { useState, useEffect } from 'react';
 import { useGetTransmissionsQuery } from '@/services/transmission';
+import { useGetFuelTypesQuery } from '@/services/fuel-type';
 
 export const useAddVehicle = (editData, type) => {
   const router = useRouter();
@@ -17,7 +18,7 @@ export const useAddVehicle = (editData, type) => {
 
   const [createVehicle] = useCreateVehicleMutation();
   const [updateVehicle] = useUpdateVehicleMutation();
-
+console.log(">>>>>>>",editData?.safety)
   const form = useForm({
     initialValues: {
       // Basic Information
@@ -55,12 +56,10 @@ export const useAddVehicle = (editData, type) => {
           clutch: editData?.engine?.clutch || ''
         },
         safety: {
-          brakes: editData?.safety?.brakes || '',
           discBrake: editData?.safety?.discBrake || false,
           ledLight: editData?.safety?.ledLight || false,
           windShield: editData?.safety?.windShield || false,
           antiTheftLock: editData?.safety?.antiTheftLock || false,
-
         },
         drive: editData?.drive || '',
         transmission: editData?.transmission || '',
@@ -317,7 +316,7 @@ export const useAddVehicle = (editData, type) => {
     },
   });
 
-  console.log("editData....",editData?.images);
+  console.log("fuelTypes....",fuelTypes);
 
   const { data: getBodiesData, isLoading: isLoadingBodies, error: bodiesError } = useGetBodiesQuery(
     { type: form.values.type },
@@ -376,6 +375,7 @@ export const useAddVehicle = (editData, type) => {
   return {
     form,
     colors,
+    fuelTypes:fuelTypes?.data?.fuelTypes?.map((item)=>({value:item?._id,label:item?.title})),
     transmissions: transmissions?.data?.transmissions?.map(transmission => ({ value: transmission?._id, label: transmission?.title })),
     bodyData: getBodiesData?.data?.map(body => ({ value: body?._id, label: body?.title })) || [],
     handleSubmit: form.onSubmit(handleSubmit),
