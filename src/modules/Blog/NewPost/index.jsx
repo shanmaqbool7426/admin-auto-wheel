@@ -75,11 +75,11 @@ export default function NewPost() {
       <form onSubmit={form.onSubmit(handleSubmit)}>
         <Grid gutter="30px">
           <Grid.Col span={8}>
-            <PostCard
+            {/* <PostCard
               form={form}
               isLoading={isLoading}
               isEdit={isEdit}
-            />
+            /> */}
           </Grid.Col>
           <Grid.Col span={4}>
             <Grid gutter="30px">
