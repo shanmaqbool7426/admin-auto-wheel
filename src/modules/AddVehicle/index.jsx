@@ -8,7 +8,6 @@ import BikeSpecifications from './BikeSpecifications';
 import { TruckSpecifications } from './TruckSpecifications';
 import { GeneralInformation } from './GeneralInformation';
 import useMakes from '../Makes/useMakes';
-import { values } from 'lodash';
 
 const AddVehicle = memo(({ editData, type }) => {
   const { form, handleSubmit, isLoading, isSubmitting, bodyData, error, colors } = useAddVehicle(editData?.data, type);

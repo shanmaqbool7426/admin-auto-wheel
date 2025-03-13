@@ -11,6 +11,13 @@ export const colorAPIs = BASE_API.injectEndpoints({
       }),
       providesTags: ['COLORS'],
     }),
+    getColorsByType: builder.query({
+      query: (type) => ({
+        url: `${END_POINTS?.COLOR}/type`,
+        method: 'GET',
+        params: {type},
+      }),
+    }),
 
     updateColor: builder.mutation({
       query: ({ body, id }) => ({
@@ -53,6 +60,7 @@ export const colorAPIs = BASE_API.injectEndpoints({
 
 export const {
   useGetColorsQuery,
+  useGetColorsByTypeQuery,
   useAddColorMutation,
   useUpdateColorMutation,
   useDeleteColorMutation,

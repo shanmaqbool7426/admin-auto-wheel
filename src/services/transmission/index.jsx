@@ -11,6 +11,13 @@ export const transmissionAPIs = BASE_API.injectEndpoints({
       }),
       providesTags: ['TRANSMISSIONS'],
     }),
+    getTransmissionsByType: builder.query({
+      query: (params) => ({
+        url: `${END_POINTS?.TRANSMISSION}/type`,
+        method: 'GET',
+        params,
+      }),
+    }),
 
     updateTransmission: builder.mutation({
       query: ({ body, id }) => ({
@@ -53,6 +60,7 @@ export const transmissionAPIs = BASE_API.injectEndpoints({
 
 export const {
   useGetTransmissionsQuery,
+  useGetTransmissionsByTypeQuery,
   useAddTransmissionMutation,
   useUpdateTransmissionMutation,
   useDeleteTransmissionMutation,

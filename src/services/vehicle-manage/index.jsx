@@ -42,6 +42,8 @@ export const usersAPIs = BASE_API.injectEndpoints({
         method: 'GET',
       }),
     }),
+
+    
     createVehicle: builder.mutation({
       query: (body) => ({
         url: `${END_POINTS?.VEHICLES}`,
@@ -87,6 +89,7 @@ uploadImage: builder.mutation({
 
 export const {
   useGetVehiclesQuery,
+  useGetTransmissionsByTypeQuery,
   useGetVehicleByIdQuery,
   useCreateVehicleMutation,
   useDeleteBulkVehicleMutation,

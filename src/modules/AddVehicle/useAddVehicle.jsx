@@ -21,7 +21,7 @@ export const useAddVehicle = (editData, type) => {
 console.log(">>>>>>>",editData?.safety)
   const form = useForm({
     initialValues: {
-      // Basic Information
+      // Basic Informationhere should send 
       type: editData?.type || '',
       make: editData?.make || '',
       model: editData?.model || '',
@@ -375,9 +375,9 @@ console.log(">>>>>>>",editData?.safety)
   return {
     form,
     colors,
-    fuelTypes:fuelTypes?.data?.fuelTypes?.map((item)=>({value:item?._id,label:item?.title})),
-    transmissions: transmissions?.data?.transmissions?.map(transmission => ({ value: transmission?._id, label: transmission?.title })),
-    bodyData: getBodiesData?.data?.map(body => ({ value: body?._id, label: body?.title })) || [],
+    fuelTypes:fuelTypes?.data?.fuelTypes?.map((item)=>({value:item?.title,label:item?.title})),
+    transmissions: transmissions?.data?.transmissions?.map(transmission => ({ value: transmission?.title, label: transmission?.title })),
+    bodyData: getBodiesData?.data?.map(body => ({ value: body?.title, label: body?.title })) || [],
     handleSubmit: form.onSubmit(handleSubmit),
     isLoading: isLoadingBodies,
     isSubmitting,
