@@ -1,18 +1,18 @@
 import { Box, Grid, Title, NumberInput, TextInput, Select, Switch } from '@mantine/core';
 import { memo } from 'react';
 
-export const TruckSpecifications = memo(({ form }) => {
+export const TruckSpecifications = memo(({ form ,fuelTypes,transmissions}) => {
   console.log("form",form)
   return (
     <Box>
       {/* Engine Specifications */}
-      <EngineSpecs form={form} />
+      <EngineSpecs form={form} fuelTypes={fuelTypes}/>
 
       {/* Dimensions & Capacity */}
       <DimensionsSpecs form={form} />
 
       {/* Transmission & Performance */}
-      <TransmissionSpecs form={form} />
+      <TransmissionSpecs form={form} transmissions={transmissions}/>
 
       {/* Chassis & Suspension */}
       <ChassisSpecs form={form} />
@@ -45,7 +45,7 @@ export const TruckSpecifications = memo(({ form }) => {
 
 TruckSpecifications.displayName = 'TruckSpecifications';
 
-const EngineSpecs = ({ form }) => (
+const EngineSpecs = ({ form ,fuelTypes}) => (
   <Box mb="xl">
     <Title order={3} mb="md">Engine Specifications</Title>
     <Grid>
@@ -53,7 +53,7 @@ const EngineSpecs = ({ form }) => (
         <Select
           label="Engine Type"
           required
-          data={['Diesel', 'Petrol', 'CNG', 'Electric']}
+          data={fuelTypes}
           {...form.getInputProps('truckSpecs.engine.type')}
           name="engineType"
         />
@@ -168,7 +168,7 @@ const DimensionsSpecs = ({ form }) => (
   </Box>
 );
 
-const TransmissionSpecs = ({ form }) => (
+const TransmissionSpecs = ({ form,transmissions }) => (
   <Box mb="xl">
     <Title order={3} mb="md">Transmission & Performance</Title>
     <Grid>
@@ -176,7 +176,7 @@ const TransmissionSpecs = ({ form }) => (
         <Select
           label="Transmission Type"
           required
-          data={['Manual', 'Automatic', 'AMT']}
+          data={transmissions}
           {...form.getInputProps('truckSpecs.transmission.type')}
           name="transmissionType"
         />

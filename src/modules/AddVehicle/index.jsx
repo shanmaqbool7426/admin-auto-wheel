@@ -10,7 +10,7 @@ import { GeneralInformation } from './GeneralInformation';
 import useMakes from '../Makes/useMakes';
 
 const AddVehicle = memo(({ editData, type }) => {
-  const { form, handleSubmit, isLoading, isSubmitting, bodyData, error, colors } = useAddVehicle(editData?.data, type);
+  const { form, handleSubmit, isLoading, isSubmitting, bodyData, error, transmissions,fuelTypes,colors } = useAddVehicle(editData?.data, type);
   const { makesData } = useMakes();
   const [activeTab, setActiveTab] = useState('basic');
   const [isModelOpen, setIsModelOpen] = useState(false);
@@ -20,6 +20,7 @@ const AddVehicle = memo(({ editData, type }) => {
     variant: editData?.data?.info?.variant || ''
   });
 
+  console.log("fuelTypes....",fuelTypes)
 
   // Current year for the year dropdown
   const currentYear = new Date().getFullYear()+2;
@@ -99,11 +100,11 @@ const AddVehicle = memo(({ editData, type }) => {
   const renderSpecifications = () => {
     switch (vehicleType) {
       case 'car':
-        return <CarSpecifications form={form} />;
+        return <CarSpecifications form={form} fuelTypes={fuelTypes} transmissions={transmissions} />;
       case 'bike':
-        return <BikeSpecifications form={form} />;
+        return <BikeSpecifications form={form} fuelTypes={fuelTypes}  transmissions={transmissions}/>;
       case 'truck':
-        return <TruckSpecifications form={form} />;
+        return <TruckSpecifications form={form} fuelTypes={fuelTypes}  transmissions={transmissions}/>;
       default:
         return <Box>Please select a vehicle type first</Box>;
     }

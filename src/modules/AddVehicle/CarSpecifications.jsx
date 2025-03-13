@@ -3,14 +3,13 @@ import { memo } from 'react';
 import { useAddVehicle } from './useAddVehicle';
 import useDrive from '../Drive/useDrive';
 
-export const CarSpecifications = memo(({ form }) => {
-  const {transmissions} = useAddVehicle()
+export const CarSpecifications = memo(({ form ,fuelTypes,transmissions}) => {
   const {drivesData} = useDrive()
-  console.log("drivesData....",drivesData);
+
   return (
     <Box>
       {/* Engine Specifications */}
-      <EngineSpecs form={form} />
+      <EngineSpecs form={form} fuelTypes={fuelTypes}/>
 
       {/* Dimensions */}
       <DimensionsSpecs form={form} />
@@ -46,7 +45,7 @@ export const CarSpecifications = memo(({ form }) => {
 });
 CarSpecifications.displayName = 'CarSpecifications';
 
-const EngineSpecs = ({ form }) => {
+const EngineSpecs = ({ form, fuelTypes }) => {
   const engineType = form.values.carSpecs?.engine?.type;
   const isElectric = engineType === 'Electric';
 
@@ -58,7 +57,7 @@ const EngineSpecs = ({ form }) => {
           <Select
             label="Engine Type"
             required
-            data={['Petrol', 'Diesel', 'Hybrid', 'Electric']}
+            data={fuelTypes}
             {...form.getInputProps('carSpecs.engine.type')}
             name="engineType"
           />
@@ -286,6 +285,7 @@ DimensionsSpecs.displayName = 'DimensionsSpecs';
 
 const TransmissionSpecs = ({ form, transmissions, drivesData }) => (
   <Box mb="xl">
+    {console.log("drivesData",drivesData)}
     <Title order={3} mb="md">Transmission & Drive</Title>
     <Grid>
       <Grid.Col span={6}>

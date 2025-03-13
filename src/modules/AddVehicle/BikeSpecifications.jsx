@@ -4,9 +4,7 @@ import { memo } from 'react';
 import {useAddVehicle} from '../AddVehicle/useAddVehicle';
 
 // Define components with proper display names using function declarations
-function EngineSpecsComponent({ form }) {
-
-  const { fuelTypes } = useAddVehicle();
+function EngineSpecsComponent({ form ,fuelTypes}) {
   return (
     <Box mb="xl">
       <Title order={3} mb="md">Engine Specifications</Title>
@@ -86,7 +84,7 @@ function EngineSpecsComponent({ form }) {
 EngineSpecsComponent.displayName = 'EngineSpecsComponent';
 const EngineSpecs = memo(EngineSpecsComponent);
 
-function PerformanceSpecsComponent({ form }) {
+function PerformanceSpecsComponent({ form,transmissions }) {
   return (
     <Box mb="xl">
       <Title order={3} mb="md">Performance & Transmission</Title>
@@ -101,10 +99,11 @@ function PerformanceSpecsComponent({ form }) {
           />
         </Grid.Col>
         <Grid.Col span={4}>
-          <TextInput
+          <Select
             label="Transmission"
             required
             placeholder="e.g., 5-speed"
+            data={transmissions}
             {...form.getInputProps('bikeSpecs.transmission')}
             name="transmission"
           />
@@ -343,11 +342,12 @@ SafetyComponent.displayName = 'SafetyComponent';
 WheelsAndTyresSpecsComponent.displayName = 'WheelsAndTyresSpecsComponent';
 const WheelsAndTyresSpecs = memo(WheelsAndTyresSpecsComponent);
 
-function BikeSpecificationsComponent({ form }) {
+function BikeSpecificationsComponent({ form ,fuelTypes, transmissions}) {
+  console.log("fuelTypes.,",fuelTypes)
   return (
     <Box>
-      <EngineSpecs form={form} />
-      <PerformanceSpecs form={form} />
+      <EngineSpecs form={form} fuelTypes={fuelTypes}/>
+      <PerformanceSpecs form={form} transmissions={transmissions}/>
       <DimensionsSpecs form={form} />
       <ChassisSpecs form={form} />
       <WheelsAndTyresSpecs form={form} />

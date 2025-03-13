@@ -12,10 +12,10 @@ export const colorAPIs = BASE_API.injectEndpoints({
       providesTags: ['COLORS'],
     }),
     getColorsByType: builder.query({
-      query: (type) => ({
+      query: (params) => ({
         url: `${END_POINTS?.COLOR}/type`,
         method: 'GET',
-        params: {type},
+        params,
       }),
     }),
 

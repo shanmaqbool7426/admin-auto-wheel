@@ -259,10 +259,7 @@ export const GeneralInformation = ({ form }) => {
           <MultiSelect
             label="Available Colors"
             placeholder="Select available colors"
-            data={colors?.data?.colors?.map((color) => ({
-              value: color._id,
-              label: color.title,
-            }))}
+            data={colors}
             searchable
             clearable
             {...form.getInputProps('colorsAvailable')}

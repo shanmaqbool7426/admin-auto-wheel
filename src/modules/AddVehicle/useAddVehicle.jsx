@@ -2,23 +2,22 @@ import { useForm } from '@mantine/form';
 import { useRouter } from 'next/navigation';
 import { notifications } from '@mantine/notifications';
 import { IconX, IconCheck } from '@tabler/icons-react';
-import { useCreateVehicleMutation, useUpdateVehicleMutation, useGetColorsQuery } from '@/services/vehicle-manage';
+import { useCreateVehicleMutation, useUpdateVehicleMutation } from '@/services/vehicle-manage';
 import { useGetBodiesQuery } from '@/services/bodies';
-import { useState, useEffect } from 'react';
-import { useGetTransmissionsQuery } from '@/services/transmission';
+import { useState, useEffect, useMemo } from 'react';
+import { useGetTransmissionsByTypeQuery } from '@/services/transmission';
 import { useGetFuelTypesQuery } from '@/services/fuel-type';
+import {  useGetColorsQuery } from '@/services/color';
 
 export const useAddVehicle = (editData, type) => {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
- const{data: colors}=  useGetColorsQuery()
- const {data: transmissions} = useGetTransmissionsQuery()
- const {data: fuelTypes} = useGetFuelTypesQuery()
+
   const [error, setError] = useState(null);
 
   const [createVehicle] = useCreateVehicleMutation();
   const [updateVehicle] = useUpdateVehicleMutation();
-console.log(">>>>>>>",editData?.safety)
+  console.log(">>>>>>>", editData?.safety)
   const form = useForm({
     initialValues: {
       // Basic Informationhere should send 
@@ -281,7 +280,7 @@ console.log(">>>>>>>",editData?.safety)
           toolbox: editData?.safety?.toolbox || false,
           hydraulicLift: editData?.safety?.hydraulicLift || false,
           gps: editData?.safety?.gps || false,
-          cruiseControl: editData?.safety?.cruiseControl || false ,
+          cruiseControl: editData?.safety?.cruiseControl || false,
           reverseCamera: editData?.safety?.reverseCamera || false,
           airBrakeSystem: editData?.airBrakeSystem || ""
 
@@ -316,17 +315,71 @@ console.log(">>>>>>>",editData?.safety)
     },
   });
 
-  console.log("fuelTypes....",fuelTypes);
 
   const { data: getBodiesData, isLoading: isLoadingBodies, error: bodiesError } = useGetBodiesQuery(
     { type: form.values.type },
     { skip: !form.values.type }
   );
 
+  const { 
+    data: colors,
+    isLoading: isLoadingColors,
+    error: colorsError 
+  } = useGetColorsQuery();
+
+  const { 
+    data: transmissions,
+    isLoading: isLoadingTransmissions,
+    error: transmissionsError 
+  } = useGetTransmissionsByTypeQuery(
+    { type: form.values.type },
+    { skip: !form.values.type }
+  );
+
+  const { 
+    data: fuelTypes,
+    isLoading: isLoadingFuelTypes,
+    error: fuelTypesError 
+  } = useGetFuelTypesQuery(
+    { type: form.values.type },
+    { 
+      skip: !form.values.type,
+      refetchOnMountOrArgChange: true // Add this to ensure fresh data
+    }
+  );
+
+  // Add error handling
+  useEffect(() => {
+    if (colorsError || transmissionsError || fuelTypesError) {
+      notifications.show({
+        title: 'Error',
+        message: 'Failed to load some vehicle data. Please try again.',
+        color: 'red',
+        icon: <IconX />,
+      });
+    }
+  }, [colorsError, transmissionsError, fuelTypesError]);
+
+  // Memoize the transformed data to prevent unnecessary recalculations
+  const transformedFuelTypes = useMemo(() => {
+    return fuelTypes?.data?.fuelTypes?.map((item) => ({
+      value: item?.title,
+      label: item?.title
+    })) || [];
+  }, [fuelTypes?.data?.fuelTypes]);
+
+  const transformedTransmissions = useMemo(() => {
+    return transmissions?.data?.map(transmission => ({
+      value: transmission?.title,
+      label: transmission?.title
+    })) || [];
+  }, [transmissions?.data?.transmissions]);
+
+    console.log("getBodiesData",getBodiesData)
   const handleSubmit = async (values) => {
     setIsSubmitting(true);
     setError(null);
-    
+
     try {
       if (editData) {
         await updateVehicle({ vehicleId: editData?._id, ...values }).unwrap();
@@ -374,12 +427,24 @@ console.log(">>>>>>>",editData?.safety)
 
   return {
     form,
-    colors,
-    fuelTypes:fuelTypes?.data?.fuelTypes?.map((item)=>({value:item?.title,label:item?.title})),
-    transmissions: transmissions?.data?.transmissions?.map(transmission => ({ value: transmission?.title, label: transmission?.title })),
-    bodyData: getBodiesData?.data?.map(body => ({ value: body?.title, label: body?.title })) || [],
+    colors: colors?.data?.colors?.map((item) => ({
+      value: item?.title,
+      label: item?.title
+    })) || [],
+    fuelTypes: fuelTypes?.data?.fuelTypes?.map((item) => ({
+      value: item?.title,
+      label: item?.title
+    })) || [],
+    transmissions: transmissions?.data?.map(transmission => ({
+      value: transmission?.title,
+      label: transmission?.title
+    })),
+    bodyData: getBodiesData?.data?.map(body => ({ 
+      value: body?.title, 
+      label: body?.title 
+    })) || [],
     handleSubmit: form.onSubmit(handleSubmit),
-    isLoading: isLoadingBodies,
+    isLoading: isLoadingBodies || isLoadingColors || isLoadingTransmissions || isLoadingFuelTypes,
     isSubmitting,
     error
   };
