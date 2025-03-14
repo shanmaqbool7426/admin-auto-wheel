@@ -12,19 +12,29 @@ export default function useAddMake(setOnClose, editData = null) {
   // Initialize form with editData if available
   const form = useForm({
     initialValues: {
-      name: '',
-      type: '',
+      name: editData?.name?.trim() || '',
+      type: editData?.type || '',
       companyImage: null,
-      description: ''
+      description: editData?.description?.trim() || ''
     },
     validate: {
-      name: (value) => (!value ? 'Make name is required' : null),
+      name: (value) => {
+        if (!value) return 'Make name is required';
+        const trimmedValue = value.trim();
+        if (!trimmedValue) return 'Make name cannot be only spaces';
+        return null;
+      },
       type: (value) => (!value ? 'Vehicle type is required' : null),
       companyImage: (value) => {
         if (!editData && !value) return 'Brand companyImage is required';
         return null;
       },
-    }
+    },
+    transformValues: (values) => ({
+      ...values,
+      name: values.name.trim(),
+      description: values.description.trim()
+    })
   });
 
   console.log("editDat acmodeeeeeee",editData)
@@ -74,11 +84,10 @@ export default function useAddMake(setOnClose, editData = null) {
     setIsLoading(true);
     try {
       const formData = new FormData();
-      formData.append('name', values.name);
+      formData.append('name', values.name.trim());
       formData.append('type', values.type);
-      formData.append('description', values.description || '');
+      formData.append('description', (values.description || '').trim());
       
-      // Only append image if it's a new file
       if (values.companyImage instanceof File) {
         formData.append('companyImage', values.companyImage);
       }

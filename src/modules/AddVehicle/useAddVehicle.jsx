@@ -104,7 +104,9 @@ export const useAddVehicle = (editData, type) => {
           type: editData?.engine?.type || '',
           displacement: editData?.engine?.displacement || '',
           horsepower: editData?.engine?.horsepower || '',
+          // for assembly
           torque: editData?.engine?.torque || '',
+          assembly: editData?.engine?.assembly || '',
           maxSpeed: editData?.engine?.maxSpeed || '',
           cylinderConfiguration: editData?.engine?.cylinderConfiguration || '',
           compressionRatio: editData?.engine?.compressionRatio || '',

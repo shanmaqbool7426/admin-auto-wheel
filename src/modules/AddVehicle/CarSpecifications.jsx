@@ -63,6 +63,19 @@ const EngineSpecs = ({ form, fuelTypes }) => {
           />
         </Grid.Col>
 
+        <Grid.Col span={4}>
+          <Select
+            label="Assembly"
+            required
+            data={[
+              { value: 'Local', label: 'Local' },
+              { value: 'Imported', label: 'Imported' }
+            ]}
+            {...form.getInputProps('carSpecs.engine.assembly')}
+            name="engineAssembly"
+          />
+        </Grid.Col>
+
         {!isElectric && (
           <>
             <Grid.Col span={4}>

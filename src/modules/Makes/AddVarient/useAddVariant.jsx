@@ -15,14 +15,23 @@ export default function useAddVariant(setOnClose, editData) {
       type: editData?.make?.type || '',
       makeId: editData?.make?._id || '',
       modelId: editData?.model?._id || '',
-      name: editData?.name || '',
+      name: editData?.name?.trim() || '',
     },
     validate: {
       type: (value) => (!value ? 'Vehicle type is required' : null),
       makeId: (value) => (!value ? 'Make is required' : null),
       modelId: (value) => (!value ? 'Model is required' : null),
-      name: (value) => (!value ? 'Variant name is required' : null),
-    }
+      name: (value) => {
+        if (!value) return 'Variant name is required';
+        const trimmedValue = value.trim();
+        if (!trimmedValue) return 'Variant name cannot be only spaces';
+        return null;
+      },
+    },
+    transformValues: (values) => ({
+      ...values,
+      name: values.name.trim()
+    })
   });
 
   useEffect(() => {
@@ -45,7 +54,7 @@ export default function useAddVariant(setOnClose, editData) {
           makeId: values.makeId,
           modelId: values.modelId,
           data: {
-            name: values.name,
+            name: values.name.trim(),
             oldName: editData.name
           }
         }).unwrap();
@@ -54,7 +63,7 @@ export default function useAddVariant(setOnClose, editData) {
           data: {
             makeId: values.makeId,
             modelId: values.modelId,
-            name: values.name
+            name: values.name.trim()
           }
         }).unwrap();
       }

@@ -12,14 +12,23 @@ export default function useAddModel(setOnClose, editData) {
   const form = useForm({
     initialValues: {
       makeId: editData?.make?._id || '',
-      name: editData?.name || '',
+      name: editData?.name?.trim() || '',
       type: editData?.make?.type || ''
     },
     validate: {
       makeId: (value) => (!value ? 'Make is required' : null),
-      name: (value) => (!value ? 'Model name is required' : null),
+      name: (value) => {
+        if (!value) return 'Model name is required';
+        const trimmedValue = value.trim();
+        if (!trimmedValue) return 'Model name cannot be only spaces';
+        return null;
+      },
       type: (value) => (!value ? 'Vehicle type is required' : null)
-    }
+    },
+    transformValues: (values) => ({
+      ...values,
+      name: values.name.trim()
+    })
   });
 
   // Set initial values when editData changes
@@ -36,15 +45,13 @@ export default function useAddModel(setOnClose, editData) {
   const handleSubmit = async (values) => {
     setIsLoading(true);
     try {
-      console.log(',,,,,,,,,,,,,,,,,,,,')
       if (editData) {
-        console.log("editData>>",editData)
         // Update existing model
         await updateModel({
           id: editData._id,
           makeId: editData.make._id,
           data: {
-            name: values.name,
+            name: values.name.trim(),
             oldName: editData.name,
             type: values.type,
             makeId: values.makeId
@@ -52,8 +59,10 @@ export default function useAddModel(setOnClose, editData) {
         }).unwrap();
       } else {
         // Add new model
-        console.log("values>>",values)
-        await addModel(values).unwrap();
+        await addModel({
+          ...values,
+          name: values.name.trim()
+        }).unwrap();
       }
       
       setOnClose(false);
