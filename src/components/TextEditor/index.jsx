@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect, useRef } from 'react';
-import EditorJS from '@editorjs/editorjs';
+import dynamic from 'next/dynamic';
 // import Header from '@editorjs/header';
 // import List from '@editorjs/list';
 // import Checklist from '@editorjs/checklist';
@@ -12,6 +12,12 @@ import EditorJS from '@editorjs/editorjs';
 // import Table from '@editorjs/table';
 // import styles from './TextEditor.module.css';
 import { ScrollArea } from '@mantine/core';
+
+// Dynamically import EditorJS with no SSR
+const EditorJS = dynamic(() => import('@editorjs/editorjs'), {
+  ssr: false,
+  loading: () => <p>Loading editor...</p>
+});
 
 const Editor = ({ data, onChange }) => {
   // const initialData = {
@@ -91,137 +97,77 @@ const Editor = ({ data, onChange }) => {
 
 
   console.log("data>>>>", data);
-  // const editorRef = useRef(null);
-  // const ejInstance = useRef(null);
-  // const isInitialized = useRef(false);
+  const editorRef = useRef(null);
+  const ejInstance = useRef(null);
 
   useEffect(() => {
-    // Don't reinitialize if already exists
-    // if (ejInstance.current) {
-    //   return;
-    // }
+    if (typeof window === 'undefined') {
+      return; // Don't run on server side
+    }
 
-    // const editor = new EditorJS({
-    //   holder: editorRef.current,
-    //   tools: {
-    //     header: {
-    //       class: Header,
-    //       config: {
-    //         levels: [1, 2, 3, 4, 5, 6],
-    //         defaultLevel: 3
-    //       }
-    //     },
-    //     list: {
-    //       class: List,
-    //       inlineToolbar: true
-    //     },
-    //     checklist: {
-    //       class: Checklist,
-    //       inlineToolbar: true
-    //     },
-    //     quote: {
-    //       class: Quote,
-    //       inlineToolbar: true,
-    //       shortcut: 'CMD+SHIFT+O',
-    //       config: {
-    //         quotePlaceholder: 'Enter a quote',
-    //         captionPlaceholder: 'Quote\'s author'
-    //       }
-    //     },
-    //     marker: Marker,
-    //     image: {
-    //       class: ImageTool,
-    //       config: {
-    //         endpoints: {
-    //           byFile: 'http://localhost:5000/api/upload-image-single',
-    //         },
-    //         uploader: {
-    //           uploadByFile: async (file) => {
-    //             try {
-    //               const formData = new FormData();
-    //               formData.append('image', file);
+    const initEditor = async () => {
+      // Dynamically import tools
+      const [
+        Header,
+        List,
+        Checklist,
+        Quote,
+        Marker,
+        ImageTool,
+        LinkTool,
+        Embed,
+        Table
+      ] = await Promise.all([
+        import('@editorjs/header'),
+        import('@editorjs/list'),
+        import('@editorjs/checklist'),
+        import('@editorjs/quote'),
+        import('@editorjs/marker'),
+        import('@editorjs/image'),
+        import('@editorjs/link'),
+        import('@editorjs/embed'),
+        import('@editorjs/table')
+      ]);
 
-    //               const response = await fetch('http://localhost:5000/api/upload-image-single', {
-    //                 method: 'POST',
-    //                 body: formData,
-    //               });
+      if (!ejInstance.current) {
+        const editor = new EditorJS({
+          holder: editorRef.current,
+          tools: {
+            header: { class: Header.default },
+            list: { class: List.default },
+            checklist: { class: Checklist.default },
+            quote: { class: Quote.default },
+            marker: { class: Marker.default },
+            image: {
+              class: ImageTool.default,
+              config: {
+                // Your image upload config
+              }
+            },
+            linkTool: { class: LinkTool.default },
+            embed: { class: Embed.default },
+            table: { class: Table.default }
+          },
+          data: data,
+          onChange: async () => {
+            const savedData = await editor.save();
+            onChange(savedData);
+          }
+        });
 
-    //               const result = await response.json();
-    //               if (result.success) {
-    //                 return {
-    //                   success: 1,
-    //                   file: {
-    //                     url: result.data,
-    //                   }
-    //                 };
-    //               }
+        ejInstance.current = editor;
+      }
+    };
 
-    //               return {
-    //                 success: 0,
-    //                 message: result.message || 'Upload failed'
-    //               };
+    initEditor();
 
-    //             } catch (error) {
-    //               console.error('Upload error:', error);
-    //               return {
-    //                 success: 0,
-    //                 message: 'Upload failed'
-    //               };
-    //             }
-    //           }
-    //         }
-    //       }
-    //     },
-    //     linkTool: {
-    //       class: LinkTool,
-    //       config: {
-    //         endpoint: '/api/fetchLink'
-    //       }
-    //     },
-    //     embed: {
-    //       class: Embed,
-    //       config: {
-    //         services: {
-    //           youtube: true,
-    //           coub: true,
-    //           imgur: true
-    //         }
-    //       }
-    //     },
-    //     table: {
-    //       class: Table,
-    //       inlineToolbar: true
-    //     }
-    //   },
-    //   data: data, // Use initialData directly here
-    //   onReady: () => {
-    //     isInitialized.current = true;
-    //   },
-    //   onChange: async () => {
-    //     try {
-    //       const savedData = await editor.save();
-    //       onChange(savedData);
-    //     } catch (error) {
-    //       console.error('Save failed:', error);
-    //     }
-    //   },
-    //   placeholder: 'Let\'s write an awesome story!'
-    // });
-
-    // ejInstance.current = editor;
-
-    // return () => {
-    //   if (ejInstance.current && typeof ejInstance.current.destroy === 'function') {
-    //     try {
-    //       ejInstance.current.destroy();
-    //       ejInstance.current = null;
-    //       isInitialized.current = false;
-    //     } catch (error) {
-    //       console.error('Editor cleanup failed:', error);
-    //     }
-    //   }
-    // };
-  }, []); // Empty dependency array since initialData is constant
+    return () => {
+      if (ejInstance.current) {
+        ejInstance.current.destroy();
+        ejInstance.current = null;
+      }
+    };
+  }, []);
 
   return (
     <ScrollArea h={400}>
@@ -232,4 +178,7 @@ const Editor = ({ data, onChange }) => {
   );
 };
 
-export default Editor;
+// Export with no SSR
+export default dynamic(() => Promise.resolve(Editor), {
+  ssr: false
+});
