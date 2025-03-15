@@ -1,184 +1,171 @@
-"use client"
+"use client";
 import React, { useEffect, useRef } from 'react';
 import dynamic from 'next/dynamic';
-// import Header from '@editorjs/header';
-// import List from '@editorjs/list';
-// import Checklist from '@editorjs/checklist';
-// import Quote from '@editorjs/quote';
-// import Marker from '@editorjs/marker';
-// import ImageTool from '@editorjs/image';
-// import LinkTool from '@editorjs/link';
-// import Embed from '@editorjs/embed';
-// import Table from '@editorjs/table';
-// import styles from './TextEditor.module.css';
 import { ScrollArea } from '@mantine/core';
+import styles from './TextEditor.module.css';
 
-// Dynamically import EditorJS with no SSR
-const EditorJS = dynamic(() => import('@editorjs/editorjs'), {
-  ssr: false,
-  loading: () => <p>Loading editor...</p>
-});
+// Dynamic imports for all editor tools
+const EditorJS = dynamic(() => import('@editorjs/editorjs'), { ssr: false });
+const Header = dynamic(() => import('@editorjs/header'), { ssr: false });
+const List = dynamic(() => import('@editorjs/list'), { ssr: false });
+const Checklist = dynamic(() => import('@editorjs/checklist'), { ssr: false });
+const Quote = dynamic(() => import('@editorjs/quote'), { ssr: false });
+const Marker = dynamic(() => import('@editorjs/marker'), { ssr: false });
+const ImageTool = dynamic(() => import('@editorjs/image'), { ssr: false });
+const LinkTool = dynamic(() => import('@editorjs/link'), { ssr: false });
+const Embed = dynamic(() => import('@editorjs/embed'), { ssr: false });
+const Table = dynamic(() => import('@editorjs/table'), { ssr: false });
 
 const Editor = ({ data, onChange }) => {
-  // const initialData = {
-  //   time: 1635603431943,
-  //   blocks: [
-  //     {
-  //       type: 'header',
-  //       data: {
-  //         text: 'Your Title...',
-  //         level: 2
-  //       }
-  //     },
-  //     {
-  //       type: 'paragraph',
-  //       data: {
-  //         text: 'Your prefilled content here...'
-  //       }
-  //     },
-  //     {
-  //       type: 'image',
-  //       data: {
-  //         url: 'https://auto-wheels.s3.eu-north-1.amazonaws.com/uploads/1741691697662_blog4.png',
-  //         caption: 'Image caption',
-  //         withBorder: false,
-  //         withBackground: false,
-  //         stretched: false
-  //       }
-  //     }
-  //   ],
-  //   version: '2.22.2'
-  // };
-  const initialData = {
-    "time": 1741694140725,
-    "blocks": [
-        {
-            "id": "knFBO-x48U",
-            "type": "header",
-            "data": {
-                "text": "aaaaaaaaa",
-                "level": 1
-            }
-        },
-        {
-            "id": "Wloq4Yj4v6",
-            "type": "list",
-            "data": {
-                "style": "checklist",
-                "meta": {},
-                "items": [
-                    {
-                        "content": "helo",
-                        "meta": {
-                            "checked": false
-                        },
-                        "items": []
-                    },
-                    {
-                        "content": "helo1",
-                        "meta": {
-                            "checked": false
-                        },
-                        "items": []
-                    },
-                    {
-                        "content": "helo2",
-                        "meta": {
-                            "checked": false
-                        },
-                        "items": []
-                    }
-                ]
-            }
-        }
-    ],
-    "version": "2.31.0-rc.7"
-}
-
-
-  console.log("data>>>>", data);
   const editorRef = useRef(null);
   const ejInstance = useRef(null);
+  const isInitialized = useRef(false);
 
   useEffect(() => {
-    if (typeof window === 'undefined') {
-      return; // Don't run on server side
-    }
+    if (typeof window === 'undefined') return;
+    if (ejInstance.current) return;
 
     const initEditor = async () => {
-      // Dynamically import tools
-      const [
-        Header,
-        List,
-        Checklist,
-        Quote,
-        Marker,
-        ImageTool,
-        LinkTool,
-        Embed,
-        Table
-      ] = await Promise.all([
-        import('@editorjs/header'),
-        import('@editorjs/list'),
-        import('@editorjs/checklist'),
-        import('@editorjs/quote'),
-        import('@editorjs/marker'),
-        import('@editorjs/image'),
-        import('@editorjs/link'),
-        import('@editorjs/embed'),
-        import('@editorjs/table')
-      ]);
-
-      if (!ejInstance.current) {
+      try {
         const editor = new EditorJS({
           holder: editorRef.current,
           tools: {
-            header: { class: Header.default },
-            list: { class: List.default },
-            checklist: { class: Checklist.default },
-            quote: { class: Quote.default },
-            marker: { class: Marker.default },
-            image: {
-              class: ImageTool.default,
+            header: {
+              class: await Header,
               config: {
-                // Your image upload config
+                levels: [1, 2, 3, 4, 5, 6],
+                defaultLevel: 3
               }
             },
-            linkTool: { class: LinkTool.default },
-            embed: { class: Embed.default },
-            table: { class: Table.default }
+            list: {
+              class: await List,
+              inlineToolbar: true
+            },
+            checklist: {
+              class: await Checklist,
+              inlineToolbar: true
+            },
+            quote: {
+              class: await Quote,
+              inlineToolbar: true,
+              shortcut: 'CMD+SHIFT+O',
+              config: {
+                quotePlaceholder: 'Enter a quote',
+                captionPlaceholder: 'Quote\'s author'
+              }
+            },
+            marker: await Marker,
+            image: {
+              class: await ImageTool,
+              config: {
+                endpoints: {
+                  byFile: `${process.env.NEXT_PUBLIC_API_URL}/api/upload-image-single`,
+                },
+                uploader: {
+                  uploadByFile: async (file) => {
+                    try {
+                      const formData = new FormData();
+                      formData.append('image', file);
+
+                      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/upload-image-single`, {
+                        method: 'POST',
+                        body: formData,
+                      });
+
+                      const result = await response.json();
+                      if (result.success) {
+                        return {
+                          success: 1,
+                          file: {
+                            url: result.data,
+                          }
+                        };
+                      }
+
+                      return {
+                        success: 0,
+                        message: result.message || 'Upload failed'
+                      };
+
+                    } catch (error) {
+                      console.error('Upload error:', error);
+                      return {
+                        success: 0,
+                        message: 'Upload failed'
+                      };
+                    }
+                  }
+                }
+              }
+            },
+            linkTool: {
+              class: await LinkTool,
+              config: {
+                endpoint: '/api/fetchLink'
+              }
+            },
+            embed: {
+              class: await Embed,
+              config: {
+                services: {
+                  youtube: true,
+                  coub: true,
+                  imgur: true
+                }
+              }
+            },
+            table: {
+              class: await Table,
+              inlineToolbar: true
+            }
           },
           data: data,
+          onReady: () => {
+            isInitialized.current = true;
+          },
           onChange: async () => {
-            const savedData = await editor.save();
-            onChange(savedData);
-          }
+            try {
+              const savedData = await editor.save();
+              onChange(savedData);
+            } catch (error) {
+              console.error('Save failed:', error);
+            }
+          },
+          placeholder: 'Let\'s write an awesome story!'
         });
 
         ejInstance.current = editor;
+      } catch (error) {
+        console.error('Editor initialization failed:', error);
       }
     };
 
     initEditor();
 
     return () => {
-      if (ejInstance.current) {
-        ejInstance.current.destroy();
-        ejInstance.current = null;
+      if (ejInstance.current && typeof ejInstance.current.destroy === 'function') {
+        try {
+          ejInstance.current.destroy();
+          ejInstance.current = null;
+          isInitialized.current = false;
+        } catch (error) {
+          console.error('Editor cleanup failed:', error);
+        }
       }
     };
   }, []);
 
   return (
     <ScrollArea h={400}>
-      {/* <div className={styles.editorWrapper}>
+      <div className={styles.editorWrapper}>
         <div ref={editorRef} className={styles.editor} />
-      </div> */}
+      </div>
     </ScrollArea>
   );
 };
 
 // Export with no SSR
 export default dynamic(() => Promise.resolve(Editor), {
-  ssr: false
+  ssr: false,
+  loading: () => <div>Loading editor...</div>
 });
