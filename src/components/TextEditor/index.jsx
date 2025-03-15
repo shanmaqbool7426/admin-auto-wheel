@@ -34,14 +34,14 @@ const Editor = ({ data, onChange }) => {
             class: ImageTool,
             config: {
               endpoints: {
-                byFile: `${process.env.NEXT_PUBLIC_API_URL}/api/upload-image-single`,
+                byFile: `https://shan.lunashoes.shop/api/upload-image-single`,
               },
               uploader: {
                 uploadByFile: async (file) => {
                   try {
                     const formData = new FormData();
                     formData.append('image', file);
-                    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/upload-image-single`, {
+                    const response = await fetch(`https://shan.lunashoes.shop/api/upload-image-single`, {
                       method: 'POST',
                       body: formData,
                     });
