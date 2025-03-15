@@ -58,7 +58,7 @@ export default function PostCard({ form, isLoading, isEdit }) {
         </Grid.Col>
 
         <Grid.Col span={12}>
-          {form.values.content && <TextEditor 
+          { <TextEditor 
             data={form.values.content} 
             onChange={handleEditorChange}
           />}

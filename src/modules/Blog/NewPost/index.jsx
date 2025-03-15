@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { Box, Grid, LoadingOverlay, Group, Button } from '@mantine/core';
 import { useRouter } from 'next/navigation'; // or 'react-router-dom' if using React Router
 import useNewPost from './useNewPost';
-import PostCard from './components/PostCard';
+// import PostCard from './components/PostCard';
 import PostSummary from './components/PostSummary';
 import PostCategories from './components/PostCategories';
 import FeaturedImage from './components/FeaturedImage';

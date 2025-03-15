@@ -114,7 +114,11 @@ export default function useNewPost() {
           }
           if (key === 'categories' || key === 'tags') {
             formData.append(key, JSON.stringify(values[key]));
-          } else if (key === 'imageUrl') {
+          } 
+          else if (key === 'content') {
+            formData.append('content', JSON.stringify(values[key]));
+          }
+          else if (key === 'imageUrl') {
             if (values[key] instanceof File) {
               formData.append('imageUrl', values[key]);
             } else if (values.existingImageUrl) {
