@@ -1,156 +1,91 @@
 "use client";
-import React, { useEffect, useRef } from 'react';
-import dynamic from 'next/dynamic';
+import React from 'react';
 import { ScrollArea } from '@mantine/core';
 import styles from './TextEditor.module.css';
 
-// Dynamic imports for all editor tools
-const EditorJS = dynamic(() => import('@editorjs/editorjs'), { ssr: false });
-const Header = dynamic(() => import('@editorjs/header'), { ssr: false });
-const List = dynamic(() => import('@editorjs/list'), { ssr: false });
-const Checklist = dynamic(() => import('@editorjs/checklist'), { ssr: false });
-const Quote = dynamic(() => import('@editorjs/quote'), { ssr: false });
-const Marker = dynamic(() => import('@editorjs/marker'), { ssr: false });
-const ImageTool = dynamic(() => import('@editorjs/image'), { ssr: false });
-const LinkTool = dynamic(() => import('@editorjs/link'), { ssr: false });
-const Embed = dynamic(() => import('@editorjs/embed'), { ssr: false });
-const Table = dynamic(() => import('@editorjs/table'), { ssr: false });
-
 const Editor = ({ data, onChange }) => {
-  const editorRef = useRef(null);
-  const ejInstance = useRef(null);
-  const isInitialized = useRef(false);
+  const editorRef = React.useRef(null);
+  const [isEditorReady, setIsEditorReady] = React.useState(false);
 
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    if (ejInstance.current) return;
-
+  React.useEffect(() => {
+    let editor;
     const initEditor = async () => {
-      try {
-        const editor = new EditorJS({
-          holder: editorRef.current,
-          tools: {
-            header: {
-              class: await Header,
-              config: {
-                levels: [1, 2, 3, 4, 5, 6],
-                defaultLevel: 3
-              }
-            },
-            list: {
-              class: await List,
-              inlineToolbar: true
-            },
-            checklist: {
-              class: await Checklist,
-              inlineToolbar: true
-            },
-            quote: {
-              class: await Quote,
-              inlineToolbar: true,
-              shortcut: 'CMD+SHIFT+O',
-              config: {
-                quotePlaceholder: 'Enter a quote',
-                captionPlaceholder: 'Quote\'s author'
-              }
-            },
-            marker: await Marker,
-            image: {
-              class: await ImageTool,
-              config: {
-                endpoints: {
-                  byFile: `/api/upload-image-single`,
-                },
-                uploader: {
-                  uploadByFile: async (file) => {
-                    try {
-                      const formData = new FormData();
-                      formData.append('image', file);
+      const EditorJS = (await import('@editorjs/editorjs')).default;
+      const Header = (await import('@editorjs/header')).default;
+      const List = (await import('@editorjs/list')).default;
+      const Checklist = (await import('@editorjs/checklist')).default;
+      const Quote = (await import('@editorjs/quote')).default;
+      const Marker = (await import('@editorjs/marker')).default;
+      const ImageTool = (await import('@editorjs/image')).default;
+      const LinkTool = (await import('@editorjs/link')).default;
+      const Embed = (await import('@editorjs/embed')).default;
+      const Table = (await import('@editorjs/table')).default;
 
-                      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/upload-image-single`, {
-                        method: 'POST',
-                        body: formData,
-                      });
-
-                      const result = await response.json();
-                      if (result.success) {
-                        return {
-                          success: 1,
-                          file: {
-                            url: result.data,
-                          }
-                        };
-                      }
-
-                      return {
-                        success: 0,
-                        message: result.message || 'Upload failed'
-                      };
-
-                    } catch (error) {
-                      console.error('Upload error:', error);
-                      return {
-                        success: 0,
-                        message: 'Upload failed'
-                      };
-                    }
+      editor = new EditorJS({
+        holder: 'editor-container',
+        readOnly: false,
+        tools: {
+          header: { class: Header },
+          list: { class: List },
+          checklist: { class: Checklist },
+          quote: { class: Quote },
+          marker: { class: Marker },
+          image: {
+            class: ImageTool,
+            config: {
+              endpoints: {
+                byFile: `${process.env.NEXT_PUBLIC_API_URL}/api/upload-image-single`,
+              },
+              uploader: {
+                uploadByFile: async (file) => {
+                  try {
+                    const formData = new FormData();
+                    formData.append('image', file);
+                    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/upload-image-single`, {
+                      method: 'POST',
+                      body: formData,
+                    });
+                    const result = await response.json();
+                    return result.success ? {
+                      success: 1,
+                      file: { url: result.data }
+                    } : {
+                      success: 0,
+                      message: result.message || 'Upload failed'
+                    };
+                  } catch (error) {
+                    return { success: 0, message: 'Upload failed' };
                   }
                 }
               }
-            },
-            linkTool: {
-              class: await LinkTool,
-              config: {
-                endpoint: '/api/fetchLink'
-              }
-            },
-            embed: {
-              class: await Embed,
-              config: {
-                services: {
-                  youtube: true,
-                  coub: true,
-                  imgur: true
-                }
-              }
-            },
-            table: {
-              class: await Table,
-              inlineToolbar: true
             }
           },
-          data: data,
-          onReady: () => {
-            isInitialized.current = true;
-          },
-          onChange: async () => {
-            try {
-              const savedData = await editor.save();
-              onChange(savedData);
-            } catch (error) {
-              console.error('Save failed:', error);
-            }
-          },
-          placeholder: 'Let\'s write an awesome story!'
-        });
+          linkTool: { class: LinkTool },
+          embed: { class: Embed },
+          table: { class: Table }
+        },
+        data: data || {},
+        onChange: async () => {
+          const savedData = await editor.save();
+          onChange(savedData);
+        },
+        onReady: () => {
+          setIsEditorReady(true);
+        },
+        placeholder: 'Start writing your content here...'
+      });
 
-        ejInstance.current = editor;
-      } catch (error) {
-        console.error('Editor initialization failed:', error);
-      }
+      editorRef.current = editor;
     };
 
-    initEditor();
+    if (typeof window !== 'undefined') {
+      initEditor();
+    }
 
     return () => {
-      if (ejInstance.current && typeof ejInstance.current.destroy === 'function') {
-        try {
-          ejInstance.current.destroy();
-          ejInstance.current = null;
-          isInitialized.current = false;
-        } catch (error) {
-          console.error('Editor cleanup failed:', error);
-        }
+      if (editorRef.current) {
+        editorRef.current.destroy();
+        editorRef.current = null;
       }
     };
   }, []);
@@ -158,14 +93,15 @@ const Editor = ({ data, onChange }) => {
   return (
     <ScrollArea h={400}>
       <div className={styles.editorWrapper}>
-        <div ref={editorRef} className={styles.editor} />
+        <div 
+          id="editor-container" 
+          className={styles.editor}
+          style={{ opacity: isEditorReady ? 1 : 0.5 }}
+        />
       </div>
     </ScrollArea>
   );
 };
 
-// Export with no SSR
-export default dynamic(() => Promise.resolve(Editor), {
-  ssr: false,
-  loading: () => <div>Loading editor...</div>
-});
+// Export as client component
+export default Editor;
