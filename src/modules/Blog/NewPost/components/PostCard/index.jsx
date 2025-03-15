@@ -3,7 +3,7 @@ import { Grid, Group } from '@mantine/core';
 import Card from '@/components/Card';
 import FormField from '@/components/FormField';
 import CustomButton from '@/components/CustomButton';
-// import TextEditor from '@/components/TextEditor';
+import TextEditor from '@/components/TextEditor';
 import { generateSlug } from '@/utils/helpers';
 import Output from 'editorjs-react-renderer';
 
@@ -58,7 +58,7 @@ export default function PostCard({ form, isLoading, isEdit }) {
         </Grid.Col>
 
         <Grid.Col span={12}>
-          {/* { <TextEditor 
+          { <TextEditor 
             data={form.values.content} 
             onChange={handleEditorChange}
           />}
@@ -66,7 +66,7 @@ export default function PostCard({ form, isLoading, isEdit }) {
             <div style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>
               {form.errors.content}
             </div>
-          )} */}
+          )}
         </Grid.Col>
 
         <Grid.Col span={12}>
