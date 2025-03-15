@@ -59,7 +59,7 @@ const Editor = ({ data, onChange }) => {
               class: await ImageTool,
               config: {
                 endpoints: {
-                  byFile: `${process.env.NEXT_PUBLIC_API_URL}/api/upload-image-single`,
+                  byFile: `/api/upload-image-single`,
                 },
                 uploader: {
                   uploadByFile: async (file) => {
