@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { Box, Grid, LoadingOverlay, Group, Button } from '@mantine/core';
 import { useRouter } from 'next/navigation'; // or 'react-router-dom' if using React Router
 import useNewPost from './useNewPost';
-// import PostCard from './components/PostCard';
+import PostCard from './components/PostCard';
 import PostSummary from './components/PostSummary';
 import PostCategories from './components/PostCategories';
 import FeaturedImage from './components/FeaturedImage';
@@ -75,11 +75,11 @@ export default function NewPost() {
       <form onSubmit={form.onSubmit(handleSubmit)}>
         <Grid gutter="30px">
           <Grid.Col span={8}>
-            {/* <PostCard
+            <PostCard
               form={form}
               isLoading={isLoading}
               isEdit={isEdit}
-            /> */}
+            />
           </Grid.Col>
           <Grid.Col span={4}>
             <Grid gutter="30px">
