@@ -9,6 +9,7 @@ import Output from 'editorjs-react-renderer';
 
 export default function PostCard({ form, isLoading, isEdit }) {
   const [content, setContent] = useState(null);
+  const [showEditor, setShowEditor] = useState(false);
 
   useEffect(() => {
     if (!isEdit && form.values.title) {
@@ -16,6 +17,14 @@ export default function PostCard({ form, isLoading, isEdit }) {
       form.setFieldValue('url', `http://example.com/${slug}`);
     }
   }, [form.values.title, isEdit]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowEditor(true);
+    }, 2000);
+    
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleCancel = () => {
     if (form.isDirty() && !window.confirm('You have unsaved changes. Are you sure you want to leave?')) {
@@ -29,7 +38,7 @@ export default function PostCard({ form, isLoading, isEdit }) {
     form.setValues({
       content: data
     });
-    
+
   };
 
   const handleSubmit = () => {
@@ -56,12 +65,15 @@ export default function PostCard({ form, isLoading, isEdit }) {
             {...form.getInputProps('title')}
           />
         </Grid.Col>
-
         <Grid.Col span={12}>
-          { <TextEditor 
-            data={form.values.content} 
-            onChange={handleEditorChange}
-          />}
+          {showEditor ? (
+            <TextEditor
+              data={isEdit ? form.values.content : {}}
+              onChange={handleEditorChange}
+            />
+          ) : (
+            <div>Loading editor...</div>
+          )}
           {form.errors.content && (
             <div style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>
               {form.errors.content}
