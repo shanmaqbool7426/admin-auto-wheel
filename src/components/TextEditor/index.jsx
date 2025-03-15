@@ -1,15 +1,15 @@
 import React, { useEffect, useRef } from 'react';
-import EditorJS from '@editorjs/editorjs';
-import Header from '@editorjs/header';
-import List from '@editorjs/list';
-import Checklist from '@editorjs/checklist';
-import Quote from '@editorjs/quote';
-import Marker from '@editorjs/marker';
-import ImageTool from '@editorjs/image';
-import LinkTool from '@editorjs/link';
-import Embed from '@editorjs/embed';
-import Table from '@editorjs/table';
-import styles from './TextEditor.module.css';
+// import EditorJS from '@editorjs/editorjs';
+// import Header from '@editorjs/header';
+// import List from '@editorjs/list';
+// import Checklist from '@editorjs/checklist';
+// import Quote from '@editorjs/quote';
+// import Marker from '@editorjs/marker';
+// import ImageTool from '@editorjs/image';
+// import LinkTool from '@editorjs/link';
+// import Embed from '@editorjs/embed';
+// import Table from '@editorjs/table';
+// import styles from './TextEditor.module.css';
 import { ScrollArea } from '@mantine/core';
 
 const Editor = ({ data, onChange }) => {
