@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-// import EditorJS from '@editorjs/editorjs';
+import EditorJS from '@editorjs/editorjs';
 // import Header from '@editorjs/header';
 // import List from '@editorjs/list';
 // import Checklist from '@editorjs/checklist';
