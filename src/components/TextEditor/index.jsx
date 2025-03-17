@@ -80,7 +80,14 @@ const Editor = ({ data, onChange }) => {
                       return { success: 0, message: 'Upload failed' };
                     }
                   }
-                }
+                },
+                captionPlaceholder: 'Image caption',
+                withBorder: false,
+                withBackground: false,
+                stretched: false,
+                defaultWidth: 600,
+                defaultHeight: 400,
+                enableImageResize: true
               }
             },
             linkTool: { class: LinkTool },

@@ -1,16 +1,18 @@
-import { Grid, NumberInput, MultiSelect, TextInput, Textarea, Box, Image, SimpleGrid, Title, Text } from '@mantine/core';
-import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
+import { Grid, NumberInput, MultiSelect, TextInput, Textarea, Box, Image, SimpleGrid, Title, Text, Flex } from '@mantine/core';
+import { Dropzone, IMAGE_MIME_TYPE, PDF_MIME_TYPE } from '@mantine/dropzone';
 import { useUploadImageMutation } from '@/services/vehicle-manage';
 import { useState, useEffect } from 'react';
 import { DateInput, DatePickerInput  } from '@mantine/dates';
 import { IconX, IconStar, IconStarFilled } from '@tabler/icons-react';
 import classes from './GeneralInformation.module.css';
 import { useAddVehicle } from './useAddVehicle';
+import { notifications } from '@mantine/notifications';
 
 export const GeneralInformation = ({ form }) => {
-  const{colors} =useAddVehicle()
+  const{colors} = useAddVehicle()
   const [uploadImage] = useUploadImageMutation();
   const [previews, setPreviews] = useState([]);
+  const [brochureFile, setBrochureFile] = useState(null);
   useEffect(() => {
     setPreviews(form.values.images)
   }, [])
@@ -117,6 +119,50 @@ export const GeneralInformation = ({ form }) => {
     </Box>
   ));
 
+  // Add these transformations to handle the conversion between string and array
+  const prosToString = (prosArray) => {
+    if (!prosArray || !Array.isArray(prosArray)) return '';
+    return prosArray.join('\n');
+  };
+
+  const stringToPros = (prosString) => {
+    if (!prosString) return [];
+    return prosString.split('\n').filter(item => item.trim() !== '');
+  };
+
+  /**
+   * Handles brochure file upload
+   * @param {File[]} files - The dropped PDF file
+   */
+  const handleBrochureDrop = async (files) => {
+    if (files?.length) {
+      const file = files[0]; // Take only the first file
+      setBrochureFile(file.name);
+      
+      try {
+        const formData = new FormData();
+        formData.append('images', file);
+        
+        const response = await uploadImage(formData).unwrap();
+        if (response?.data && response.data[0]) {
+          form.setFieldValue('  ', response.data[0]);
+          notifications.show({
+            title: 'Success',
+            message: 'Brochure uploaded successfully',
+            color: 'green',
+          });
+        }
+      } catch (error) {
+        console.error('Failed to upload brochure:', error);
+        notifications.show({
+          title: 'Error',
+          message: 'Failed to upload brochure',
+          color: 'red',
+        });
+      }
+    }
+  };
+
   return (
     <Grid>
       {/* Price Information */}
@@ -208,6 +254,52 @@ export const GeneralInformation = ({ form }) => {
         </Box>
       </Grid.Col>
 
+      {/* Brochure Upload */}
+      <Grid.Col span={12}>
+        <Box mb="xl">
+          <Title order={4} mb="md">Upload Brochure</Title>
+          <Dropzone
+            accept={PDF_MIME_TYPE}
+            onDrop={handleBrochureDrop}
+            maxFiles={1}
+            maxSize={5 * 1024 * 1024} // 5MB max size
+            className={classes.dropzone}
+          >
+            <Flex direction="column" align="center" justify="center">
+              <Image
+                src="/upload-pdf.png" 
+                alt="Upload PDF"
+                width={50}
+                height={5}
+                className={classes.uploadImage}
+              />
+              <Text size="sm" mt="xs">
+                {brochureFile ? `Selected: ${brochureFile}` : 'Drag & drop a PDF file or click to select'}
+              </Text>
+              <Text size="xs" color="dimmed" mt={5}>
+                PDF file only, max 5MB
+              </Text>
+            </Flex>
+          </Dropzone>
+          
+          {form.values.brochureLink && !brochureFile && (
+            <Flex align="center" mt="sm">
+              <Text size="sm">Current brochure: </Text>
+              <Text 
+                component="a" 
+                href={form.values.brochureLink} 
+                target="_blank" 
+                ml={5}
+                color="blue"
+                style={{ textDecoration: 'underline' }}
+              >
+                View brochure
+              </Text>
+            </Flex>
+          )}
+        </Box>
+      </Grid.Col>
+
       {/* Pros and Cons */}
       <Grid.Col span={6}>
         <Textarea
@@ -215,9 +307,16 @@ export const GeneralInformation = ({ form }) => {
           placeholder="Enter pros (one per line)"
           minRows={3}
           value={form.values.pros}
-          {...form.getInputProps('pros')}
+          onChange={(event) => {
+            // Store as string in the form
+            form.setFieldValue('pros', event.currentTarget.value);
+            
+            // Also update the transformed value for submission
+            const prosArray = stringToPros(event.currentTarget.value);
+            form.setFieldValue('prosArray', prosArray);
+          }}
           name="pros"
-          description="Enter each advantage in a new line"
+          description="Enter each advantage in a new line. These will be saved as separate items."
         />
       </Grid.Col>
       <Grid.Col span={6}>
@@ -226,9 +325,16 @@ export const GeneralInformation = ({ form }) => {
           placeholder="Enter cons (one per line)"
           minRows={3}
           value={form.values.cons}
-          {...form.getInputProps('cons')}
+          onChange={(event) => {
+            // Store as string in the form
+            form.setFieldValue('cons', event.currentTarget.value);
+            
+            // Also update the transformed value for submission
+            const consArray = stringToPros(event.currentTarget.value);
+            form.setFieldValue('consArray', consArray);
+          }}
           name="cons"
-          description="Enter each disadvantage in a new line"
+          description="Enter each disadvantage in a new line. These will be saved as separate items."
         />
       </Grid.Col>
 
@@ -245,6 +351,7 @@ export const GeneralInformation = ({ form }) => {
       </Grid.Col>
 
       {/* Brochure Link */}
+      {/* Remove or comment out this section:
       <Grid.Col span={12}>
         <TextInput
           label="Brochure Link"
@@ -254,6 +361,7 @@ export const GeneralInformation = ({ form }) => {
           name="brochureLink"
         />
       </Grid.Col>
+      */}
 
              <Grid.Col span={12}>
           <MultiSelect
